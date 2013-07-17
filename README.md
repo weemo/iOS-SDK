@@ -1,7 +1,7 @@
 WeemoDriver iOS SDK and Sample Application
 =======
 
-This is a sample application using WeemoDriver SDK for iOS. More information about WeemoDriver Mobile SDK on our Website [d](d)
+This is a sample application using WeemoDriver SDK for iOS. More information about WeemoDriver Mobile SDK on our Website [http://www.weemo.com/](http://www.weemo.com/)
 
 Hardware Requierments
 =====
