@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper
+END
+main.m
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/main.m
+END
+AppDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/AppDelegate.h
+END
+Default@2x.png
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/Default@2x.png
+END
+sdk-helper-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/sdk-helper-Info.plist
+END
+sdk-helper-Prefix.pch
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/sdk-helper-Prefix.pch
+END
+ViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/ViewController.h
+END
+AppDelegate.m
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/AppDelegate.m
+END
+Default.png
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/Default.png
+END
+Default-568h@2x.png
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/Default-568h@2x.png
+END
+ViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnsdkmobile/!svn/ver/4/iOS/trunk/sdk-helper/sdk-helper/ViewController.m
+END
