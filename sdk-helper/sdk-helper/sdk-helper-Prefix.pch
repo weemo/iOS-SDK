@@ -1,0 +1,21 @@
+//
+// Prefix header for all source files of the 'sdk-helper' target in the 'sdk-helper' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_1
+#warning "This project uses features only available in iOS SDK 5.1 and later."
+#endif
+
+#ifdef __OBJC__
+	#import <UIKit/UIKit.h>
+	#import <Foundation/Foundation.h>
+#endif
+
+#define APIKEY @"mdud37zr0c14091rova9"
+//#define APIKEY @"vb05cjhvkcakulym8q6t"
+#include <stdint.h>
+
+#import "WeemoData.h"
+#import "Weemo.h"
