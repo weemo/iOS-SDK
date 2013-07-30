@@ -4,21 +4,21 @@ This is a sample application using WeemoDriver SDK for iOS. More information abo
 
 
 The use cases have been minimized in order to reduce the integration effort while creating a functional model for the POC that covers most of the use cases for audio and video during 1:1 calls. 
-Basicaly implemented functions into this example are: 
+Basic implemented functions into this example are: 
 
 - Initialization and Cloud authentification
-- Send or Receive a call by uid  
+- Send or Receive a call by UID  
 - Stop or Start video
 - Mute or Unmute audio
 - iOS 6 Multi-tasking support
 
-To have a full functionalities list please refert to our SDK documentation: [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/)
+For a full functionalities list, refer to our SDK documentation: [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/)
 
 ## SDK Architecture
 
 <img src="https://raw.github.com/weemo/iOS-SDK/master/img/SDK-arch.png?login=beuck&token=9e3ffaee07288fdd39ea208e71d01e11">
 
-##About Weemo
+## About Weemo
 
 The Weemo Video Cloud is a solution specifically targeted at application software vendors providing real-time video communications embedded within any web or mobile application. The solution is particularly well suited for social software applications such as Enterprise Social Networks, Social CRM, HCM, Customer Service, Education and E-learning, as well as for Contact Management and Collaboration.
 
@@ -27,11 +27,10 @@ Weemo relies on open-standard protocols such as SIP, XMPP and HTTPS. The solutio
 Weemo provides both the client technology and integration means and a worldwide cloud infrastructure. These building blocks are designed to work together as one easy-to-use solution. The application vendor, provider of the web application to be integrated with Weemo, will implement JavaScript commands in order to control local clients and, as needed, will have access to REST APIs to perform management tasks including provisioning named users.
 
 
+## Hardware Requirements
 
-##Hardware Requierments
+Weemo SDK requires at least an iPhone4, an iPad2 or more recent.
 
-WeemoDriver requires at least an iPhone4s, iPad2 or greater.
+## Important note
 
-##Important note
-
-This is still a alpha version.
+This is still a early version of the SDK, more functionnality to be added soon.
