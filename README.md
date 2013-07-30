@@ -36,10 +36,10 @@ Weemo SDK requires at least an iPhone4, an iPad2 or more recent.
 This is still an early version of the SDK, more functionnality to be added soon.
 
 
-# Release notes
+## Release notes
 
 
-## 0.1-20130730
+### 0.1-20130730
 First release
 
 #### SDK:
