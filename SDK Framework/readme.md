@@ -8,6 +8,10 @@ A WeemoCallDelegate is instanciated everytime a call is created, either by recei
 
 It is used to control the call, start and stop the video, change the video source, start and stop the audio emission, change the audio route (if you want to use the speaker of your iPhone) and change the quality of the incoming video -- if you think your bandwidth can't cope with the quality.
 
+For full SDK description please refert to our SDK online documentation : [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/)
+
+
+
 ## Requirements
 
 This framework needs a iPhone4S or better, iPad are supported 
