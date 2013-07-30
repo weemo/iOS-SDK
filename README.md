@@ -14,7 +14,9 @@ Basicaly implemented functions into this example are:
 
 To have a full functionalities list please refert to our SDK documentation: [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/)
 
+## SDK Architecture
 
+[SDK Arch](https://raw.github.com/weemo/iOS-SDK/master/img/SDK-arch.png?login=beuck&token=9e3ffaee07288fdd39ea208e71d01e11)
 
 ##About Weemo
 
