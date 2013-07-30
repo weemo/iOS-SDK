@@ -10,7 +10,7 @@ It is used to control the call, start and stop the video, change the video sourc
 
 ## Requirements
 
-This framework needs an iPhone4S or an 
+This framework needs a iPhone4S or better, iPad are supported 
 
 This framework uses two open-source libraries: VP8 and Speex. Those two libraries can be found in a binary form in our repositories, section "3rd Party libraries".
 
