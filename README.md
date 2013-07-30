@@ -3,16 +3,16 @@
 This is a sample application using WeemoDriver SDK for iOS. More information about WeemoDriver Mobile SDK on our Website [http://www.weemo.com/](http://www.weemo.com/)
 
 
-The use cases have been minimized in order to reduce the integration effort while creating a functional model for the POC that covers most of the use cases for audio and video during 1:1 calls. Basicaly implemented functions into this sample are: 
+The use cases have been minimized in order to reduce the integration effort while creating a functional model for the POC that covers most of the use cases for audio and video during 1:1 calls. 
+Basicaly implemented functions into this example are: 
 
+- Initialization and Cloud authentification
 - Send or Receive a call by uid  
-- Stop or start video
-- Mute or unMute audio
+- Stop or Start video
+- Mute or Unmute audio
 - iOS 6 Multi-tasking support
 
 To have a full functionalities list please refert to our SDK documentation: [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/)
-
-
 
 
 
