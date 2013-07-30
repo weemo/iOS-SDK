@@ -33,4 +33,26 @@ Weemo SDK requires at least an iPhone4, an iPad2 or more recent.
 
 ## Important note
 
-This is still a early version of the SDK, more functionnality to be added soon.
+This is still an early version of the SDK, more functionnality to be added soon.
+
+
+# Release notes
+
+
+## 0.1-20130730
+First release
+
+#### SDK:
+- Connection and authentication
+- Autoreconnection in case of temporary connection failure
+- Incoming and Outgoing call
+- Call control
+- Audio and Video control
+
+
+#### Helper:
+- User-specified username
+- Call to a user-specified contact
+- Pick-up/Hang-up incoming call
+- Video displayed and captured
+- Stop outgoing video
