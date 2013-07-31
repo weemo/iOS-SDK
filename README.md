@@ -18,14 +18,22 @@ For a full functionalities list, refer to our SDK documentation: [http://docs.we
 
 <img src="https://raw.github.com/weemo/iOS-SDK/master/img/SDK-arch.png?login=beuck&token=9e3ffaee07288fdd39ea208e71d01e11">
 
-## About Weemo
 
-The Weemo Video Cloud is a solution specifically targeted at application software vendors providing real-time video communications embedded within any web or mobile application. The solution is particularly well suited for social software applications such as Enterprise Social Networks, Social CRM, HCM, Customer Service, Education and E-learning, as well as for Contact Management and Collaboration.
+## Download
 
-Weemo relies on open-standard protocols such as SIP, XMPP and HTTPS. The solution provides constant interoperability with existing or future communication-oriented devices and infrastructures.
+The project available in this repository is an application built around the SDK, as a demo. Its goal is to show the SDK in action, not an integration of the SDK in an existing application.
 
-Weemo provides both the client technology and integration means and a worldwide cloud infrastructure. These building blocks are designed to work together as one easy-to-use solution. The application vendor, provider of the web application to be integrated with Weemo, will implement JavaScript commands in order to control local clients and, as needed, will have access to REST APIs to perform management tasks including provisioning named users.
+Clone the repository onto your Mac, start Xcode. 
+Add the APIKey to the .pch file. 
 
+Press Build & Run.
+
+The externals dependencies (VP8 and Speex) are distributed with the project, so there should be no problem.
+
+
+## Software Dependencies
+
+This SDK uses VP8 and Speex. The two libraries are distributed as binaries with the project. Licences can be found in the Library folder of the project, along the binaries.
 
 ## Hardware Requirements
 
@@ -56,3 +64,13 @@ First release
 - Pick-up/Hang-up incoming call
 - Video displayed and captured
 - Stop outgoing video
+
+
+
+## About Weemo
+
+The Weemo Video Cloud is a solution specifically targeted at application software vendors providing real-time video communications embedded within any web or mobile application. The solution is particularly well suited for social software applications such as Enterprise Social Networks, Social CRM, HCM, Customer Service, Education and E-learning, as well as for Contact Management and Collaboration.
+
+Weemo relies on open-standard protocols such as SIP, XMPP and HTTPS. The solution provides constant interoperability with existing or future communication-oriented devices and infrastructures.
+
+Weemo provides both the client technology and integration means and a worldwide cloud infrastructure. These building blocks are designed to work together as one easy-to-use solution. The application vendor, provider of the web application to be integrated with Weemo, will implement JavaScript commands in order to control local clients and, as needed, will have access to REST APIs to perform management tasks including provisioning named users.

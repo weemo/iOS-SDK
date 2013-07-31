@@ -1,4 +1,4 @@
-##Requirements
+##Versions
 
 Speex version used: 1.2
 
@@ -6,7 +6,7 @@ VP8 version used: 1.1.0
 
 ## License
 
-These two binaries are available with the following license ("BSD Style"):
+These two binaries are available with the following license:
 
 Speex: Copyright (C) 2002-2006 Jean-Marc Valin
 
