@@ -16,7 +16,7 @@ For a full functionalities list, refer to our SDK documentation: [http://docs.we
 
 ## SDK Architecture
 
-<img src="https://raw.github.com/weemo/iOS-SDK/master/img/SDK-arch.png?login=beuck&token=9e3ffaee07288fdd39ea208e71d01e11">
+<img src="http://docs.weemo.com/img/SDK-arch.png">
 
 
 ## Download
