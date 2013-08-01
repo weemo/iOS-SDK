@@ -22,7 +22,7 @@ For a full functionalities list, refer to our SDK documentation: [http://docs.we
 ## Download
 The SDK is available as a framework.
 
-The project available in this repository sdk-helper folder is an application built around the SDK, as a very limited demo. Its goal is to show the SDK in action, not an integration of the SDK in an existing application.
+The project available in this repository sdk-helper folder is an application built around the SDK, as a limited demo. Its goal is to show the SDK in action, not an integration of the SDK in an existing application.
 
 Clone the repository onto your Mac, start Xcode using the sdk-helper/sdk-helper.xcodeproj.
  
