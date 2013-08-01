@@ -20,20 +20,24 @@ For a full functionalities list, refer to our SDK documentation: [http://docs.we
 
 
 ## Download
+The SDK is available as a framework.
 
-The project available in this repository is an application built around the SDK, as a demo. Its goal is to show the SDK in action, not an integration of the SDK in an existing application.
+The project available in this repository sdk-helper folder is an application built around the SDK, as a very limited demo. Its goal is to show the SDK in action, not an integration of the SDK in an existing application.
 
-Clone the repository onto your Mac, start Xcode. 
-Add the APIKey to the .pch file. 
+Clone the repository onto your Mac, start Xcode using the sdk-helper/sdk-helper.xcodeproj.
+ 
+Add your APIKey to the sdk-helper/support/sdk-helper-Prefix.pch file.
 
 Press Build & Run.
 
-The externals dependencies (VP8 and Speex) are distributed with the project, so there should be no problem.
 
 
 ## Software Dependencies
 
+The SDK is available as a framework thanks to the work of Karl Stenerud (https://github.com/kstenerud)
+
 This SDK uses VP8 and Speex. The two libraries are distributed as binaries with the project. Licences can be found in the Library folder of the project, along the binaries.
+
 
 ## Hardware Requirements
 

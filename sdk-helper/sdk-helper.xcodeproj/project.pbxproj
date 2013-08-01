@@ -17,7 +17,6 @@
 		5619BCC61796F78A003E0F6F /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5619BCC51796F78A003E0F6F /* GLKit.framework */; };
 		5619BCD91797CBE2003E0F6F /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5619BCD81797CBE2003E0F6F /* AssetsLibrary.framework */; };
 		5619BCDB1797CBEF003E0F6F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5619BCDA1797CBEF003E0F6F /* AudioToolbox.framework */; };
-		566440C317A9747C00979C18 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 566440C217A9747C00979C18 /* README.md */; };
 		566440C517A9748C00979C18 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 566440C417A9748C00979C18 /* README.md */; };
 		566440C617A975C800979C18 /* iOS-SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 567AA2021797EFB000847501 /* iOS-SDK.framework */; };
 		5668F2251795813F0049285B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5668F2241795813F0049285B /* UIKit.framework */; };
@@ -51,7 +50,6 @@
 		5619BCC51796F78A003E0F6F /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		5619BCD81797CBE2003E0F6F /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		5619BCDA1797CBEF003E0F6F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		566440C217A9747C00979C18 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		566440C417A9748C00979C18 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		5668F2211795813F0049285B /* sdk-helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sdk-helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5668F2241795813F0049285B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -73,7 +71,7 @@
 		566F4F7F17992F3C0019DE60 /* iphone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iphone.storyboard; sourceTree = SOURCE_ROOT; };
 		566F4F821799303B0019DE60 /* button_grey_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_grey_background.png; sourceTree = "<group>"; };
 		566F4F84179931990019DE60 /* button_blue_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_blue_background.png; sourceTree = "<group>"; };
-		567AA2021797EFB000847501 /* iOS-SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "iOS-SDK.framework"; sourceTree = "<group>"; };
+		567AA2021797EFB000847501 /* iOS-SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "iOS-SDK.framework"; path = "../iOS-SDK.framework"; sourceTree = "<group>"; };
 		567AA2041797F00000847501 /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		567AA2051797F00000847501 /* Controller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Controller.mm; sourceTree = "<group>"; };
 		568BBF3417980C1F00A1D220 /* ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ipad.storyboard; sourceTree = "<group>"; };
@@ -121,7 +119,7 @@
 		5668F2181795813F0049285B = {
 			isa = PBXGroup;
 			children = (
-				566440C217A9747C00979C18 /* README.md */,
+				567AA2021797EFB000847501 /* iOS-SDK.framework */,
 				568BBF3417980C1F00A1D220 /* ipad.storyboard */,
 				566F4F7F17992F3C0019DE60 /* iphone.storyboard */,
 				5668F22A1795813F0049285B /* sdk-helper */,
@@ -129,7 +127,6 @@
 				5619BCCF1797CA84003E0F6F /* Libraries */,
 				5668F2231795813F0049285B /* Frameworks */,
 				5668F2221795813F0049285B /* Products */,
-				567AA2021797EFB000847501 /* iOS-SDK.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -174,7 +171,7 @@
 				566F4F7D17992EAB0019DE60 /* CallViewController.m */,
 				5668F22B1795813F0049285B /* Supporting Files */,
 			);
-			path = "sdk-helper";
+			name = "sdk-helper";
 			sourceTree = "<group>";
 		};
 		5668F22B1795813F0049285B /* Supporting Files */ = {
@@ -260,7 +257,6 @@
 				566F4F8017992F3C0019DE60 /* iphone.storyboard in Resources */,
 				566F4F831799303B0019DE60 /* button_grey_background.png in Resources */,
 				566F4F85179931990019DE60 /* button_blue_background.png in Resources */,
-				566440C317A9747C00979C18 /* README.md in Resources */,
 				566440C517A9748C00979C18 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,10 +349,10 @@
 		5668F2451795813F0049285B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"/..";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "sdk-helper/sdk-helper-Prefix.pch";
-				INFOPLIST_FILE = "sdk-helper/sdk-helper-Info.plist";
+				GCC_PREFIX_HEADER = "support/sdk-helper-Prefix.pch";
+				INFOPLIST_FILE = "support/sdk-helper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LD_NO_PIE = YES;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/Libraries\"";
@@ -369,10 +365,10 @@
 		5668F2461795813F0049285B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"/..";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "sdk-helper/sdk-helper-Prefix.pch";
-				INFOPLIST_FILE = "sdk-helper/sdk-helper-Info.plist";
+				GCC_PREFIX_HEADER = "support/sdk-helper-Prefix.pch";
+				INFOPLIST_FILE = "support/sdk-helper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LD_NO_PIE = YES;
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/Libraries\"";
