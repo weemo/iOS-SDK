@@ -5,6 +5,7 @@
 //  Created by Charles Thierry on 7/16/13.
 //  Copyright (c) 2013 Weemo. All rights reserved.
 //
+
 @protocol WeemoCallDelegate <NSObject>
 @optional
 /**
@@ -12,50 +13,59 @@
  * \param isReceiving Answers "Are we receing video?"
  * \param sender The call which property changed
  */
-- (void)videoReceiving:(BOOL)isReceiving from:(id)sender;
+- (void)weemoCall:(id)sender videoReceiving:(BOOL)isReceiving;
 /**
  * Called when the call starts sending video.
  * \param isSending Answers "Are we sending video?"
  * \param sender The Call which property changed
  */
-- (void)videoSending:(BOOL)isSending from:(id)sender;
+- (void)weemoCall:(id)sender videoSending:(BOOL)isSending;
 /**
  * Called when the incoming video profile changes
  * \param profile The new profile used by the incoming video (impacts the videoIn view size)
  * \param sender The Call which property changed
  */
-- (void)videoProfile:(int)profile from:(id)sender;
+- (void)weemoCall:(id)sender videoProfile:(int)profile;
 /**
  * Called when the video source changes
  * \param source The new source. 0 is the front (on the screen side of the device) camera, 1 is the back camera
  * \param sender The Call which property changed
  */
-- (void)videoSource:(int)source from:(id)sender;
+- (void)weemoCall:(id)sender videoSource:(int)source;
 /**
  * Called when the audio route changes
  * \param route The new route used. 0 is the usual route (regular phone equipment), 1 is the phone's speaker
  * \param sender The Call which property changed
  */
-- (void)audioRoute:(int)route from:(id)sender;
+- (void)weemoCall:(id)sender audioRoute:(int)route;
+/** 
+ *
+ */
 /**
  * Called when the status of the call changes
  * \param status The new status of the call (i.e. CALLSTATUS_RINGING)
  * \param sender The Call which property changed
  */
-- (void)callStatus:(int)status from:(id)sender;
+- (void)weemoCall:(id)sender callStatus:(int)status;
 
 @end
 
 
 /**
  * \brief Represents a call to a contact or a conference. Such an object is created on -[[Weemo instance]call:] call.
+ *
+ * Remarks:
+ * 
+ * The Video views autorotates with the interface and following the interface rotation rules set by the Host App. However, the outgoing video stream rotates with the device. This allow the outgoing video to be shown with a correct rotation within the receiving device, even if the user sending the video is holding the device using a rotation not supported by the Host App.
+ * 
+ * When the device is held in a non supported rotation, the outgoing video view is rotated to indicate that the rotation is not supported.
  */
 @interface WeemoCall : NSObject
 
 /**
  * \brief Hang up the call and stop it
  */
-- (void) hangup;
+- (void)hangup;
 
 /**
  * \brief Pause the call so it can be later resumed. WARNING: Not Yet Available
@@ -143,7 +153,7 @@
 /**
  * \brief The view in wich the call should display the incoming video.
  */
-@property(nonatomic) UIView *viewVideoIn;
+@property(nonatomic, weak) UIView *viewVideoIn;
 
 /**
  * \brief Whether or not the call is sending video
@@ -153,7 +163,7 @@
 /**
  * \brief The view in wich the call should display the outgoing video.
  */
-@property(nonatomic) UIView *viewVideoOut;
+@property(nonatomic, weak) UIView *viewVideoOut;
 
 /**
  * \brief Statistics of the current instant in the call
@@ -181,6 +191,6 @@
 /**
  * \brief The host app should set this value if it wants to be notified about call changes.
  */
-@property(nonatomic) id<WeemoCallDelegate>delegate;
+@property(nonatomic, strong) id<WeemoCallDelegate>delegate;
 
 @end

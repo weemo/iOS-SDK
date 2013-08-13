@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -128,12 +128,12 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="omk-Qo-QhK" userLabel="View - videoIn">
                                 <rect key="frame" x="2" y="52" width="316" height="284"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.60369560580000003" green="0.73073538819999995" blue="0.25926567830000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.80347429609999999" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="dJN-yU-XY5" userLabel="View - videoOut">
                                 <rect key="frame" x="104" y="365" width="112" height="115"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="0.73333333329999995" green="0.0" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.80347429609999999" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pWD-lf-pFg">
                                 <rect key="frame" x="2" y="0.0" width="73" height="44"/>
@@ -208,7 +208,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.39050501279863425" green="0.61662755972696248" blue="0.84364334470989766" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.89000000000000001" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
@@ -253,7 +253,6 @@
                 <relationship kind="action" name="hangup:"/>
                 <relationship kind="outlet" name="b_authenticate" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="b_call" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_disconnect" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="b_hangup" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="l_callStatus" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="l_displayname" candidateClass="UILabel"/>

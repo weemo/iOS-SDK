@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="gkn-Nx-PvI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="gkn-Nx-PvI">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -142,12 +142,12 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="AjE-iM-9Pz" userLabel="View - videoIn">
                                 <rect key="frame" x="4" y="67" width="760" height="669"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.60369560580000003" green="0.73073538819999995" blue="0.25926567830000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.80347429609999999" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" id="zta-n9-uT4" userLabel="View - videoOut">
                                 <rect key="frame" x="328" y="909" width="112" height="115"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="0.73333333329999995" green="0.0" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.80347429609999999" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kwf-p8-7xr">
                                 <rect key="frame" x="226" y="0.0" width="73" height="44"/>
@@ -222,7 +222,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.3905050128" green="0.61662755970000005" blue="0.84364334470000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.89000000000000001" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
@@ -243,40 +243,6 @@
         <image name="button_blue_background.png" width="120" height="120"/>
         <image name="button_grey_background.png" width="120" height="120"/>
     </resources>
-    <classes>
-        <class className="CallViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CallViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="hangup:"/>
-                <relationship kind="action" name="profile:"/>
-                <relationship kind="action" name="toggleAudio:"/>
-                <relationship kind="action" name="toggleVideo:"/>
-                <relationship kind="outlet" name="b_hangup" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_profile" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_toggleAudio" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_toggleVideo" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="v_videoIn" candidateClass="UIView"/>
-                <relationship kind="outlet" name="v_videoOut" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="authenticate:"/>
-                <relationship kind="action" name="call:"/>
-                <relationship kind="action" name="hangup:"/>
-                <relationship kind="outlet" name="b_authenticate" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_call" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_disconnect" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_hangup" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="l_callStatus" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="l_displayname" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tf_contactID" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tf_yourID" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tv_errorField" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

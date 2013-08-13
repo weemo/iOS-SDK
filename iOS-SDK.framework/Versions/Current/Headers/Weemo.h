@@ -20,16 +20,16 @@
  * To accept the call, use -[call resume]. To deny it, use -[call hangup]. The WeemoCall object presents a 
  * delegate of its own, decribed in the WeemoCall object.
  *
- * \param call The call created, can't be nil.
+ * \param call The call created, can't be nil. Host App depends on the [call callStatus] value (CALLSTATUS_* type value)
  */
-- (void)callCreated:(WeemoCall*)call;
+- (void)weemoCallCreated:(WeemoCall*)call;
 
 /**
  * Called by the Weemo singleton after the authentication step. 
  * \param error If authentication failed, error will be different from nil. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms. Otherwise, it is nil.
  */
-- (void)didAuthenticate:(NSError*)error;
+- (void)weemoDidAuthenticate:(NSError*)error;
 
 /**
  * \brief Called when Weemo ended its initialization. The blocks stored by the +[Weemo instanceWhenReady:] method are executed
@@ -38,7 +38,7 @@
  * \param error Nil if no error occured. If different from nil then the connection did NOT succeed. The debugDescription field of
  * the NSError returns a NSString* describing the error in human terms.
  */
-- (void)didConnect:(NSError*)error;
+- (void)weemoDidConnect:(NSError*)error;
 
 @optional
 
@@ -48,7 +48,7 @@
  * \param error Nil if the Weemo singleton disconnected normally. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms.
  */
-- (void)didDisconnect:(NSError*)error;
+- (void)weemoDidDisconnect:(NSError*)error;
 
 /**
  * Called after a contact is checked through the use of the -[Weemo canCallContact:]. While the contact availability is checked upon
@@ -57,17 +57,20 @@
  *
  * Use this function as a GUI updater, e.g. disabling a call button in case of !canBeCalled before displaying the view.
  *
+ * \param contactID the contact checked
  * \param canBeCalled YES if the contact can be called, NO otherwise.
+ *
  */
-- (void)contactCanBeCalled:(BOOL)canBeCalled;
+- (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled;
 
 @end
 
 /**
  * \brief Weemo singleton. This is the main object of the SDK.
+ *
  * Remarks:
  *
- * This singleton is instancianted by the host application by the +[Weemo WeemoWithAPIKey:andDelegate:onInit:] class function. After initiating the singleton, authentication can happen, upon -[WeemoDelegate didAuthenticated:] call.
+ * This singleton is instancianted in the host application by using the +[Weemo WeemoWithAPIKey:andDelegate:onInit:] class function. After initiating the singleton, authentication can happen, upon -[WeemoDelegate didAuthenticated:] call.
  *
  * The singleton can be invoked anytime after instantiation through +[Weemo instance]. If the instantiation isn't completed by the time +[Weemo instance] is called, nil is returned.
  *
@@ -87,7 +90,7 @@
 + (void)WeemoWithAPIKey:(NSString*)APIKey andDelegate:(id<WeemoDelegate>)delegate onInit:(void (^)(Weemo*,NSError*))onInit;
 
 /**
- * \brief Get the Weemo singleton instance.
+ * \brief Returns the Weemo singleton instance, if instanciated
  *
  * \return The Weemo singleton or nil if the SDK was not instanciated properly
  */
@@ -139,35 +142,35 @@
  *
  * \param contactUID The ID of the contact to check
  */
-- (void)canCallContact:(NSString*)contactUID;
+- (void)getStatus:(NSString*)contactUID;
 
 /**
- * \brief Creates a call directing to the \arg contactUID. The presence of the contact is checked. The call is created when the user is deemed available and returned through the use of the [WeemoDelegate callCreated:] method.
+ * \brief Creates a call whose recipient is contactUID. The call is created when the user is deemed available and returned through the use of the [WeemoDelegate callCreated:] method.
  *
  * \param contactUID The ID of the contact or the conference to call.
  * 
  */
-- (void)call:(NSString*)contactUID;
+- (void)createCall:(NSString*)contactUID;
 
 /**
- * \brief The current active (not paused) call, if any
+ * \brief The current active (not paused) call, if any.
  */
-@property(readonly) WeemoCall *activeCall;
+@property(nonatomic, readonly) WeemoCall *activeCall;
 
 /**
- * \brief The curent userID connected
+ * \brief The curent userID connected.
  */
-@property(readonly) NSString *userID;
+@property(nonatomic, readonly) NSString *userID;
 
 /**
- * \brief The delegate for the current connection
+ * \brief The delegate for the current connection.
  */
-@property(readonly) id<WeemoDelegate> delegate;
+@property(nonatomic, readonly) id<WeemoDelegate> delegate;
 
 /**
- * The display name
+ * The display name used by the application.
  */
-@property(nonatomic) NSString *displayName;
+@property(nonatomic, strong) NSString *displayName;
 
 @end
 

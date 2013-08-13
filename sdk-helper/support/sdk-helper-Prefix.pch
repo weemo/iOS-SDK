@@ -11,6 +11,8 @@
 #ifdef __OBJC__
 	#import <UIKit/UIKit.h>
 	#import <Foundation/Foundation.h>
+	#import <iOS-SDK/WeemoData.h>
+	#import <iOS-SDK/Weemo.h>
 #endif
 
 
@@ -22,7 +24,6 @@
 #endif
 
 
-#include <stdint.h>
 
-#import <iOS-SDK/WeemoData.h>
-#import <iOS-SDK/Weemo.h>
+
+

@@ -5,7 +5,7 @@
 //  Created by Charles Thierry on 7/16/13.
 //  Copyright (c) 2013 Weemo SAS. All rights reserved.
 //
-#include <cstdio>
+
 #import "AppDelegate.h"
 
 @implementation AppDelegate
@@ -26,12 +26,16 @@
 {
 	// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
 	// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+	
+	//this call is mandatory to support calls in background and video resuming
 	[[Weemo instance] background];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
 	// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+	//this call is mandatory to tell the video to start again if a call was ongoing
 	[[Weemo instance] foreground];
 }
 
