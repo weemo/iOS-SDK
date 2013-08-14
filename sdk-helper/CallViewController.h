@@ -35,12 +35,11 @@
  */
 - (IBAction)toggleAudio:(id)sender;
 
-- (void)videoReceiving:(BOOL)is from:(id)sender;
-- (void)videoSending:(BOOL)is from:(id)sender;
-- (void)videoProfile:(int)profile from:(id)sender;
-- (void)videoSource:(int)source from:(id)sender;
-- (void)audioRoute:(int)route from:(id)sender;
-- (void)callStatus:(int)status from:(id)sender;
-
+- (void)weemoCall:(id)sender videoReceiving:(BOOL)isReceiving;
+- (void)weemoCall:(id)sender videoSending:(BOOL)isSending;
+- (void)weemoCall:(id)sender videoProfile:(int)profile;
+- (void)weemoCall:(id)sender videoSource:(int)source;
+- (void)weemoCall:(id)sender audioRoute:(int)route;
+- (void)weemoCall:(id)sender callStatus:(int)status;
 
 @end

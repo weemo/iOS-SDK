@@ -32,8 +32,6 @@ typedef struct
 	char	 pfm[8]; /**< The platform name */
 } WeemoStat; /**< Statistics available for each call*/
 
-/** @file */
-
 #pragma mark - CallStatus
 /** The call is incoming.*/
 #define CALLSTATUS_INCOMING 				0x7110

@@ -56,9 +56,9 @@
 
 - (IBAction)call:(id)sender
 {
-//	[[Weemo instance]call:[[self tf_contactID] text]];
-	[[Weemo instance] getStatus:[[self tf_contactID] text]];
-	[[self tf_contactID]resignFirstResponder];
+	[[Weemo instance]createCall:[[self tf_contactID] text]]; //call a contact, no matter the availability
+//	[[Weemo instance] getStatus:[[self tf_contactID] text]]; // called to get the contact status
+	[[self tf_contactID]resignFirstResponder]; //remove the keyboard from sight
 }
 
 - (IBAction)hangup:(id)sender
@@ -69,19 +69,26 @@
 
 - (void)createCallView
 {
+	NSLog(@">>>> createCallView ");
 	if (_cvc_active) return; //call view already instanciated
 	NSString *storyboardname = ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone)?@"iphone":@"ipad";
 	_cvc_active = [[UIStoryboard storyboardWithName:storyboardname bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"CallViewController"];
+	
 	[[[Weemo instance]activeCall]setDelegate:_cvc_active];
-	[self addChildViewController:_cvc_active];
+	[self addChildViewController:_cvc_active];	
 }
 
 - (void)addCallView
 {
+	NSLog(@">>>> addCallView ");
 	if (!_cvc_active) [self createCallView];
-	if ([[[_cvc_active view] superview] isEqual:[self view]] ) return; //view was already added
-	[[_cvc_active view]setFrame:CGRectMake(0., 0., [[self view]frame].size.width, [[self view]frame].size.height)];
 
+	if ([[[_cvc_active view] superview] isEqual:[self view]] )
+	{
+		return; //view was already added
+	}
+
+	[[_cvc_active view]setFrame:CGRectMake(0., 0., [[self view]frame].size.width, [[self view]frame].size.height)];
 	[[self view] addSubview:[_cvc_active view]];
 }
 
@@ -151,16 +158,20 @@
 		switch (newStatus) {
 			case CALLSTATUS_ACTIVE:
 			{
+				NSLog(@">>> Call Active");
 				[[self l_callStatus] setText:@"Active"];
+				[self createCallView];
 				[self addCallView];
 			}break;
 			case CALLSTATUS_PROCEEDING:
 			{
+				NSLog(@">>>> Call Proceeding");
 				[[self l_callStatus] setText:@"Proceeding"];
-				break;
-			}
+				[self createCallView];
+			}break;
 			case CALLSTATUS_INCOMING:
 			{
+				NSLog(@">>>> Call Incoming");
 				[[self l_callStatus]setText:@"Incoming"];
 				[[self b_hangup]setEnabled:YES];
 				[self createCallView];
@@ -201,6 +212,7 @@
 	if (buttonIndex == 0)
 	{
 		//user took the call
+		[self setCallStatus:[[[Weemo instance] activeCall]callStatus]];
 		[[self currentCall]resume];
 	} else {
 		//user hangup
@@ -212,7 +224,7 @@
 - (void)weemoCallCreated:(WeemoCall*)call
 {
 	[self setCurrentCall:call];
-	NSLog(@">>>> Controller callCreated: ");
+	NSLog(@">>>> Controller callCreated: 0x%X", [call callStatus]);
 	if ([call callStatus]==CALLSTATUS_INCOMING)
 	{
 		[self setStatus:3];
@@ -224,9 +236,6 @@
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[callIncoming show];
 		});
-	} else if ([call callStatus] == CALLSTATUS_PROCEEDING)
-	{
-		//we are calling someone, might as well display the callview
 	}
 	[self setCallStatus:[call callStatus]];
 }
@@ -240,7 +249,6 @@
 		{
 			[[self tv_errorField]setText:[error debugDescription]];
 		} else {
-			
 			[[self tv_errorField]setText:@"<No Error>"];
 		}
 	});
@@ -278,7 +286,7 @@
 
 - (void)weemoContact:(NSString*)contact CanBeCalled:(BOOL)can
 {
-		
+	NSLog(@">>>> Contact %@ can %@ be called.", contact, can?@"":@"NOT");
 }
 
 @end

@@ -106,50 +106,57 @@
 
 #pragma mark - Call delegate
 
-- (void)videoReceiving:(BOOL)is from:(id)sender
+- (void)weemoCall:(id)sender videoReceiving:(BOOL)isReceiving
 {
-	NSLog(@">>>> CallViewController: Receiving: %@", is ? @"YES":@"NO");
+	NSLog(@">>>> CallViewController: Receiving: %@", isReceiving ? @"YES":@"NO");
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[[self v_videoIn]setHidden:!is];
+		[[self v_videoIn]setHidden:!isReceiving];
 	});
 }
 
-- (void)videoSending:(BOOL)is from:(id)sender
+
+- (void)weemoCall:(id)sender videoSending:(BOOL)isSending
 {
-	NSLog(@">>>> CallViewController: Sending: %@", is ? @"YES":@"NO");
+	NSLog(@">>>> CallViewController: Sending: %@", isSending ? @"YES":@"NO");
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[[self b_toggleVideo]setSelected:!is];
-		[[self v_videoOut]setHidden:!is];
+		[[self b_toggleVideo]setSelected:!isSending];
+		[[self v_videoOut]setHidden:!isSending];
 	});
 }
 
-- (void)videoProfile:(int)profile from:(id)sender
+
+
+- (void)weemoCall:(id)sender videoProfile:(int)profile
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[self b_profile]setSelected:profile];
 	});
 }
 
-- (void)videoSource:(int)source from:(id)sender
+- (void)weemoCall:(id)sender videoSource:(int)source
 {
 	
 }
 
-- (void)audioRoute:(int)route from:(id)sender
+
+- (void)weemoCall:(id)sender audioRoute:(int)route
 {
 	
 }
 
-- (void)callStatus:(int)status from:(id)sender
+
+- (void)weemoCall:(id)sender callStatus:(int)status
 {
 	NSLog(@">>>> CallViewController: callStatus: 0x%X", status);
 	dispatch_async(dispatch_get_main_queue(), ^{
 		if (status == CALLSTATUS_ACTIVE)
 		{
+			NSLog(@">>>> CallViewController: call went active");
 			[(ViewController*)[self parentViewController] addCallView];
 		}
 		if (status == CALLSTATUS_ENDED)
 		{
+			NSLog(@">>>> CallViewController: call was ended");
 			[(ViewController*)[self parentViewController] removeCallView];
 		}
 	});
