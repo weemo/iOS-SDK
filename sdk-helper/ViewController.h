@@ -15,7 +15,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *b_authenticate;
 @property (weak, nonatomic) IBOutlet UIButton *b_call;
-@property (weak, nonatomic) IBOutlet UIButton *b_hangup;
 @property (weak, nonatomic) IBOutlet UILabel *l_displayname;
 @property (weak, nonatomic) IBOutlet UITextField *tf_yourID;
 @property (weak, nonatomic) IBOutlet UITextField *tf_contactID;
@@ -33,9 +32,6 @@
 
 /** Called when the user taps the Call button */
 - (IBAction)call:(id)sender;
-
-/** Called when the user taps the hangup button */
-- (IBAction)hangup:(id)sender;
 
 - (void)addCallView;
 - (void)removeCallView;

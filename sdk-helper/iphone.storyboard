@@ -37,8 +37,8 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="oaB-ut-xM1">
-                                <rect key="frame" x="20" y="178" width="115" height="40"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="185" y="173" width="115" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <state key="normal" title="Call">
                                     <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -54,24 +54,6 @@
                                     <action selector="call:" destination="2" eventType="touchUpInside" id="qnc-Fg-mbS"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3Jy-z5-YLu">
-                                <rect key="frame" x="185" y="178" width="115" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                <state key="normal" title="HangUp">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="disabled">
-                                    <color key="titleColor" white="0.80347429609999999" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="hangup:" destination="2" eventType="touchUpInside" id="mXg-ir-6FK"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your Contact ID here" minimumFontSize="17" clearButtonMode="whileEditing" id="O9S-d4-oPf">
                                 <rect key="frame" x="12" y="135" width="296" height="30"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -85,8 +67,8 @@
                                 <color key="textColor" white="0.42999999999999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt;none>" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1uM-Lf-4oT">
-                                <rect key="frame" x="12" y="244" width="296" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt;no call>" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1uM-Lf-4oT">
+                                <rect key="frame" x="128" y="244" width="180" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.42999999999999999" alpha="1" colorSpace="calibratedWhite"/>
@@ -99,13 +81,19 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Call status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FB4-PI-Qqi">
+                                <rect key="frame" x="12" y="244" width="108" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="b_authenticate" destination="5DY-1x-jZl" id="qib-5V-RGf"/>
                         <outlet property="b_call" destination="oaB-ut-xM1" id="3do-EW-oC8"/>
-                        <outlet property="b_hangup" destination="3Jy-z5-YLu" id="Yvx-9g-POW"/>
                         <outlet property="l_callStatus" destination="1uM-Lf-4oT" id="yTb-4H-Z0O"/>
                         <outlet property="l_displayname" destination="utG-cS-ACf" id="xJ0-7T-L28"/>
                         <outlet property="tf_contactID" destination="O9S-d4-oPf" id="vdz-HS-qJf"/>
@@ -250,10 +238,8 @@
             <relationships>
                 <relationship kind="action" name="authenticate:"/>
                 <relationship kind="action" name="call:"/>
-                <relationship kind="action" name="hangup:"/>
                 <relationship kind="outlet" name="b_authenticate" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="b_call" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_hangup" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="l_callStatus" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="l_displayname" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="tf_contactID" candidateClass="UITextField"/>

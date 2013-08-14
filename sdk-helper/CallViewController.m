@@ -63,24 +63,18 @@
 	[[self view]setFrame:CGRectMake(0., 0., [[[self view]superview]bounds].size.width, [[[self view]superview]bounds].size.height)];
 	if (UIInterfaceOrientationIsPortrait(tO))
 	{
-		[[self v_videoIn]setFrame:CGRectMake(0., 0., [[self view]frame].size.width, [[self view]frame].size.width)];
-//		[[self v_videoOut]setFrame:CGRectMake(0., 0., 120., 120.)];
+//		[[self v_videoIn]setFrame:CGRectMake(0., 0., [[self view]frame].size.width, [[self view]frame].size.width)];
 		[[self v_videoIn] setCenter:CGPointMake([[self view]frame].size.width/2., [[self v_videoIn]frame].size.height/2.+ b_hangup.frame.size.height + 2.)];
 		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width/2.,
 												[[self view]frame].size.height - [[self v_videoOut]frame].size.height/2.)];
 	} else if (UIInterfaceOrientationIsLandscape(tO))
 	{
-		[[self v_videoIn]setFrame:CGRectMake(0., 0., [[self view]frame].size.height - self.b_hangup.frame.size.height, [[self view]frame].size.height - self.b_hangup.frame.size.height)];
-//		[[self v_videoOut]setFrame:CGRectMake(0., 0., 120., 120.)];
+//		[[self v_videoIn]setFrame:CGRectMake(0., 0., [[self view]frame].size.height - self.b_hangup.frame.size.height, [[self view]frame].size.height - self.b_hangup.frame.size.height)];
 		[[self v_videoIn] setCenter:CGPointMake([[self v_videoIn]frame].size.width/2.+2., [[self view] frame].size.height/2.+ b_hangup.frame.size.height)];
 		
 		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width - [[self v_videoOut]frame].size.width / 2.,
 												[[self view]frame].size.height/2.)];
 	}
-	
-	NSLog(@">>>> resizeView: self view frame\n%@", CGRectCreateDictionaryRepresentation([[self view] frame]));
-	NSLog(@">>>> resizeView: v_videoIn frame\n%@", CGRectCreateDictionaryRepresentation([[self v_videoIn]frame]));
-	NSLog(@">>>> resizeView: v_videoOut frame\n%@", CGRectCreateDictionaryRepresentation([[self v_videoOut]frame]));
 }
 
 #pragma mark - Actions

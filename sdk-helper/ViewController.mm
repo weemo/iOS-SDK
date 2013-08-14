@@ -47,7 +47,7 @@
 		[[self tf_yourID]setText:@""];
 		[[self tf_contactID]setText:@""];
 		[[self l_displayname]setText:@"<not authenticated>"];
-		[[self l_callStatus]setText:@"<none>"];
+		[[self l_callStatus]setText:@"<no call>"];
 		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self onInit:^(Weemo * w, NSError *err) {
 			NSAssert(!err, [err debugDescription]);
 		}];
@@ -59,12 +59,6 @@
 	[[Weemo instance]createCall:[[self tf_contactID] text]]; //call a contact, no matter the availability
 //	[[Weemo instance] getStatus:[[self tf_contactID] text]]; // called to get the contact status
 	[[self tf_contactID]resignFirstResponder]; //remove the keyboard from sight
-}
-
-- (IBAction)hangup:(id)sender
-{
-	[[self tf_contactID]setText:@""];
-	[[self l_callStatus]setText:@"<none>"];
 }
 
 - (void)createCallView
@@ -94,15 +88,18 @@
 
 - (void)removeCallView
 {
+	
 	[_cvc_active removeFromParentViewController];
 	[[_cvc_active view]removeFromSuperview];
-	[[self l_callStatus]setText:@"<none>"];
+	[[self l_callStatus]setText:@"<no call>"];
 	_cvc_active = nil;
+	[self setStatus:2];
 }
 
 - (void)disconnect
 {
-	[self hangup:nil];
+	[[self tf_contactID]setText:@""];
+	[[self l_callStatus]setText:@"<no call>"];
 	[[Weemo instance] disconnect];
 }
 
@@ -118,7 +115,6 @@
 				[[self tf_contactID]setEnabled:NO];
 				[[self b_authenticate]setEnabled:YES];
 				[[self b_call]setEnabled:NO];
-				[[self b_hangup]setEnabled:NO];
 			});}
 			break;
 		case 2:{
@@ -128,7 +124,6 @@
 				[[self tf_contactID]setEnabled:YES];
 				[[self b_authenticate]setEnabled:YES];
 				[[self b_call]setEnabled:YES];
-				[[self b_hangup]setEnabled:NO];
 			});}
 			break;
 		case 3:{
@@ -138,7 +133,6 @@
 				[[self tf_contactID]setEnabled:YES];
 				[[self b_authenticate]setEnabled:YES];
 				[[self b_call]setEnabled:NO];
-				[[self b_hangup]setEnabled:YES];
 			});}
 		default:{
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -147,7 +141,6 @@
 				[[self tf_contactID]setEnabled:NO];
 				[[self b_authenticate]setEnabled:NO];
 				[[self b_call]setEnabled:NO];
-				[[self b_hangup]setEnabled:NO];
 			});}
 	}
 }
@@ -173,7 +166,6 @@
 			{
 				NSLog(@">>>> Call Incoming");
 				[[self l_callStatus]setText:@"Incoming"];
-				[[self b_hangup]setEnabled:YES];
 				[self createCallView];
 				
 			}break;
