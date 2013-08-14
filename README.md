@@ -43,10 +43,6 @@ This SDK uses VP8 and Speex. The two libraries are distributed as binaries with 
 
 Weemo SDK requires at least an iPhone4, an iPad2 or more recent.
 
-## Important note
-
-This is still an early version of the SDK, more functionnality to be added soon.
-
 
 ## Release notes
 
@@ -73,7 +69,7 @@ First release
 
 ## About Weemo
 
-The Weemo Video Cloud is a solution specifically targeted at application software vendors providing real-time video communications embedded within any web or mobile application. The solution is particularly well suited for social software applications such as Enterprise Social Networks, Social CRM, HCM, Customer Service, Education and E-learning, as well as for Contact Management and Collaboration.
+The Weemo Video Cloud is a solution specifically targeted at application software vendors providing real-time video communications embedded within any web or mobile application. The solution is particularly well suited for business software applications such as Enterprise Social Networks, Social CRM, HCM, Customer Service, Education and E-learning, as well as for Contact Management and Collaboration.
 
 Weemo relies on open-standard protocols such as SIP, XMPP and HTTPS. The solution provides constant interoperability with existing or future communication-oriented devices and infrastructures.
 
