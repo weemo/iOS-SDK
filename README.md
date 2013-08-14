@@ -14,58 +14,6 @@ Basic implemented functions into this example are:
 
 For a full functionalities list, refer to our SDK documentation: [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/)
 
-## SDK Architecture
-
-<img src="http://docs.weemo.com/img/SDK-arch.png">
-
-
-## Download
-The SDK is available as a framework.
-
-The project available in this repository sdk-helper folder is an application built around the SDK, as a limited demo. Its goal is to show the SDK in action, not an integration of the SDK in an existing application.
-
-Clone the repository onto your Mac, start Xcode using the sdk-helper/sdk-helper.xcodeproj.
- 
-Add your APIKey to the sdk-helper/support/sdk-helper-Prefix.pch file.
-
-Press Build & Run.
-
-
-
-## Software Dependencies
-
-The SDK is available as a framework thanks to the work of Karl Stenerud (https://github.com/kstenerud)
-
-This SDK uses VP8 and Speex. The two libraries are distributed as binaries with the project. Licences can be found in the Library folder of the project, along the binaries.
-
-
-## Hardware Requirements
-
-Weemo SDK requires at least an iPhone4, an iPad2 or more recent.
-
-
-## Release notes
-
-
-### 0.1-20130730
-First release
-
-#### SDK:
-- Connection and authentication
-- Autoreconnection in case of temporary connection failure
-- Incoming and Outgoing call
-- Call control
-- Audio and Video control
-
-
-#### Helper:
-- User-specified username
-- Call to a user-specified contact
-- Pick-up/Hang-up incoming call
-- Video displayed and captured
-- Stop outgoing video
-
-
 
 ## About Weemo
 
