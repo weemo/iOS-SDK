@@ -1,9 +1,9 @@
 # WeemoDriver iOS SDK and Sample Application
 
-This is a sample application using WeemoDriver SDK for iOS. More information about WeemoDriver Mobile SDK on our Website [http://www.weemo.com/](http://www.weemo.com/)
+This repository presents the WeemoDriver SDK for iOS and a sample application using it. More information about WeemoDriver Mobile SDK on our Website [http://www.weemo.com/](http://www.weemo.com/)
 
 
-The use cases have been minimized in order to reduce the integration effort while creating a functional model for the POC that covers most of the use cases for audio and video during 1:1 calls. 
+The use cases have been minimized in order to reduce the integration effort while creating a functional model for the POC that covers most of the use cases for audio and video during 1:1 calls.
 Basic implemented functions into this example are: 
 
 - Initialization and Cloud authentification
@@ -12,7 +12,7 @@ Basic implemented functions into this example are:
 - Mute or Unmute audio
 - iOS 6 Multi-tasking support
 
-For implementation details, please refer to [our SDK documentation](http://docs.weemo.com/sdk/ios/) or this [project wiki](https://github.com/weemo/iOS-SDK/wiki).
+For implementation details, please refer to this [project wiki](https://github.com/weemo/iOS-SDK/wiki). A full [SDK documentation](http://docs.weemo.com/sdk/ios/) is available.
 
 
 ## About Weemo
