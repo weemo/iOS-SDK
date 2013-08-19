@@ -12,7 +12,7 @@ Basic implemented functions into this example are:
 - Mute or Unmute audio
 - iOS 6 Multi-tasking support
 
-For a full functionalities list, refer to our SDK documentation: [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/)
+For a full implementation details list, please refer to our SDK documentation: [http://docs.weemo.com/sdk/ios/](http://docs.weemo.com/sdk/ios/) or this [project wiki](./wiki)
 
 
 ## About Weemo
