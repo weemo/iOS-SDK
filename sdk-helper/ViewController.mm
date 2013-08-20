@@ -17,7 +17,6 @@
 
 @synthesize l_callStatus;
 @synthesize tv_errorField;
-@synthesize currentCall;
 @synthesize status;
 @synthesize displayName;
 
@@ -27,8 +26,10 @@
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	_cvc_active = nil;
-	[Weemo WeemoWithAPIKey:APIKEY andDelegate:self onInit:^(Weemo * w, NSError *err) {
-		NSAssert(!err, [err debugDescription]);
+	[Weemo WeemoWithAPIKey:APIKEY
+			   andDelegate:self
+					onInit:^(Weemo * w, NSError *err) {
+		NSAssert(!err, [err debugDescription]); //the application will stop if any error occur during init
 	}];
 	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
 }
@@ -205,17 +206,16 @@
 	{
 		//user took the call
 		[self setCallStatus:[[[Weemo instance] activeCall]callStatus]];
-		[[self currentCall]resume];
+		[[[Weemo instance] activeCall]resume];
 	} else {
 		//user hangup
-		[[self currentCall]hangup];
+		[[[Weemo instance] activeCall]hangup];
 	}
 }
 
 #pragma mark - WeemoDelegation
 - (void)weemoCallCreated:(WeemoCall*)call
 {
-	[self setCurrentCall:call];
 	NSLog(@">>>> Controller callCreated: 0x%X", [call callStatus]);
 	if ([call callStatus]==CALLSTATUS_INCOMING)
 	{

@@ -44,6 +44,7 @@
 {
 	[super viewWillAppear:animated];
 	[self resizeView:[self interfaceOrientation]];
+	[self refreshButtons];
 
 }
 
@@ -58,18 +59,27 @@
 	[self resizeView:tO];
 }
 
+//updates the Interaction buttons
+- (void)refreshButtons
+{
+	NSLog(@">>>> CallViewController updating the buttons - call %@", [self call]);
+	[[self b_switchVideo]setSelected:[[self call] cameraSource]];
+	[[self b_profile]setSelected:[[self call] videoProfile]];
+	[[self b_toggleAudio]setSelected:[[self call] audioRoute]];
+	[[self b_toggleVideo]setSelected:[[self call] isSendingVideo]];
+}
+
+//updates the VideoViews location
 - (void)resizeView:(UIInterfaceOrientation)tO
 {
 	[[self view]setFrame:CGRectMake(0., 0., [[[self view]superview]bounds].size.width, [[[self view]superview]bounds].size.height)];
 	if (UIInterfaceOrientationIsPortrait(tO))
 	{
-//		[[self v_videoIn]setFrame:CGRectMake(0., 0., [[self view]frame].size.width, [[self view]frame].size.width)];
 		[[self v_videoIn] setCenter:CGPointMake([[self view]frame].size.width/2., [[self v_videoIn]frame].size.height/2.+ b_hangup.frame.size.height + 2.)];
 		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width/2.,
 												[[self view]frame].size.height - [[self v_videoOut]frame].size.height/2.)];
 	} else if (UIInterfaceOrientationIsLandscape(tO))
 	{
-//		[[self v_videoIn]setFrame:CGRectMake(0., 0., [[self view]frame].size.height - self.b_hangup.frame.size.height, [[self view]frame].size.height - self.b_hangup.frame.size.height)];
 		[[self v_videoIn] setCenter:CGPointMake([[self v_videoIn]frame].size.width/2.+2., [[self view] frame].size.height/2.+ b_hangup.frame.size.height)];
 		
 		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width - [[self v_videoOut]frame].size.width / 2.,
@@ -81,28 +91,36 @@
 
 - (IBAction)hangup:(id)sender
 {
-	[[[Weemo instance]activeCall]hangup];
+	[[self call]hangup];
 }
+
 - (IBAction)profile:(id)sender
 {
 	[[self call] toggleVideoProfile];
 }
+
 - (IBAction)toggleVideo:(id)sender
 {
 	if ([sender isSelected])
 	{
-		[[self call] videoStart];
-	} else {
 		[[self call] videoStop];
+	} else {
+		[[self call] videoStart];
 	}
 }
+
+- (IBAction)switchVideo:(id)sender
+{
+	[[self call] toggleCameraSource];
+}
+
 - (IBAction)toggleAudio:(id)sender
 {
 	if ([sender isSelected])
 	{
-		[[self call] audioStart];
-	} else {
 		[[self call] audioStop];
+	} else {
+		[[self call] audioStart];
 	}
 }
 
@@ -120,9 +138,9 @@
 
 - (void)weemoCall:(id)sender videoSending:(BOOL)isSending
 {
-	NSLog(@">>>> CallViewController: Sending: %@", isSending ? @"YES":@"NO");
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[[self b_toggleVideo]setSelected:!isSending];
+		NSLog(@">>>> CallViewController: Sending: %@", isSending ? @"YES":@"NO");
+		[[self b_toggleVideo]setSelected:isSending];
 		[[self v_videoOut]setHidden:!isSending];
 	});
 }
@@ -130,23 +148,29 @@
 
 
 - (void)weemoCall:(id)sender videoProfile:(int)profile
-{
+{	
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[[self b_profile]setSelected:profile];
+		NSLog(@">>>> CallViewController: videoProfile: %d", profile);
+		[[self b_profile]setSelected:(profile != 0)];
 	});
 }
 
 - (void)weemoCall:(id)sender videoSource:(int)source
 {
-	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSLog(@">>>> CallViewController: switchVideoSource: %@", (source == 0)?@"Front":@"Back");
+		[[self b_switchVideo] setSelected:(source == 0)];
+	});
 }
 
-
-- (void)weemoCall:(id)sender audioRoute:(int)route
+- (void)weemoCall:(id)call audioSending:(BOOL)isSending
 {
 	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSLog(@">>>> CallViewController: audioSending:%@", isSending?@"YES":@"NO");
+		[[self b_toggleAudio]setSelected:isSending];
+	});
 }
-
 
 - (void)weemoCall:(id)sender callStatus:(int)status
 {
@@ -164,6 +188,5 @@
 		}
 	});
 }
-
 
 @end

@@ -9,7 +9,6 @@
 #import "WeemoData.h"
 #import "WeemoCall.h"
 
-
 /**
  * \brief Delegate for the Weemo Singleton. Allows the Host Application to be notified upon events.
  */
@@ -21,6 +20,9 @@
  * delegate of its own, decribed in the WeemoCall object.
  *
  * \param call The call created, can't be nil. Host App depends on the [call callStatus] value (CALLSTATUS_* type value)
+ *
+ * \sa Weemo::createCall:
+ * \sa The definition of the CALLSTATUS_ variable.
  */
 - (void)weemoCallCreated:(WeemoCall*)call;
 
@@ -28,6 +30,7 @@
  * Called by the Weemo singleton after the authentication step. 
  * \param error If authentication failed, error will be different from nil. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms. Otherwise, it is nil.
+ * \sa Weemo::connectWithUserID:toDomain:
  */
 - (void)weemoDidAuthenticate:(NSError*)error;
 
@@ -37,6 +40,7 @@
  *
  * \param error Nil if no error occured. If different from nil then the connection did NOT succeed. The debugDescription field of
  * the NSError returns a NSString* describing the error in human terms.
+ * \sa Weemo::WeemoWithAPIKey:andDelegate:onInit:
  */
 - (void)weemoDidConnect:(NSError*)error;
 
@@ -47,19 +51,21 @@
  *
  * \param error Nil if the Weemo singleton disconnected normally. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms.
+ * \sa Weemo::disconnect
  */
 - (void)weemoDidDisconnect:(NSError*)error;
 
 /**
- * Called after a contact is checked through the use of the -[Weemo canCallContact:]. While the contact availability is checked upon
- * -[[Weemo instance] call:] call, this delegate function is only called when the user/host application specifically call the 
- * -[[Weemo instance ]canCallContact:] method. 
+ * \brief Called after a contact is checked through the use of the -[Weemo getStatus:]. 
+ 
+ * While the contact availability is checked upon -[[Weemo instance] call:] call, this delegate function
+ * is only called when the user/host application specifically call the -[[Weemo instance ]getStatus:] method.
  *
  * Use this function as a GUI updater, e.g. disabling a call button in case of !canBeCalled before displaying the view.
  *
  * \param contactID the contact checked
  * \param canBeCalled YES if the contact can be called, NO otherwise.
- *
+ * \sa Weemo::getStatus:
  */
 - (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled;
 
@@ -86,6 +92,7 @@
  * \param onInit This block will be called when Weemo has been properly initialized (with the Weemo object and a nil NSError)
  * or when initialization has failed with (Nil, NSError*) as arguments. The debugDescription field of the NSError returns a 
  * NSString* describing the error in human terms.
+ * \sa WeemoDelegate::weemoDidConnect:
  */
 + (void)WeemoWithAPIKey:(NSString*)APIKey andDelegate:(id<WeemoDelegate>)delegate onInit:(void (^)(Weemo*,NSError*))onInit;
 
@@ -113,11 +120,13 @@
  *
  * \param userID The userID that will represent this user in Weemo's platform.
  * \param domain The domain to which the user will connect.
+  * \sa WeemoDelegate::weemoDidAuthenticate:
  */
 - (void)connectWithUserID:(NSString*)userID toDomain:(NSString*)domain;
 
 /**
  * \brief Disconnects properly from weemo servers. A Call to -[WeemoDelegate didDisconnect:] is to be expected upon disconnection.
+ * \sa WeemoDelegate::weemoDidDisconnect:
  */
 - (BOOL)disconnect;
 
@@ -141,6 +150,7 @@
  * Check if a user can be called. This method is to be called for GUI update (e.g. graying out a call button). -[WeemoDelegate contactCanBeCalled:] is called upon callback from the network.
  *
  * \param contactUID The ID of the contact to check
+ * \sa WeemoDelegate::weemoContact:canBeCalled:
  */
 - (void)getStatus:(NSString*)contactUID;
 
@@ -148,7 +158,7 @@
  * \brief Creates a call whose recipient is contactUID. The call is created when the user is deemed available and returned through the use of the [WeemoDelegate callCreated:] method.
  *
  * \param contactUID The ID of the contact or the conference to call.
- * 
+ * \sa WeemoDelegate::weemoCallCreated:
  */
 - (void)createCall:(NSString*)contactUID;
 
