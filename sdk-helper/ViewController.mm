@@ -46,7 +46,7 @@
 	{
 		[self setDisplayName:[[self tf_yourID] text]];
 		[[Weemo instance] connectWithUserID:[[self tf_yourID]text]
-								   toDomain:@"weemo-poc.com"];
+								   toDomain:TECHDOMAIN];
 	} else {
 		[[self tf_yourID]setText:@""];
 		[[self tf_contactID]setText:@""];

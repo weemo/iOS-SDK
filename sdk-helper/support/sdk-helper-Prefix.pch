@@ -17,10 +17,9 @@
 
 
 //TODO: define your API Key here
-#define APIKEY @"mdud37zr0c14091rova9"
 
-//mdud37zr0c14091rova9
-//meacbfx4uxk1w1dqi4vk
+
+#define TECHDOMAIN @"weemo-poc.com"
 
 #ifndef APIKEY
 #error "You need an APIKEY to compile the application."
