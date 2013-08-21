@@ -113,6 +113,10 @@
  */
 + (void)instanceWhenReady:(void (^)(Weemo*))whenReady;
 
+/**
+ * \brief Destructor
+ */
+- (void)dealloc;
 
 /**
  * \brief Connects to servers with given userID. The connection is asynchronous, -[WeemoDelegate didConnect:] will be called
@@ -129,11 +133,6 @@
  * \sa WeemoDelegate::weemoDidDisconnect:
  */
 - (BOOL)disconnect;
-
-/**
- * \brief Destructor
- */
-- (void)dealloc;
 
 /**
  * This function is to be called when the application goes to background. Not calling this function will result in undefined behavior.

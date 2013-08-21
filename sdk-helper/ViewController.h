@@ -22,7 +22,6 @@
  *		The third field displays the debugInformation of the last encountered error.
  */
 @interface ViewController : UIViewController <WeemoDelegate, UIAlertViewDelegate>
-
 @property (weak, nonatomic) IBOutlet UIButton *b_authenticate;
 @property (weak, nonatomic) IBOutlet UIButton *b_call;
 
@@ -35,8 +34,15 @@
 
 @property (nonatomic) CallViewController *cvc_active;
 @property (nonatomic) NSString *displayName; //the user display name is stored here, without the possible suffix
-@property (nonatomic) int status;
 
+/**
+ * four possible values.
+ * 0: the SDK could not connect to weemo servers
+ * 1: the SDK is connected to the servers, users can authenticate
+ * 2: the SDK is connected, users can place a call
+ * 3: call ongoing, not possible to press call
+ */
+@property (nonatomic) int status;
 
 /** Called when the user taps the authenticate button */
 - (IBAction)authenticate:(id)sender;

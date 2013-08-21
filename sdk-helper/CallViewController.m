@@ -36,6 +36,11 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
 	[[self call]setViewVideoIn:[self v_videoIn]];
 	[[self call]setViewVideoOut:[self v_videoOut]];
 }
@@ -43,8 +48,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	[[self call] setDelegate:self];
 	[self resizeView:[self interfaceOrientation]];
-	[self refreshButtons];
+	[UIViewController attemptRotationToDeviceOrientation];
+
 
 }
 
@@ -59,15 +66,6 @@
 	[self resizeView:tO];
 }
 
-//updates the Interaction buttons
-- (void)refreshButtons
-{
-	NSLog(@">>>> CallViewController updating the buttons - call %@", [self call]);
-	[[self b_switchVideo]setSelected:[[self call] cameraSource]];
-	[[self b_profile]setSelected:[[self call] videoProfile]];
-	[[self b_toggleAudio]setSelected:[[self call] audioRoute]];
-	[[self b_toggleVideo]setSelected:[[self call] isSendingVideo]];
-}
 
 //updates the VideoViews location
 - (void)resizeView:(UIInterfaceOrientation)tO

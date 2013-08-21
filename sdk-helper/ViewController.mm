@@ -10,7 +10,7 @@
 
 
 @interface ViewController ()
-
+@property (nonatomic)BOOL autoreconnect;
 @end
 
 @implementation ViewController
@@ -19,6 +19,7 @@
 @synthesize tv_errorField;
 @synthesize status;
 @synthesize displayName;
+@synthesize autoreconnect;
 
 - (void)viewDidLoad
 {
@@ -26,12 +27,15 @@
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	_cvc_active = nil;
+
+	autoreconnect = NO;
+	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
 	[Weemo WeemoWithAPIKey:APIKEY
 			   andDelegate:self
 					onInit:^(Weemo * w, NSError *err) {
-		NSAssert(!err, [err debugDescription]); //the application will stop if any error occur during init
-	}];
-	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
+						NSAssert(!err, [err debugDescription]); //the application will stop if any error occur during init
+					}
+	 ];
 }
 
 - (IBAction)authenticate:(id)sender
@@ -44,27 +48,23 @@
 		[[Weemo instance] connectWithUserID:[[self tf_yourID]text]
 								   toDomain:@"weemo-poc.com"];
 	} else {
-		[self disconnect];
 		[[self tf_yourID]setText:@""];
 		[[self tf_contactID]setText:@""];
 		[[self l_displayname]setText:@"<not authenticated>"];
 		[[self l_callStatus]setText:@"<no call>"];
-		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self onInit:^(Weemo * w, NSError *err) {
-			NSAssert(!err, [err debugDescription]);
-		}];
+		[self disconnect];
 	}
 }
 
 - (IBAction)call:(id)sender
 {
-	[[Weemo instance]createCall:[[self tf_contactID] text]]; //call a contact, no matter the availability
-//	[[Weemo instance] getStatus:[[self tf_contactID] text]]; // called to get the contact status
-	[[self tf_contactID]resignFirstResponder]; //remove the keyboard from sight
+	[[Weemo instance]createCall:[[self tf_contactID] text]]; //try to call a contact, no matter the availability
+	[[self tf_contactID]resignFirstResponder];
 }
 
 - (void)createCallView
 {
-	NSLog(@">>>> createCallView ");
+	NSLog(@">>>> createCallView");
 	if (_cvc_active) return; //call view already instanciated
 	NSString *storyboardname = ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone)?@"iphone":@"ipad";
 	_cvc_active = [[UIStoryboard storyboardWithName:storyboardname bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"CallViewController"];
@@ -101,6 +101,7 @@
 {
 	[[self tf_contactID]setText:@""];
 	[[self l_callStatus]setText:@"<no call>"];
+	autoreconnect = YES;
 	[[Weemo instance] disconnect];
 }
 
@@ -274,6 +275,10 @@
 	} else {
 		[[self tv_errorField]setText:@"<No Error>"];
 	}
+	if (autoreconnect)
+		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self onInit:^(Weemo * w, NSError *err) {
+			NSAssert(!err, [err debugDescription]);
+		}];
 }
 
 - (void)weemoContact:(NSString*)contact CanBeCalled:(BOOL)can
