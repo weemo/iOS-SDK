@@ -39,20 +39,13 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-	[[self call]setViewVideoIn:[self v_videoIn]];
-	[[self call]setViewVideoOut:[self v_videoOut]];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[[self call] setDelegate:self];
+	[[self call]setViewVideoIn:[self v_videoIn]];
+	[[self call]setViewVideoOut:[self v_videoOut]];
+	[[self call]setDelegate:self];
 	[self resizeView:[self interfaceOrientation]];
-	[UIViewController attemptRotationToDeviceOrientation];
-
-
 }
 
 - (void)didReceiveMemoryWarning
