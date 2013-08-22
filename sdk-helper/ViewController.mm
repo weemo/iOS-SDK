@@ -30,12 +30,9 @@
 
 	autoreconnect = NO;
 	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
+	NSError *err = [[NSError alloc]init];
 	[Weemo WeemoWithAPIKey:APIKEY
-			   andDelegate:self
-					onInit:^(Weemo * w, NSError *err) {
-						NSAssert(!err, [err debugDescription]); //the application will stop if any error occur during init
-					}
-	 ];
+			   andDelegate:self error:&err];
 }
 
 - (IBAction)authenticate:(id)sender
@@ -44,9 +41,14 @@
 	if (![sender isEqual:[self b_authenticate]]) return;
 	if ([[[sender titleLabel]text]isEqualToString:@"Authenticate"])
 	{
-		[self setDisplayName:[[self tf_yourID] text]];
-		[[Weemo instance] connectWithUserID:[[self tf_yourID]text]
-								   toDomain:TECHDOMAIN];
+		
+		if ([[Weemo instance]authenticateWithUserID:[[self tf_yourID]text]
+								   toDomain:TECHDOMAIN])
+		{
+			[self setDisplayName:[[self tf_yourID] text]];
+		} else {
+			[self setDisplayName:@"<not authenticated>"];
+		}
 	} else {
 		[[self tf_yourID]setText:@""];
 		[[self tf_contactID]setText:@""];
@@ -276,9 +278,10 @@
 		[[self tv_errorField]setText:@"<No Error>"];
 	}
 	if (autoreconnect)
-		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self onInit:^(Weemo * w, NSError *err) {
-			NSAssert(!err, [err debugDescription]);
-		}];
+	{
+		NSError *err = [[NSError alloc] init];
+		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self error:&err];
+	}
 }
 
 - (void)weemoContact:(NSString*)contact CanBeCalled:(BOOL)can

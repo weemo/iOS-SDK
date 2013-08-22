@@ -110,8 +110,8 @@
  *
  * While the outgoing audio stream starts automatically upon call start, it is posisble to mute the microphone, thus sending only empty frames. This function starts the sending of captured audio packet.
  *
- * Upon change, weemoCallDelegate::weemoCall:micStatus: is called.
- \sa weemoCallDelegate::weemoCall:micStatus:
+ * Upon change, WeemoCallDelegate::weemoCall:audioSending: is called.
+ \sa WeemoCallDelegate::weemoCall:micStatus:
  */
 - (void)audioStart;
 
@@ -120,7 +120,7 @@
  *
  * The function stops the sending of captured audio packet. Enpty audio frames are sent instead.
  *
- * Upon change, weemoCallDelegate::weemoCall:micStatus: is called.
+ * Upon change, WeemoCallDelegate::weemoCall:audioSending: is called.
  * \sa WeemoCallDelegate::weemoCall:micStatus:
  */
 - (void)audioStop;
@@ -131,7 +131,7 @@
  * Upon change, WeemoCallDelegate::weemoCall:videoSource: is called.
  * \sa WeemoCallDelegate::weemoCall:videoSource:
  */
-- (void)toggleCameraSource;
+- (void)toggleVideoSource;
 
 /**
  * \brief Changes the audio route used by the call.
@@ -179,13 +179,13 @@
  *
  * 0 is default route (phone standard equipment), 1 is speaker/mic.
  *
- * Upon change, WeemoCallDelegate::weemoCall:audioSource: is called.
- * \sa WeemoCallDelegate::weemoCall:audioSource:
+ * Upon change, WeemoCallDelegate::weemoCall:audioRoute: is called.
+ * \sa WeemoCallDelegate::weemoCall:audioRoute:
  */
 @property (nonatomic, readonly) int audioRoute;
 
 /**
- * \brief Value changes after a WeemoCall::toggleCameraSource.
+ * \brief Value changes after a WeemoCall::toggleVideoSource.
  *
  * 0 is front camera, 1 is back camera.
  *
@@ -193,7 +193,7 @@
  * \sa WeemoCallDelegate::weemoCall:videoSource:
  */
 
-@property (nonatomic, readonly) int cameraSource;
+@property (nonatomic, readonly) int videoSource;
 
 /**
  * \brief ID of the contact or the conference being called
@@ -226,8 +226,8 @@
  *
  * This property changes when the network acknowledge the microphone status change on this end.
  *
- * Upon change, WeemoCallDelegate::weemoCall:micStatus: is called.
- * \sa WeemoCallDelegate::weemoCall:micStatus:
+ * Upon change, WeemoCallDelegate::weemoCall:audioSending: is called.
+ * \sa WeemoCallDelegate::weemoCall:audioSending:
  */
 @property(nonatomic, readonly, getter = isSendingAudio) BOOL sendingAudio;
 

@@ -39,12 +39,17 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[[self call]setDelegate:self];
+	[[self call]setViewVideoIn:[self v_videoIn]];
+	[[self call]setViewVideoOut:[self v_videoOut]];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[[self call]setViewVideoIn:[self v_videoIn]];
-	[[self call]setViewVideoOut:[self v_videoOut]];
-	[[self call]setDelegate:self];
 	[self resizeView:[self interfaceOrientation]];
 }
 
@@ -102,7 +107,7 @@
 
 - (IBAction)switchVideo:(id)sender
 {
-	[[self call] toggleCameraSource];
+	[[self call] toggleVideoSource];
 }
 
 - (IBAction)toggleAudio:(id)sender
@@ -118,9 +123,20 @@
 
 #pragma mark - Call delegate
 
+- (void)updateIdleStatus
+{
+	if ([[self call] isSendingVideo] || [[self call] isReceivingVideo])
+	{
+		[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+	} else {
+		[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+	}
+}
+
 - (void)weemoCall:(id)sender videoReceiving:(BOOL)isReceiving
 {
 	NSLog(@">>>> CallViewController: Receiving: %@", isReceiving ? @"YES":@"NO");
+	[self updateIdleStatus];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[self v_videoIn]setHidden:!isReceiving];
 	});
@@ -129,8 +145,9 @@
 
 - (void)weemoCall:(id)sender videoSending:(BOOL)isSending
 {
+	NSLog(@">>>> CallViewController: Sending: %@", isSending ? @"YES":@"NO");
+	[self updateIdleStatus];
 	dispatch_async(dispatch_get_main_queue(), ^{
-		NSLog(@">>>> CallViewController: Sending: %@", isSending ? @"YES":@"NO");
 		[[self b_toggleVideo]setSelected:isSending];
 		[[self v_videoOut]setHidden:!isSending];
 	});
@@ -166,6 +183,7 @@
 - (void)weemoCall:(id)sender callStatus:(int)status
 {
 	NSLog(@">>>> CallViewController: callStatus: 0x%X", status);
+	[self updateIdleStatus];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		if (status == CALLSTATUS_ACTIVE)
 		{

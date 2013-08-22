@@ -16,10 +16,10 @@
 
 /**
  * This function will be called after a call is created, either by calling a contact or receiving a call.
- * To accept the call, use -[call resume]. To deny it, use -[call hangup]. The WeemoCall object presents a 
+ * To accept the call, use WeemoCall::resume. To deny it, use WeemoCall::hangup. The WeemoCall object presents a
  * delegate of its own, decribed in the WeemoCall object.
  *
- * \param call The call created, can't be nil. Host App depends on the [call callStatus] value (CALLSTATUS_* type value)
+ * \param call The call created, can't be nil. Host App depends on the WeemoCall::callStatus value (CALLSTATUS_* type value)
  *
  * \sa Weemo::createCall:
  * \sa The definition of the CALLSTATUS_ variable.
@@ -35,7 +35,7 @@
 - (void)weemoDidAuthenticate:(NSError*)error;
 
 /**
- * \brief Called when Weemo ended its initialization. The blocks stored by the +[Weemo instanceWhenReady:] method are executed
+ * \brief Called when Weemo ended its initialization. The blocks stored by the Weemo::instanceWhenReady: method are executed
  * just before this method is called.
  *
  * \param error Nil if no error occured. If different from nil then the connection did NOT succeed. The debugDescription field of
@@ -56,10 +56,10 @@
 - (void)weemoDidDisconnect:(NSError*)error;
 
 /**
- * \brief Called after a contact is checked through the use of the -[Weemo getStatus:]. 
+ * \brief Called after a contact is checked through the use of the Weemo::getStatus:.
  
- * While the contact availability is checked upon -[[Weemo instance] call:] call, this delegate function
- * is only called when the user/host application specifically call the -[[Weemo instance ]getStatus:] method.
+ * While the contact availability is checked upon Weemo::createCall: call, this delegate function
+ * is only called when the user/host application specifically call the Weemo::getStatus: method.
  *
  * Use this function as a GUI updater, e.g. disabling a call button in case of !canBeCalled before displaying the view.
  *
@@ -76,25 +76,24 @@
  *
  * Remarks:
  *
- * This singleton is instancianted in the host application by using the +[Weemo WeemoWithAPIKey:andDelegate:onInit:] class function. After initiating the singleton, authentication can happen, upon -[WeemoDelegate didAuthenticated:] call.
+ * This singleton is instancianted in the host application by using the Weemo::WeemoWithAPIKey:andDelegate:error: class function. After initiating the singleton, authentication can happen, upon WeemoDelegate::weemoDidAuthenticate: call.
  *
- * The singleton can be invoked anytime after instantiation through +[Weemo instance]. If the instantiation isn't completed by the time +[Weemo instance] is called, nil is returned.
+ * The singleton can be invoked anytime after instantiation through Weemo::instance. If the instantiation isn't completed by the time Weemo::instance is called, nil is returned.
  *
- * The -[[Weemo instance] foreground] and -[[Weemo instance] background] method are to be called everytime the host application goes to background/foreground. Failure to do so will result in undefined behavior, especially regarding on-going calls.
+ * The Weemo::foreground and Weemo::background method are to be called everytime the host application goes to background/foreground. Failure to do so will result in undefined behavior, especially regarding on-going calls.
  */
 @interface Weemo : NSObject
 
 /**
- * \brief Creates a Weemo singleton Object. The initialization is asynchronous. The onInit: block is called when the singleton is initialized.
+ * \brief Creates a Weemo singleton Object. The initialization is asynchronous, the WeemoDelegate::weemoDidConnect: will be called upon singleton connection.
  *
  * \param APIKey The Weemo API Key
  * \param delegate The delegate object that implements the WeemoDelegate protocol
- * \param onInit This block will be called when Weemo has been properly initialized (with the Weemo object and a nil NSError)
- * or when initialization has failed with (Nil, NSError*) as arguments. The debugDescription field of the NSError returns a 
+ * \param error When initialization has failed and this is not nil, this will be filled with a describing error. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms.
  * \sa WeemoDelegate::weemoDidConnect:
  */
-+ (void)WeemoWithAPIKey:(NSString*)APIKey andDelegate:(id<WeemoDelegate>)delegate onInit:(void (^)(Weemo*,NSError*))onInit;
++ (Weemo*) WeemoWithAPIKey:(NSString*)APIKey andDelegate:(id<WeemoDelegate>)delegate error:(NSError**)error;
 
 /**
  * \brief Returns the Weemo singleton instance, if instanciated
@@ -104,32 +103,23 @@
 + (Weemo*)instance;
 
 /**
- * \brief Registers a block to be called when Weemo has been instanciated
- *
- * This will call the block immediately if Weemo has already been initialized or delay it's execution until Weemo is initialized. This blocks are executed after the -[WeemoDelegate didConnect:] is called.
- 
- * These blocks will not be executed if Weemo is never properly instanciated.
- * \param whenReady The block to add to the list of tasks to be executed when the instance is ready.
- */
-+ (void)instanceWhenReady:(void (^)(Weemo*))whenReady;
-
-/**
  * \brief Destructor
  */
 - (void)dealloc;
 
 /**
- * \brief Connects to servers with given userID. The connection is asynchronous, -[WeemoDelegate didConnect:] will be called
- * upon instance initialization.
+ * \brief Connects to servers with given userID. The connection is asynchronous, WeemoDelegate::weemoDidAuthenticate: will be called
+ * upon user authentication.
  *
  * \param userID The userID that will represent this user in Weemo's platform.
  * \param domain The domain to which the user will connect.
+ * \return YES if the UID was correctly formed, NO otherwise
   * \sa WeemoDelegate::weemoDidAuthenticate:
  */
-- (void)connectWithUserID:(NSString*)userID toDomain:(NSString*)domain;
+- (BOOL)authenticateWithUserID:(NSString*)userID toDomain:(NSString*)domain;
 
 /**
- * \brief Disconnects properly from weemo servers. A Call to -[WeemoDelegate didDisconnect:] is to be expected upon disconnection.
+ * \brief Disconnects properly from weemo servers. A Call to WeemoDelegate::weemoDidDisconnect: is to be expected upon disconnection.
  * \sa WeemoDelegate::weemoDidDisconnect:
  */
 - (BOOL)disconnect;
@@ -146,7 +136,7 @@
 - (void)foreground;
 
 /**
- * Check if a user can be called. This method is to be called for GUI update (e.g. graying out a call button). -[WeemoDelegate contactCanBeCalled:] is called upon callback from the network.
+ * Check if a user can be called. This method is to be called for GUI update (e.g. graying out a call button). WeemoDelegate::weemoContact:canBeCalled: is called upon callback from the network.
  *
  * \param contactUID The ID of the contact to check
  * \sa WeemoDelegate::weemoContact:canBeCalled:
@@ -154,7 +144,7 @@
 - (void)getStatus:(NSString*)contactUID;
 
 /**
- * \brief Creates a call whose recipient is contactUID. The call is created when the user is deemed available and returned through the use of the [WeemoDelegate callCreated:] method.
+ * \brief Creates a call whose recipient is contactUID. The call is created when the user is deemed available and returned through the use of the WeemoDelegate::weemoCallCreated: method.
  *
  * \param contactUID The ID of the contact or the conference to call.
  * \sa WeemoDelegate::weemoCallCreated:
