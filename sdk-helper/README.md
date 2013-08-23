@@ -43,11 +43,10 @@ The two UIViews used to display the video streams are set in the `viewWillAppear
 
 ##Known Limitations
 
-* Description:
-*
-** ex1
-- Workaround:
--- ex2
+* The video frame can apprears croped. 
+* Workaround: Change the orientation of the device. When the screen rotate, the entire video frame appears.
+* * The video frame can apprears croped. 
+* Workaround: Change the orientation of the device. When the screen rotate, the entire video frame appears.
 
 
 
