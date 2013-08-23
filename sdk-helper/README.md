@@ -44,9 +44,9 @@ The two UIViews used to display the video streams are set in the `viewWillAppear
 ##Known Limitations
 
 * The video frame can apprears croped. 
-  Workaround: Change the orientation of the device. When the screen rotate, the entire video frame appears.
+- Workaround: Change the orientation of the device. When the screen rotate, the entire video frame appears.
 * The authentication may not works, in this case the `SIP OK` does not appears.
-  Workaround: close and kill the apps. Reopen and it should work. If not repeat this manipulation.
+- Workaround: close and kill the apps. Reopen and it should work. If not repeat this manipulation.
 
 
 
