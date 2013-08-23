@@ -2,7 +2,7 @@
 
 This document comes in addition to the <a href='https://github.com/weemo/iOS-SDK/wiki'>SDK wiki</a> and <a href='http://docs.weemo.com/sdk/ios'>doxygen documentation</a> of the Weemo SDK for iOS project.
 
-This sample project is provided with the usual disclaimer about how it comes WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Yeah, you ought to know of the MIT license by now.
+This sample project is provided with the usual disclaimer about how it comes WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 
 The goal of this sample project is to give developers a working example of how to start the Weemo singleton, connect and disconnect, authenticate on our network, and place an audio/video call.
 
@@ -39,12 +39,14 @@ Once a call has be created and returned to the application, or picked-up, this o
 
 The two UIViews used to display the video streams are set in the `viewWillAppear` of this ViewController.
 
+[^1]: If you read the wiki carefully, you already know that the outgoing audio stream is never really stopped. `audioStop` allows the user to stop sending audio captured from the microphone, but the stream stays open, only sending empty frames.
+
 ##Known Limitations
 
--Description:
---ex1
--Workaround:
---ex2
+* Description:
+-- ex1
+- Workaround:
+-- ex2
 
 
 
@@ -53,4 +55,3 @@ The two UIViews used to display the video streams are set in the `viewWillAppear
 
 
 
-[^1]: If you read the wiki carefully, you already know that the outgoing audio stream is never really stopped. `audioStop` allows the user to stop sending audio captured from the microphone, but the stream stays open, only sending empty frames.
