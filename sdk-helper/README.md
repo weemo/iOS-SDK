@@ -41,10 +41,10 @@ The two UIViews used to display the video streams are set in the `viewWillAppear
 
 ##Known Limitations
 
-*Description:
-**ex1
-*Workaround:
-**ex2
+-Description:
+--ex1
+-Workaround:
+--ex2
 
 
 
