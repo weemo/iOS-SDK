@@ -24,13 +24,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 	
 	_cvc_active = nil;
-
 	autoreconnect = NO;
 	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
-	NSError *err = [[NSError alloc]init];
+	NSError *err;
 	[Weemo WeemoWithAPIKey:APIKEY
 			   andDelegate:self error:&err];
 }
@@ -220,7 +218,7 @@
 - (void)weemoCallCreated:(WeemoCall*)call
 {
 	NSLog(@">>>> Controller callCreated: 0x%X", [call callStatus]);
-	if ([call callStatus]==CALLSTATUS_INCOMING)
+	if ([call callStatus] == CALLSTATUS_INCOMING)
 	{
 		[self setStatus:3];
 		UIAlertView *callIncoming = [[UIAlertView alloc]initWithTitle:@"Incoming Call"
@@ -278,13 +276,13 @@
 		[[self tv_errorField]setText:@"<No Error>"];
 	}
 	if (autoreconnect)
-	{
-		NSError *err = [[NSError alloc] init];
+	{//the user pressed "Disconnect"
+		NSError *err;
 		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self error:&err];
 	}
 }
 
-- (void)weemoContact:(NSString*)contact CanBeCalled:(BOOL)can
+- (void)weemoContact:(NSString*)contact canBeCalled:(BOOL)can
 {
 	NSLog(@">>>> Contact %@ can %@ be called.", contact, can?@"":@"NOT");
 }

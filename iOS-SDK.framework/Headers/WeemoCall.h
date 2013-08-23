@@ -12,54 +12,54 @@
 @protocol WeemoCallDelegate <NSObject>
 @optional
 /**
- * Called when the call starts receiving video.
+ * \brief Called when the call starts receiving video.
+ * \param sender The id of the WeemoCall which property changed
  * \param isReceiving Answers "Are we receing video?"
- * \param sender The call which property changed
  * \sa WeemoCall::receivingVideo
  */
 - (void)weemoCall:(id)sender videoReceiving:(BOOL)isReceiving;
 /**
- * Called when the call starts sending video.
+ * \brief Called when the call starts sending video.
+  * \param sender The id of the WeemoCall which property changed
  * \param isSending Answers "Are we sending video?"
- * \param sender The Call which property changed
  * \sa WeemoCall::sendingVideo
  */
 - (void)weemoCall:(id)sender videoSending:(BOOL)isSending;
 /**
- * Called when the incoming video profile changes
+ * \brief Called when the incoming video profile changes
+ * \param sender The id of the WeemoCall which property changed
  * \param profile The new profile used by the incoming video (impacts the videoIn view size). 0 is low definition, 1 is higher definition
- * \param sender The Call which property changed
  * \sa WeemoCall::videoProfile
  */
 - (void)weemoCall:(id)sender videoProfile:(int)profile;
 /**
- * Called when the video source changes
- * \param source The new source. 0 if front (on the screen side of the device) camera, something else otherwise
- * \param sender The Call which property changed
- * \sa WeemoCall::cameraSource
+ * \brief Called when the video source changes
+ * \param sender The id of the WeemoCall which property changed
+ * \param source The new source. 0 if front (on the screen side of the device) camera, back camera otherwise
+ * \sa WeemoCall::videoSource
  */
 - (void)weemoCall:(id)sender videoSource:(int)source;
 
 /**
- * Called when the microphone is muted.
- * \param sender The Call which property changed
- * \param isSending sending captured audio stream if true, sending empty packts otherwise
+ * \brief Called when the microphone is muted.
+ * \param sender The id of the WeemoCall which property changed
+ * \param isSending sending captured audio stream if true, sending empty packets otherwise
  * \sa WeemoCall::audioStart
  * \sa WeemoCall::audioStop
  */
 - (void)weemoCall:(id)sender audioSending:(BOOL)isSending;
 /**
- * Called when the audio route changes
+ * \brief Called when the audio route changes
+ * \param sender The id of the WeemoCall which property changed
  * \param route The new route used. 0 is the usual route (regular phone equipment), 1 is the phone's speaker
- * \param sender The Call which property changed
  * \sa WeemoCall::audioRoute
  */
 - (void)weemoCall:(id)sender audioRoute:(int)route;
 
 /**
- * Called when the status of the call changes
+ * \brief Called when the status of the call changes
+ * \param sender The id of the WeemoCall which property changed
  * \param status The new status of the call (i.e. CALLSTATUS_RINGING)
- * \param sender The Call which property changed
  * \sa WeemoCall:callStatus
  */
 - (void)weemoCall:(id)sender callStatus:(int)status;
@@ -111,7 +111,7 @@
  * While the outgoing audio stream starts automatically upon call start, it is posisble to mute the microphone, thus sending only empty frames. This function starts the sending of captured audio packet.
  *
  * Upon change, WeemoCallDelegate::weemoCall:audioSending: is called.
- \sa WeemoCallDelegate::weemoCall:micStatus:
+ \sa WeemoCallDelegate::weemoCall:audioSending:
  */
 - (void)audioStart;
 
@@ -121,7 +121,7 @@
  * The function stops the sending of captured audio packet. Enpty audio frames are sent instead.
  *
  * Upon change, WeemoCallDelegate::weemoCall:audioSending: is called.
- * \sa WeemoCallDelegate::weemoCall:micStatus:
+ * \sa WeemoCallDelegate::weemoCall:audioSending:
  */
 - (void)audioStop;
 
@@ -148,7 +148,7 @@
  * \brief Request an incoming video profile change.
  *
  * Upon change, WeemoCallDelegate::weemoCall:videoProfile: is called.
- * \sa WeemoCallDelegate::weemoCall:videoProfile
+ * \sa WeemoCallDelegate::weemoCall:videoProfile:
  */
 - (void)toggleVideoProfile;
 
@@ -247,11 +247,6 @@
  * As the structure is reused, it's content is only valid until next retrieval of this property. Not available for the moment.
  */
 @property(readonly) WeemoStat *stats;
-
-/**
- * \brief Programers can attach any kind of object to a call with this property
- */
-@property(strong) id userInfo;
 
 /**
  * \brief YES if this call is a conference

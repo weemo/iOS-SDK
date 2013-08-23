@@ -15,32 +15,31 @@
 @protocol WeemoDelegate <NSObject>
 
 /**
- * This function will be called after a call is created, either by calling a contact or receiving a call.
- * To accept the call, use WeemoCall::resume. To deny it, use WeemoCall::hangup. The WeemoCall object presents a
- * delegate of its own, decribed in the WeemoCall object.
+ * \brief This function will be called after a call is created, either by calling a contact or receiving a call.
+ * To accept the call, use WeemoCall::resume. To deny it, use WeemoCall::hangup. The WeemoCall object can possess a
+ * delegate of its own, WeemoCallDelegate.
  *
  * \param call The call created, can't be nil. Host App depends on the WeemoCall::callStatus value (CALLSTATUS_* type value)
  *
  * \sa Weemo::createCall:
- * \sa The definition of the CALLSTATUS_ variable.
+ * \sa The definition of the CALLSTATUS_* variables (found in WeemoData.h).
  */
 - (void)weemoCallCreated:(WeemoCall*)call;
 
 /**
- * Called by the Weemo singleton after the authentication step. 
+ * \brief Called by the Weemo singleton after the authentication step.
  * \param error If authentication failed, error will be different from nil. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms. Otherwise, it is nil.
- * \sa Weemo::connectWithUserID:toDomain:
+ * \sa Weemo::authenticateWithUserID:toDomain:
  */
 - (void)weemoDidAuthenticate:(NSError*)error;
 
 /**
- * \brief Called when Weemo ended its initialization. The blocks stored by the Weemo::instanceWhenReady: method are executed
- * just before this method is called.
+ * \brief Called when Weemo singleton ended its initialization. If no error occured the Weemo singleton is connected and users can proceed to the authentication step.
  *
  * \param error Nil if no error occured. If different from nil then the connection did NOT succeed. The debugDescription field of
  * the NSError returns a NSString* describing the error in human terms.
- * \sa Weemo::WeemoWithAPIKey:andDelegate:onInit:
+ * \sa Weemo::WeemoWithAPIKey:andDelegate:error:
  */
 - (void)weemoDidConnect:(NSError*)error;
 
@@ -96,9 +95,9 @@
 + (Weemo*) WeemoWithAPIKey:(NSString*)APIKey andDelegate:(id<WeemoDelegate>)delegate error:(NSError**)error;
 
 /**
- * \brief Returns the Weemo singleton instance, if instanciated
+ * \brief Returns the Weemo singleton instance, if instantiated
  *
- * \return The Weemo singleton or nil if the SDK was not instanciated properly
+ * \return The Weemo singleton or nil if the SDK was not instantiated properly
  */
 + (Weemo*)instance;
 
@@ -125,18 +124,18 @@
 - (BOOL)disconnect;
 
 /**
- * This function is to be called when the application goes to background. Not calling this function will result in undefined behavior.
+ * \brief This function is to be called when the application goes to background. Not calling this function will result in undefined behavior.
  */
 - (void)background;
 
 /**
- * This function is to be called when the application comes to foreground. Not calling this function will result in undefined 
+ * \brief This function is to be called when the application comes to foreground. Not calling this function will result in undefined
  * behavior.
  */
 - (void)foreground;
 
 /**
- * Check if a user can be called. This method is to be called for GUI update (e.g. graying out a call button). WeemoDelegate::weemoContact:canBeCalled: is called upon callback from the network.
+ * \brief Check if a user can be called. WeemoDelegate::weemoContact:canBeCalled: is called upon callback from the network.
  *
  * \param contactUID The ID of the contact to check
  * \sa WeemoDelegate::weemoContact:canBeCalled:

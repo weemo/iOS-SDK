@@ -52,6 +52,9 @@
 - (void)removeCallView;
 
 
-- (void)weemoContact:(NSString*)contact CanBeCalled:(BOOL)can;
+
+#pragma mark - optional delegate methods used
+- (void)weemoContact:(NSString*)contact canBeCalled:(BOOL)can;
+- (void)weemoDidDisconnect:(NSError*)error;
 
 @end
