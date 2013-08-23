@@ -39,8 +39,12 @@ Once a call has be created and returned to the application, or picked-up, this o
 
 The two UIViews used to display the video streams are set in the `viewWillAppear` of this ViewController.
 
+##Known Limitations
 
-
+*Description:
+**ex1
+*Workaround:
+**ex2
 
 
 
