@@ -43,12 +43,12 @@ The two UIViews used to display the video streams are set in the `viewWillAppear
 
 ##Known Limitations
 
-* The video frame can apprears croped. 
-<br />Workaround: Change the orientation of the device. When the screen rotate, the entire video frame appears.
-* The authentication may not works, in this case the `SIP OK` does not appears.
-<br />Workaround: close and kill the apps. Reopen and it should work. If not repeat this manipulation.
-* The HD/SD button's label does not change.
-<br />Workaround: There is no workaound. the button toggles the video quality but the button's label does not change.
+* The video frame may appear cropped on the mobile device. 
+<br />Workaround: Change the orientation of the device. When the screen rotates, the entire video frame will appear.
+* The authentication may not work, in this case the `SIP OK` does not appear.
+<br />Workaround: Close and kill the app. Relaunch and it should work. If not repeat this manipulation.
+* Toggling the HD/SD button does not work.
+<br />Workaround: There is no workaround. The button toggles the video quality but the button label does not change.
 
 
 
