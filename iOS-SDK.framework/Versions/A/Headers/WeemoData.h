@@ -49,6 +49,6 @@ typedef struct
 #define CALLSTATUS_USERNOTAVAILABLE			0x7170
 
 #pragma mark - Error codes
-#define ERROR_SIPNOK	0x0030
 #define ERROR_INIT		0x0010
 #define ERROR_CLOSE		0x0020
+#define ERROR_SIPNOK	0x0030

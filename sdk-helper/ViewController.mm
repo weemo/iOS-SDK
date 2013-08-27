@@ -234,6 +234,11 @@
 }
 
 
+- (void)weemoCallEnded:(WeemoCall *)call
+{
+	
+}
+
 - (void)weemoDidConnect:(NSError*)error
 {
 	[self setStatus:1];

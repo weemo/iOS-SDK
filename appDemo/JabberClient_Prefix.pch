@@ -1,0 +1,18 @@
+//
+// Prefix header for all source files of the 'JabberClient' target in the 'JabberClient' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+	#import "JabberClientAppDelegate.h"
+#endif
+
+
+//TODO: define your API Key here
+#define APIKEY @"rgcscczced0kqy5awcso" //PROD
+
+
+#ifndef APIKEY
+#error "You need an APIKEY to compile the application."
+#endif

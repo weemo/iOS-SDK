@@ -1,111 +1,52 @@
-# Content
+#JabberClient
 
-This document comes in addition to the <a href='https://github.com/weemo/iOS-SDK/wiki'>SDK wiki</a> and <a href='http://docs.weemo.com/sdk/ios'>doxygen documentation</a> of the Weemo SDK for iOS project.
-
-This sample project is provided with the usual disclaimer about how it comes `WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED`, as per the MIT License.
-
-The goal of this sample project is to give developers a working example of how to start the Weemo singleton, connect and disconnect, authenticate on our network, and place an audio/video call, and to keep it simple.
+##Presentation
+This is a basic integration of the SDK and helper code in an already existing application, namely a XMPP test client offering a basic chat functionality. While this application does provide basic chat functionality and contact availability using XMPP, it lacks everything else.
 
 
-# Global Architecture
-
-This project is divided in two main classes:
-
-* The `ViewController` is the controller for the rootView of the project. Its initialization and display starts the Weemo singleton and connects it to our network. It is a WeemoDelegate.
-* The `CallViewController` is the view that appears when a call is placed/is started. It allows the user to change the video/audio source, to start/stop the outgoing audio[^1] and video, and of course hanging up the call. It is a WeemoCallDelegate.
+##Delegates
+The `WeemoDelegate` is the same object as the application delegate.
+The `WeemoCallDelegate` is the same CallViewController found in the `sdk-helper` application.
 
 
-## ViewController
+##Instantiating
+The `Weemo` object is instantiated along the `XMPPStream` connection in the JabberClientAppDelegate `connect` method.
 
-The Weemo iOS-SDK initialization code is found in the `viewDidLoad:` method of the rootViewController:
+Once connected, authentication occurs when the `weemoDidConnect:` method of the delegate is called. 
 
-	…
-	NSError *err;
-	[Weemo WeemoWithAPIKey:APIKEY andDelegate:self error:&err];
-	…
-
-Note that we don't keep a reference to the created Weemo singleton (which is available through the class method `+ (id)instance`), nor do we test the error this method can return (which is bad practice).
-
-Authentication takes place in the action started by the `b_authenticate` UIButton, `authenticate:`.
-
-	…
-	if ([[Weemo instance]authenticateWithUserID:[[self tf_yourID]text]
-								   toDomain:TECHDOMAIN])
-	…
-
-Contrary to what seems implied in this code, the connection is not done synchronously. The boolean returned by the authentication method depends on <a href=https://github.com/weemo/poc/wiki/Naming-rules>the correctness</a> of the UserID used.
-
-If the Weemo singleton is connected, the `Authenticate` button is changed in a `Disconnect` button. The action called upon press is
-	
-	…
-	[[Weemo instance] disconnect];
-	…
-This method disconnected the Weemo singleton from the network. The singleton is not destroyed. To reconnect, simply use the `WeemoWithAPIKey:andDelegate:error:`. The user have to re-authenticate afterwards.
+The `DisplayName` is set when the authentication is validated, in the `weemoDidAuthenticate:` method of the `WeemoDelegate`.
 
 
+##Background management
+When the application goes to background, the AppDelegate `applicationDidEnterBackground:` method is called. We call the Weemo object `background` method at this time. While in a call, this suspends the video out stream and signals the remote client that the video stream stopped. It also set the Weemo object in background mode, dealing with the iOS 5&6 background mode.
 
-### Delegate
+On going to foreground, the AppDelegate `applicationWillEnterForeground:` is called. The Weemo object `foreground` method is called, setting the Weemo object to foreground mode, and restarting the video if the call is still ongoing.
 
-All those methods are called by the Weemo singleton object and implemented in the sample application.
-
-##### `weemoCallCreated:`
-
-This method is called upon receiving a call (status is `CALLSTATUS_INCOMING`) or upon placing a call (another status `CALLSTATUS_PROCEEDING` or `CALLSTATUS_RINGING`). The call status tells which case applies.
-
-##### `weemoDidConnect:`
-
-On connection success or failure, the `weemoDidConnect:` method is called. In this code, the reaction is only about GUI changes.
-
-##### `weemoDidAuthenticate:`
-
-After authentication success or failure, this method is called. On success, the displayName is set. The error management is here reduced to its minimum: we display that there was a connection error.
-
-##### `weemoDidDisconnect:`
-After a disconnection attempt (or a remote disconnection), this method is called. In this sample code, we reinitialize the GUI and try to reconnect the SDK to the network if the disconnection was a user action.
-
-##### `weemoContact:canBeCalled:`
-This method is called after the user checks the availability of a contact. 
-
-## CallViewController
-
-Once a call has be created and returned to the application, or picked-up, this object's view is displayed on top of the root view controller.
-
-The two UIViews used to display the video streams are set in the `viewWillAppear:` of this ViewController. 
-	
-	…
-	[[self call]setViewVideoIn:[self v_videoIn]];
-	[[self call]setViewVideoOut:[self v_videoOut]];
-	…
-	
-Both data streams (audio and video) starts upon call start.
-Each buttons of the View is linked to a WeemoCall action: pick-up/hang-up the call, switch Video source, start/stop video capture, start/stop audio capture.
-
-### Delegate
-
-##### `weemoCall:videoReceiving:`
-This function is called when the remote client starts or stops its outgoing video stream, allowing you to adapt the GUI of the call view.
-
-##### `weemoCall:videoSending:`
-This function is the matching local function of the previous. The client starts or stops its outgoing video stream, allowing you to adapt the GUI of the call view.
-
-##### `weemoCall:videoProfile:`
-This function is called when the incoming video changes profile.
-
-##### `weemoCall:videoSource:`
-This function is called when the Video source changes.
-
-##### `weemoCall:audioSending:`
-This is called after a change in the audio capture. If YES, the client is sending what the microphone is capturing. If NO, the client sends empty audio frames.
-
-##### `weemoCall:callStatus:`
-This is called when the status of the call changed, allowing you to remove the callView from the application, using whatever means you want.
+If an ongoing call is terminated while the client is in background, the call is marked as terminated on going to foreground, leading to the `CallView` being removed.
 
 
-A function is not implemented in this example:
+##Calling and being called
+Calling takes place in the SMChatViewController, when the method `call:` is called. 
 
-##### `weemoCall:audioRoute:`
-Called when the audio route changes, upon headset connection.
+This method creates a call to the contact whose chat window is displayed, by using the `createCall:` method of the `WeemoDelegate`.
 
+Once created, this call is returned to the `WeemoDelegate` by the `weemoCallCreated:` callback method.
 
+Receiving a call uses the same method: the incoming call is received by the `weemoCallCreated:` method of the delegate. The `callStatus` property of the `WeemoCall` informs the status (incoming or outgoing) of the call.
 
-[^1]: If you read the <a href='https://github.com/weemo/iOS-SDK/wiki'>wiki</a> carefully, you already know that the outgoing audio stream is never really stopped. `audioStop` allows the user to stop sending audio captured from the microphone, but the stream stays open, sending empty frames.
+In this code, the user is notified of the call by a `UIAlertView` displayed on the view, and allowing the user to pick-up or dismiss the call.
+
+##Call management
+
+The `CallViewController` included presents a few methods to manage the call, which amounts to:
+
+- to stop/start the outgoing video stream: `videoStart`/`videoStop`;
+- to change the quality of the incoming video quality: `toggleVideoProfile`;
+- to start and stop the emission of captured audio: `audioStart`/`audioStop`;
+- to switch the video source: `toggleVideoSource`;
+- and of course to hang-up the call: `hangup`.
+
+Missing is the ability to switch the incoming audio output between loudspeaker and regular speaker, which is done with the `toggleAudioRoute` of the `WeemoCall` object.
+
+##Terminating a call
+To terminate a call, one just call the `hangup` method of the related `WeemoCall`. The `callStatus` is set to `CALLSTATUS_ENDED`.
