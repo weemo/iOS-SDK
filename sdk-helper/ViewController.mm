@@ -276,7 +276,7 @@
 		[[self tv_errorField]setText:@"<No Error>"];
 	}
 	if (autoreconnect)
-	{//the user pressed "Disconnect"
+	{
 		NSError *err;
 		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self error:&err];
 	}

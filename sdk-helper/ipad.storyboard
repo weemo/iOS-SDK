@@ -243,39 +243,6 @@
         <image name="button_blue_background.png" width="120" height="120"/>
         <image name="button_grey_background.png" width="120" height="120"/>
     </resources>
-    <classes>
-        <class className="CallViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CallViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="hangup:"/>
-                <relationship kind="action" name="profile:"/>
-                <relationship kind="action" name="switchVideo:"/>
-                <relationship kind="action" name="toggleAudio:"/>
-                <relationship kind="action" name="toggleVideo:"/>
-                <relationship kind="outlet" name="b_hangup" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_profile" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_switchVideo" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_toggleAudio" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_toggleVideo" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="v_videoIn" candidateClass="UIView"/>
-                <relationship kind="outlet" name="v_videoOut" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="authenticate:"/>
-                <relationship kind="action" name="call:"/>
-                <relationship kind="outlet" name="b_authenticate" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="b_call" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="l_callStatus" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="l_displayname" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tf_contactID" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tf_yourID" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tv_errorField" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

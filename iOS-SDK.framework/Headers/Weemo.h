@@ -26,6 +26,15 @@
  */
 - (void)weemoCallCreated:(WeemoCall*)call;
 
+
+/**
+ * \brief This function will be called after a call is stopped. The \param call will be released soon after this method returns.
+ *
+ * \param call The call that is stopped.
+ */
+- (void)weemoCallEnded:(WeemoCall*)call;
+
+
 /**
  * \brief Called by the Weemo singleton after the authentication step.
  * \param error If authentication failed, error will be different from nil. The debugDescription field of the NSError returns a
@@ -68,6 +77,8 @@
  */
 - (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled;
 
+
+
 @end
 
 /**
@@ -101,9 +112,9 @@
  */
 + (Weemo*)instance;
 
-/**
- * \brief Destructor
- */
+/*
+* \brief Destructor
+*/
 - (void)dealloc;
 
 /**
@@ -113,7 +124,7 @@
  * \param userID The userID that will represent this user in Weemo's platform.
  * \param domain The domain to which the user will connect.
  * \return YES if the UID was correctly formed, NO otherwise
-  * \sa WeemoDelegate::weemoDidAuthenticate:
+ * \sa WeemoDelegate::weemoDidAuthenticate:
  */
 - (BOOL)authenticateWithUserID:(NSString*)userID toDomain:(NSString*)domain;
 
@@ -150,6 +161,18 @@
  */
 - (void)createCall:(NSString*)contactUID;
 
+
+/**
+ * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection.
+ *
+ */
+@property(nonatomic, getter=isConnected, readonly)BOOL connected;
+
+/**
+ * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection. A value of YES implies isConnected.
+ *
+ */
+@property(nonatomic, getter = isAuthenticated, readonly)BOOL authenticated;
 /**
  * \brief The current active (not paused) call, if any.
  */
