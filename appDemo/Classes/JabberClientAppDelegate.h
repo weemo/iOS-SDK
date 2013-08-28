@@ -33,7 +33,6 @@
 	
 	 NSObject <SMChatDelegate> *__weak _chatDelegate;
 	 NSObject <SMMessageDelegate> *__weak _messageDelegate;
-
 }
 
 @property (nonatomic) CallViewController *cvc_active;
@@ -50,6 +49,7 @@
 
 - (BOOL)connect;
 - (void)disconnect;
+- (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled;
 
 @end
 

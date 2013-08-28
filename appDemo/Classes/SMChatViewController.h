@@ -12,8 +12,8 @@
 #import "TURNSocket.h"
 #import "SMMessageViewTableCell.h"
 
-@interface SMChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SMMessageDelegate> {
-
+@interface SMChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SMMessageDelegate>
+{
 	NSString		*chatWithUser;
 	NSMutableArray	*messages;
 	NSMutableArray *turnSockets;
@@ -32,5 +32,6 @@
 - (IBAction)sendMessage;
 - (IBAction)closeChat;
 - (IBAction)call:(id)sender;
+
 
 @end

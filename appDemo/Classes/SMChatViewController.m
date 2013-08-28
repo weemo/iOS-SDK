@@ -54,10 +54,10 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	[self setupCallButton];
 	self.tView.delegate = self;
 	self.tView.dataSource = self;
 	[self.tView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-	
 	messages = [[NSMutableArray alloc ] init];
 	
 	JabberClientAppDelegate *del = [self appDelegate];
@@ -92,7 +92,7 @@
 
 	[[self view] bringSubviewToFront:tf_messageout];
 	[[self view] bringSubviewToFront:b_send];
-	[self setupCallButton];
+
 	[self checkContact];
 }
 
@@ -104,7 +104,7 @@
 - (void)setupCallButton
 {
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-	UIImage *buttonImage = [UIImage imageNamed:@"phone"];
+	UIImage *buttonImage = [UIImage imageNamed:@"chat_phone"];
 	[button setBackgroundImage:buttonImage forState:UIControlStateNormal];
 	CGRect frame = [button frame];
 
@@ -142,8 +142,8 @@
 	[[self tf_messageout] resignFirstResponder];
 	NSLog(@"calling contact: %@", chatWithUser);
 }
-- (IBAction) closeChat {
-
+- (IBAction) closeChat
+{
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -226,7 +226,7 @@ static CGFloat padding = 22.0;
 		
 	if ([sender isEqualToString:@"you"]) { // left aligned
 	
-		bgImage = [[UIImage imageNamed:@"orange.png"] stretchableImageWithLeftCapWidth:24  topCapHeight:15];
+		bgImage = [[UIImage imageNamed:@"chat_orange.png"] stretchableImageWithLeftCapWidth:24  topCapHeight:15];
 		
 		[cell.messageContentView setFrame:CGRectMake(padding, padding*2, size.width, size.height)];
 		
@@ -237,7 +237,7 @@ static CGFloat padding = 22.0;
 				
 	} else {
 	
-		bgImage = [[UIImage imageNamed:@"aqua.png"] stretchableImageWithLeftCapWidth:24  topCapHeight:15];
+		bgImage = [[UIImage imageNamed:@"chat_aqua.png"] stretchableImageWithLeftCapWidth:24  topCapHeight:15];
 		
 		[cell.messageContentView setFrame:CGRectMake(self.view.frame.size.width - size.width - padding,
 													 padding*2, 
@@ -287,7 +287,6 @@ static CGFloat padding = 22.0;
 	return 1;
 	
 }
-
 
 #pragma mark -
 #pragma mark Chat delegates

@@ -7,6 +7,7 @@
 //
 
 #import "CallViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface CallViewController ()
 
@@ -68,18 +69,7 @@
 - (void)resizeView:(UIInterfaceOrientation)tO
 {
 	[[self view]setFrame:CGRectMake(0., 0., [[[self view]superview]bounds].size.width, [[[self view]superview]bounds].size.height)];
-	if (UIInterfaceOrientationIsPortrait(tO))
-	{
-		[[self v_videoIn] setCenter:CGPointMake([[self view]frame].size.width/2., [[self v_videoIn]frame].size.height/2.+ b_hangup.frame.size.height + 2.)];
-		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width/2.,
-												[[self view]frame].size.height - [[self v_videoOut]frame].size.height/2.)];
-	} else if (UIInterfaceOrientationIsLandscape(tO))
-	{
-		[[self v_videoIn] setCenter:CGPointMake([[self v_videoIn]frame].size.width/2.+2., [[self view] frame].size.height/2.+ b_hangup.frame.size.height)];
-		
-		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width - [[self v_videoOut]frame].size.width / 2.,
-												[[self view]frame].size.height/2.)];
-	}
+	[[self v_videoIn]setFrame:CGRectMake(0., 0., [[[self view]superview]bounds].size.width, [[[self view]superview]bounds].size.height)];
 }
 
 #pragma mark - Actions
@@ -138,7 +128,6 @@
 	[self updateIdleStatus];
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[self v_videoIn]setHidden:!isReceiving];
-//		[self resizeView:[self interfaceOrientation]];
 	});
 
 }
@@ -151,7 +140,6 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[self b_toggleVideo]setSelected:isSending];
 		[[self v_videoOut]setHidden:!isSending];
-//		[self resizeView:[self interfaceOrientation]];
 	});
 }
 
@@ -169,7 +157,7 @@
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@">>>> CallViewController: switchVideoSource: %@", (source == 0)?@"Front":@"Back");
-		[[self b_switchVideo] setSelected:(source == 0)];
+		[[self b_switchVideo] setSelected:!(source == 0)]; // the button is selected == SWITCHED state
 	});
 }
 
@@ -178,7 +166,7 @@
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@">>>> CallViewController: audioSending:%@", isSending?@"YES":@"NO");
-		[[self b_toggleAudio]setSelected:isSending];
+		[[self b_toggleAudio]setSelected:!isSending]; //the button is selected == MUTE state
 	});
 }
 

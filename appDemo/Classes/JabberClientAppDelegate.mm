@@ -29,7 +29,6 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-//	[(UINavigationController*)[[self window]rootViewController]popToRootViewControllerAnimated:YES];
 	[[Weemo instance] background];
 }
 
@@ -219,7 +218,7 @@
 	[[_cvc_active view]setFrame:CGRectMake(0., 0., [window frame].size.width, [window frame].size.height)];
 
 	[[[(UINavigationController*)[window rootViewController] visibleViewController]view]addSubview:[_cvc_active view]];
-//	[[[[window rootViewController]visibleViewController]view] addSubview:[_cvc_active view]];
+//	[[(UINavigationController*)[window rootViewController] visibleViewController]addChildViewController:_cvc_active];
 	[(UINavigationController*)[window rootViewController] setNavigationBarHidden:YES animated:YES];
 }
 
@@ -306,9 +305,9 @@
 	NSLog(@"weemo disconnected %@", [error debugDescription]);
 }
 
-- (void)weemoContactCanBeCalled:(BOOL)canBeCalled
+- (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled
 {
-	NSLog(@">>>> weemo contactCanBeCalled %@", canBeCalled?@"YES":@"NO");
+	NSLog(@"weemoContact:canBeCalled: %@, %@", contactID, canBeCalled?@"YES":@"NO");
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
