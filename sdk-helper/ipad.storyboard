@@ -113,28 +113,28 @@
             <point key="canvasLocation" x="-231" y="446"/>
         </scene>
         <!--Call View Controller-->
-        <scene sceneID="3Ez-H8-Mu6">
+        <scene sceneID="ut0-8c-aNt">
             <objects>
-                <viewController storyboardIdentifier="CallViewController" id="Zub-hU-8Ph" customClass="CallViewController" sceneMemberID="viewController">
-                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="cro-oC-Ndf">
+                <viewController storyboardIdentifier="CallViewController" id="pHG-NL-MO9" customClass="CallViewController" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="nrd-TB-fzb">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" id="AjE-iM-9Pz" userLabel="View - videoIn">
-                                <rect key="frame" x="4" y="67" width="760" height="669"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" id="Wb9-67-ThZ" userLabel="View - videoIn">
+                                <rect key="frame" x="4" y="71" width="760" height="947"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.80347429609999999" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" id="zta-n9-uT4" userLabel="View - videoOut">
-                                <rect key="frame" x="328" y="909" width="112" height="115"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" white="0.80347429609999999" alpha="1" colorSpace="calibratedWhite"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" id="6fd-j0-Epe" userLabel="View - videoOut">
+                                <rect key="frame" x="653" y="903" width="112" height="115"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="0.62270313499999996" green="0.6226844788" blue="0.62269502880000005" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kwf-p8-7xr">
-                                <rect key="frame" x="691" y="2" width="73" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="j16-Gg-40D">
+                                <rect key="frame" x="696" y="2" width="68" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                                <state key="normal" title="Hangup" backgroundImage="button_grey_background.png">
+                                <state key="normal" image="call_hangup~ipad.png" backgroundImage="bkgd_red~ipad.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -145,104 +145,145 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="hangup:" destination="Zub-hU-8Ph" eventType="touchUpInside" id="yCg-Bu-oib"/>
+                                    <action selector="hangup:" destination="pHG-NL-MO9" eventType="touchUpInside" id="DbP-uq-sG4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5lT-yT-gQr">
-                                <rect key="frame" x="469" y="2" width="73" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="v7n-BL-rab">
+                                <rect key="frame" x="214" y="2" width="68" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                                <state key="normal" title="HD" backgroundImage="button_grey_background.png">
+                                <state key="normal" image="call_SD~ipad.png" backgroundImage="bkgd_inactive.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="selected" backgroundImage="button_blue_background.png">
+                                <state key="selected" image="call_HD~ipad.png" backgroundImage="bkgd_active.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="profile:" destination="Zub-hU-8Ph" eventType="touchUpInside" id="0pC-Ej-M4i"/>
+                                    <action selector="profile:" destination="pHG-NL-MO9" eventType="touchUpInside" id="o5h-5g-wRn"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tyA-2Q-946">
-                                <rect key="frame" x="307" y="2" width="73" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="foX-XW-ieL">
+                                <rect key="frame" x="74" y="2" width="68" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                                <state key="normal" title="Video" backgroundImage="button_grey_background.png">
+                                <state key="normal" image="call_video~ipad.png" backgroundImage="bkgd_inactive.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="selected" backgroundImage="button_blue_background.png">
+                                <state key="selected" backgroundImage="bkgd_active.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleVideo:" destination="Zub-hU-8Ph" eventType="touchUpInside" id="LQF-YM-tVx"/>
+                                    <action selector="toggleVideo:" destination="pHG-NL-MO9" eventType="touchUpInside" id="RY4-r3-ESl"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jcz-Da-orf">
-                                <rect key="frame" x="226" y="2" width="73" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ACT-YC-BCF">
+                                <rect key="frame" x="4" y="2" width="68" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                                <state key="normal" title="Switch" backgroundImage="button_grey_background.png">
+                                <state key="normal" image="call_switch~ipad.png" backgroundImage="bkgd_inactive.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="selected" backgroundImage="button_blue_background.png">
+                                <state key="selected" backgroundImage="bkgd_active.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="switchVideo:" destination="Zub-hU-8Ph" eventType="touchUpInside" id="LOt-8W-H2G"/>
+                                    <action selector="switchVideo:" destination="pHG-NL-MO9" eventType="touchUpInside" id="pPm-ou-DcO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cz8-Ir-qsh">
-                                <rect key="frame" x="388" y="2" width="73" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kvM-ae-7g2">
+                                <rect key="frame" x="144" y="2" width="68" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                                <state key="normal" title="Mic." backgroundImage="button_grey_background.png">
+                                <state key="normal" image="call_mute~ipad.png" backgroundImage="bkgd_inactive.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="selected" backgroundImage="button_blue_background.png">
+                                <state key="selected" backgroundImage="bkgd_active.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleAudio:" destination="Zub-hU-8Ph" eventType="touchUpInside" id="oXt-Ca-LTC"/>
+                                    <action selector="toggleAudio:" destination="pHG-NL-MO9" eventType="touchUpInside" id="bAx-wM-Yyc"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.89000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0074732983480000001" green="0.064646206799999995" blue="0.1435447782" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="b_hangup" destination="kwf-p8-7xr" id="v5A-kW-9tQ"/>
-                        <outlet property="b_profile" destination="5lT-yT-gQr" id="dh5-wP-r9R"/>
-                        <outlet property="b_switchVideo" destination="Jcz-Da-orf" id="SfR-aC-pOe"/>
-                        <outlet property="b_toggleAudio" destination="cz8-Ir-qsh" id="Gqn-qy-W4d"/>
-                        <outlet property="b_toggleVideo" destination="tyA-2Q-946" id="L0b-rq-hj8"/>
-                        <outlet property="v_videoIn" destination="AjE-iM-9Pz" id="eAT-sc-jvu"/>
-                        <outlet property="v_videoOut" destination="zta-n9-uT4" id="OKM-0a-ksf"/>
+                        <outlet property="b_hangup" destination="j16-Gg-40D" id="Z9Y-Ps-kLv"/>
+                        <outlet property="b_profile" destination="v7n-BL-rab" id="dYC-BM-YzZ"/>
+                        <outlet property="b_switchVideo" destination="ACT-YC-BCF" id="5ZR-8z-G6d"/>
+                        <outlet property="b_toggleAudio" destination="kvM-ae-7g2" id="OKn-9d-ahe"/>
+                        <outlet property="b_toggleVideo" destination="foX-XW-ieL" id="Bfy-gF-a2v"/>
+                        <outlet property="v_videoIn" destination="Wb9-67-ThZ" id="97d-2z-PfB"/>
+                        <outlet property="v_videoOut" destination="6fd-j0-Epe" id="Rj5-kg-IQt"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ix0-bR-91q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jkY-VS-iP8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="630" y="446"/>
+            <point key="canvasLocation" x="605" y="446"/>
         </scene>
     </scenes>
     <resources>
+        <image name="bkgd_active.png" width="66" height="67"/>
+        <image name="bkgd_inactive.png" width="66" height="67"/>
+        <image name="bkgd_red~ipad.png" width="66" height="67"/>
         <image name="button_blue_background.png" width="120" height="120"/>
-        <image name="button_grey_background.png" width="120" height="120"/>
+        <image name="call_HD~ipad.png" width="35" height="35"/>
+        <image name="call_SD~ipad.png" width="35" height="35"/>
+        <image name="call_hangup~ipad.png" width="52" height="52"/>
+        <image name="call_mute~ipad.png" width="42" height="42"/>
+        <image name="call_switch~ipad.png" width="35" height="35"/>
+        <image name="call_video~ipad.png" width="42" height="42"/>
     </resources>
+    <classes>
+        <class className="CallViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CallViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="hangup:"/>
+                <relationship kind="action" name="profile:"/>
+                <relationship kind="action" name="switchVideo:"/>
+                <relationship kind="action" name="toggleAudio:"/>
+                <relationship kind="action" name="toggleVideo:"/>
+                <relationship kind="outlet" name="b_hangup" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="b_profile" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="b_switchVideo" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="b_toggleAudio" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="b_toggleVideo" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="v_videoIn" candidateClass="UIView"/>
+                <relationship kind="outlet" name="v_videoOut" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="authenticate:"/>
+                <relationship kind="action" name="call:"/>
+                <relationship kind="outlet" name="b_authenticate" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="b_call" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="l_callStatus" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="l_displayname" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tf_contactID" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tf_yourID" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tv_errorField" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

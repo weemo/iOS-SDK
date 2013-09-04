@@ -7,7 +7,7 @@
 //
 
 #import "CallViewController.h"
-#import "ViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface CallViewController ()
 
@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -69,18 +69,7 @@
 - (void)resizeView:(UIInterfaceOrientation)tO
 {
 	[[self view]setFrame:CGRectMake(0., 0., [[[self view]superview]bounds].size.width, [[[self view]superview]bounds].size.height)];
-	if (UIInterfaceOrientationIsPortrait(tO))
-	{
-		[[self v_videoIn] setCenter:CGPointMake([[self view]frame].size.width/2., [[self v_videoIn]frame].size.height/2.+ b_hangup.frame.size.height + 2.)];
-		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width/2.,
-												[[self view]frame].size.height - [[self v_videoOut]frame].size.height/2.)];
-	} else if (UIInterfaceOrientationIsLandscape(tO))
-	{
-		[[self v_videoIn] setCenter:CGPointMake([[self v_videoIn]frame].size.width/2.+2., [[self view] frame].size.height/2.+ b_hangup.frame.size.height)];
-		
-		[[self v_videoOut]setCenter:CGPointMake([[self view]frame].size.width - [[self v_videoOut]frame].size.width / 2.,
-												[[self view]frame].size.height/2.)];
-	}
+	[[self v_videoIn]setFrame:CGRectMake(0., 0., [[[self view]superview]bounds].size.width, [[[self view]superview]bounds].size.height)];
 }
 
 #pragma mark - Actions
@@ -97,7 +86,7 @@
 
 - (IBAction)toggleVideo:(id)sender
 {
-	if ([sender isSelected])
+	if ([[self call]isSendingVideo])
 	{
 		[[self call] videoStop];
 	} else {
@@ -112,7 +101,7 @@
 
 - (IBAction)toggleAudio:(id)sender
 {
-	if ([sender isSelected])
+	if ([[self call]isSendingAudio])
 	{
 		[[self call] audioStop];
 	} else {
@@ -140,6 +129,7 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[self v_videoIn]setHidden:!isReceiving];
 	});
+	
 }
 
 
@@ -156,7 +146,7 @@
 
 
 - (void)weemoCall:(id)sender videoProfile:(int)profile
-{	
+{
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@">>>> CallViewController: videoProfile: %d", profile);
 		[[self b_profile]setSelected:(profile != 0)];
@@ -167,7 +157,7 @@
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@">>>> CallViewController: switchVideoSource: %@", (source == 0)?@"Front":@"Back");
-		[[self b_switchVideo] setSelected:(source == 0)];
+		[[self b_switchVideo] setSelected:!(source == 0)]; // the button is selected == SWITCHED state
 	});
 }
 
@@ -176,7 +166,7 @@
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@">>>> CallViewController: audioSending:%@", isSending?@"YES":@"NO");
-		[[self b_toggleAudio]setSelected:isSending];
+		[[self b_toggleAudio]setSelected:!isSending]; //the button is selected == MUTE state
 	});
 }
 
@@ -188,12 +178,10 @@
 		if (status == CALLSTATUS_ACTIVE)
 		{
 			NSLog(@">>>> CallViewController: call went active");
-			[(ViewController*)[self parentViewController] addCallView];
 		}
 		if (status == CALLSTATUS_ENDED)
 		{
 			NSLog(@">>>> CallViewController: call was ended");
-			[(ViewController*)[self parentViewController] removeCallView];
 		}
 	});
 }

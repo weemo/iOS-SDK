@@ -29,6 +29,7 @@
 	autoreconnect = NO;
 	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
 	NSError *err;
+	//initializing the SDK
 	[Weemo WeemoWithAPIKey:APIKEY
 			   andDelegate:self error:&err];
 }
@@ -39,7 +40,7 @@
 	if (![sender isEqual:[self b_authenticate]]) return;
 	if ([[[sender titleLabel]text]isEqualToString:@"Authenticate"])
 	{
-		
+		//Authenticating using the UserID and the Key - defined in the .pch
 		if ([[Weemo instance]authenticateWithUserID:[[self tf_yourID]text]
 								   toDomain:TECHDOMAIN])
 		{
@@ -58,7 +59,8 @@
 
 - (IBAction)call:(id)sender
 {
-	[[Weemo instance]createCall:[[self tf_contactID] text]]; //try to call a contact, no matter the availability
+	//try to call a contact, no matter the availability of the contact
+	[[Weemo instance]createCall:[[self tf_contactID] text]];
 	[[self tf_contactID]resignFirstResponder];
 }
 
@@ -66,11 +68,12 @@
 {
 	NSLog(@">>>> createCallView");
 	if (_cvc_active) return; //call view already instanciated
+	
 	NSString *storyboardname = ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone)?@"iphone":@"ipad";
 	_cvc_active = [[UIStoryboard storyboardWithName:storyboardname bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"CallViewController"];
 	
 	[[[Weemo instance]activeCall]setDelegate:_cvc_active];
-	[self addChildViewController:_cvc_active];	
+	[self addChildViewController:_cvc_active];
 }
 
 - (void)addCallView
@@ -196,7 +199,12 @@
 
 - (void)setDisplayName:(NSString *)dn
 {
-	displayName = [NSString stringWithString:dn];
+	if (dn == nil) {
+		displayName = @"<nop>";
+		NSLog(@">>>> WARNING: Trying to change the display name to nil");
+	} else {
+		displayName = [NSString stringWithString:dn];
+	}
 	[self displayNameChange:displayName];
 }
 
@@ -206,10 +214,13 @@
 	if (buttonIndex == 0)
 	{
 		//user took the call
+		[self createCallView];
+		[self addCallView];
 		[self setCallStatus:[[[Weemo instance] activeCall]callStatus]];
 		[[[Weemo instance] activeCall]resume];
 	} else {
 		//user hangup
+		[self removeCallView];
 		[[[Weemo instance] activeCall]hangup];
 	}
 }
@@ -236,7 +247,9 @@
 
 - (void)weemoCallEnded:(WeemoCall *)call
 {
-	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self removeCallView];
+	});
 }
 
 - (void)weemoDidConnect:(NSError*)error
@@ -254,21 +267,21 @@
 
 - (void)weemoDidAuthenticate:(NSError *)error
 {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		if (!error) {
-			if ([self status] == 2)
-			{
-				[self setDisplayName:[NSString stringWithFormat: @"%@ | SIP OK", [[Weemo instance] displayName]]];
-			} else {
-				[self setStatus:2];
-				[[Weemo instance]setDisplayName:[self displayName]];
-			}
+
+	NSLog(@">>>> Weemo did authenticate: current status: %d, error: %@", [self status], error);
+	if (!error) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self setDisplayName: [[self tf_yourID]text]];
 			[[self tv_errorField]setText:@"<No Error>"];
-		} else {
-			[self setDisplayName:[NSString stringWithFormat: @"%@ | SIP NOK", [[Weemo instance] displayName]]];
-			[[self tv_errorField]setText:[error debugDescription]];
-		}
-	});
+		});
+		[[Weemo instance]setDisplayName:[self displayName]];
+		[self setStatus:2];
+	} else {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self setDisplayName:[NSString stringWithFormat: @"SIP NOK"]];
+			[[self tv_errorField] setText:[error debugDescription]];
+		});
+	}
 }
 
 - (void)weemoDidDisconnect:(NSError*)error

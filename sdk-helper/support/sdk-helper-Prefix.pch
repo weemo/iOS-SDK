@@ -40,7 +40,6 @@
 
 //TODO: define your API Key here
 
-
 #define TECHDOMAIN @"weemo-poc.com"
 
 #ifndef APIKEY
