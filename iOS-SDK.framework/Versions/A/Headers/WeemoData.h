@@ -33,9 +33,10 @@ typedef struct
 } WeemoStat; /**< Statistics available for each call*/
 
 #pragma mark - CallStatus
-/** The call is incoming.*/
+
+/** Call is incoming.*/
 #define CALLSTATUS_INCOMING 				0x7110
-/** Your call is ringing on the remote device.*/
+/** Your call is outgoing, ringing not yet picked up.*/
 #define CALLSTATUS_RINGING 					0x7120
 /** The call is ongoing.*/
 #define CALLSTATUS_ACTIVE 					0x7130
@@ -48,7 +49,21 @@ typedef struct
 /** The recipient is not available.*/
 #define CALLSTATUS_USERNOTAVAILABLE			0x7170
 
+
 #pragma mark - Error codes
-#define ERROR_INIT		0x0010
-#define ERROR_CLOSE		0x0020
+
+#define ERROR_INIT						0x0010
+#define ERROR_INIT_URL					ERROR_INIT | 1
+#define ERROR_INIT_CONNECT_BEFORE		ERROR_INIT | 2
+#define ERROR_INIT_DISCONNECT_BEFORE	ERROR_INIT | 3
+
+#define ERROR_CLOSE			0x0020
+#define ERROR_CLOSE_MEDIA	ERROR_CLOSE | 1
+#define ERROR_CLOSE_NETWORK	ERROR_CLOSE | 2
+#define ERROR_CLOSE_CONNECT	ERROR_CLOSE | 3
+
 #define ERROR_SIPNOK	0x0030
+
+#pragma mark - User type
+#define USERTYPE_INTERNAL 0x00
+#define USERTYPE_EXTERNAL 0x01

@@ -40,10 +40,17 @@
 
 //TODO: define your API Key here
 
-#define TECHDOMAIN @"weemo-poc.com"
+//#define APIKEY @"rgcscczced0kqy5awcso" //PROD
+//#define APIKEY @"mdud37zr0c14091rova9" // DEV
 
-#ifndef APIKEY
-#error "You need an APIKEY to compile the application."
+
+//#define URLREFERER @"e2b7m8y31quniwrzktz2" //eXo
+#define URLREFERER @"poc"
+
+#define TECHDOMAIN @"poc"
+
+#ifndef URLREFERER
+#error "You need an URLREFERER to compile the application."
 #endif
 
 

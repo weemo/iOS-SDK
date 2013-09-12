@@ -30,7 +30,7 @@
 	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
 	NSError *err;
 	//initializing the SDK
-	[Weemo WeemoWithAPIKey:APIKEY
+	[Weemo WeemoWithURLReferer:URLREFERER
 			   andDelegate:self error:&err];
 }
 
@@ -40,9 +40,9 @@
 	if (![sender isEqual:[self b_authenticate]]) return;
 	if ([[[sender titleLabel]text]isEqualToString:@"Authenticate"])
 	{
-		//Authenticating using the UserID and the Key - defined in the .pch
-		if ([[Weemo instance]authenticateWithUserID:[[self tf_yourID]text]
-								   toDomain:TECHDOMAIN])
+		//Authenticating using the token provided and the default user type (attendee)
+		if ([[Weemo instance]authenticateWithToken:[[self tf_yourID]text]
+										   andType:USERTYPE_INTERNAL])
 		{
 			[self setDisplayName:[[self tf_yourID] text]];
 		} else {
@@ -61,7 +61,7 @@
 {
 	//try to call a contact, no matter the availability of the contact
 	[[Weemo instance]createCall:[[self tf_contactID] text]];
-	[[self tf_contactID]resignFirstResponder];
+	[[self view] endEditing:YES];
 }
 
 - (void)createCallView
@@ -296,7 +296,7 @@
 	if (autoreconnect)
 	{
 		NSError *err;
-		[Weemo WeemoWithAPIKey:APIKEY andDelegate:self error:&err];
+		[Weemo WeemoWithURLReferer:URLREFERER andDelegate:self error:&err];
 	}
 }
 

@@ -86,7 +86,7 @@
  *
  * Remarks:
  *
- * This singleton is instancianted in the host application by using the Weemo::WeemoWithAPIKey:andDelegate:error: class function. After initiating the singleton, authentication can happen, upon WeemoDelegate::weemoDidAuthenticate: call.
+ * This singleton is instancianted in the host application by using the Weemo::WeemoWithURLReferer:andDelegate:error: class function. After initiating the singleton, authentication can happen, upon WeemoDelegate::weemoDidAuthenticate: call.
  *
  * The singleton can be invoked anytime after instantiation through Weemo::instance. If the instantiation isn't completed by the time Weemo::instance is called, nil is returned.
  *
@@ -95,20 +95,23 @@
 @interface Weemo : NSObject
 
 /**
- * \brief Creates a Weemo singleton Object. The initialization is asynchronous, the WeemoDelegate::weemoDidConnect: will be called upon singleton connection.
+ * \brief Creates a Weemo singleton Object. The initialization is asynchronous, the WeemoDelegate::weemoDidConnect: 
+ * will be called upon singleton connection.
  *
- * \param APIKey The Weemo API Key
+ * \param URLReferer The Application referer
  * \param delegate The delegate object that implements the WeemoDelegate protocol
- * \param error When initialization has failed and this is not nil, this will be filled with a describing error. The debugDescription field of the NSError returns a
- * NSString* describing the error in human terms.
+ * \param error When initialization has failed and this is not nil, this will be filled with a describing error. The debugDescription 
+ * field of the NSError returns a NSString* describing the error in human terms.
  * \sa WeemoDelegate::weemoDidConnect:
  */
-+ (Weemo*) WeemoWithAPIKey:(NSString*)APIKey andDelegate:(id<WeemoDelegate>)delegate error:(NSError**)error;
++ (Weemo *)WeemoWithURLReferer:(NSString *)URLReferer
+				   andDelegate:(id<WeemoDelegate>)delegate
+						 error:(NSError *__autoreleasing *)error;
 
 /**
- * \brief Returns the Weemo singleton instance, if instantiated
+ * \brief Returns the Weemo singleton instance, if instantiated.
  *
- * \return The Weemo singleton or nil if the SDK was not instantiated properly
+ * \return The Weemo singleton or nil if the SDK was not instantiated.
  */
 + (Weemo*)instance;
 
@@ -117,19 +120,17 @@
 */
 - (void)dealloc;
 
-/**
- * \brief Connects to servers with given userID. The connection is asynchronous, WeemoDelegate::weemoDidAuthenticate: will be called
- * upon user authentication.
- *
- * \param userID The userID that will represent this user in Weemo's platform.
- * \param domain The domain to which the user will connect.
- * \return YES if the UID was correctly formed, NO otherwise
- * \sa WeemoDelegate::weemoDidAuthenticate:
- */
-- (BOOL)authenticateWithUserID:(NSString*)userID toDomain:(NSString*)domain;
 
 /**
- * \brief Disconnects properly from weemo servers. A Call to WeemoDelegate::weemoDidDisconnect: is to be expected upon disconnection.
+ * \brief Connects to servers with the given token. The connection is asynchronous, WeemoDelegate::weemoDidAuthenticate: will be called
+ * upon user token validation.
+ * \param token The token to be used for authentication
+ * \param type The type of the userID, USERTYPE_EXTERNAL or USERTYPE_INTERNAL
+ */
+- (BOOL)authenticateWithToken:(NSString*)token andType:(int)type;
+
+/**
+ * \brief Disconnects from weemo servers. A call to WeemoDelegate::weemoDidDisconnect: is to be expected upon disconnection.
  * \sa WeemoDelegate::weemoDidDisconnect:
  */
 - (BOOL)disconnect;
@@ -173,23 +174,20 @@
  *
  */
 @property(nonatomic, getter = isAuthenticated, readonly)BOOL authenticated;
+
 /**
- * \brief The current active (not paused) call, if any.
+ * \brief The current active (not paused) call, if any. Currently, only one call is supported.
  */
 @property(nonatomic, readonly) WeemoCall *activeCall;
 
 /**
- * \brief The curent userID connected.
- */
-@property(nonatomic, readonly) NSString *userID;
-
-/**
- * \brief The delegate for the current connection.
+ * \brief The delegate for the current connection. Mandatory to do anything, really.
  */
 @property(nonatomic, readonly) id<WeemoDelegate> delegate;
 
+
 /**
- * The display name used by the application.
+ * The display name used by the application. Set this before calling to ensure the call can be created.
  */
 @property(nonatomic, strong) NSString *displayName;
 
