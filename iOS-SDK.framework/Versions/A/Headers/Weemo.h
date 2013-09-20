@@ -48,7 +48,7 @@
  *
  * \param error Nil if no error occured. If different from nil then the connection did NOT succeed. The debugDescription field of
  * the NSError returns a NSString* describing the error in human terms.
- * \sa Weemo::WeemoWithAPIKey:andDelegate:error:
+ * \sa Weemo::WeemoWithURLReferer:andDelegate:error:
  */
 - (void)weemoDidConnect:(NSError*)error;
 

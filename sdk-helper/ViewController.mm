@@ -27,7 +27,7 @@
 	
 	_cvc_active = nil;
 	autoreconnect = NO;
-	[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
+	[[self b_authenticate]setTitle:@"Auth." forState:UIControlStateNormal];
 	NSError *err;
 	//initializing the SDK
 	[Weemo WeemoWithURLReferer:URLREFERER
@@ -38,7 +38,7 @@
 {
 	[[self tf_yourID] resignFirstResponder];
 	if (![sender isEqual:[self b_authenticate]]) return;
-	if ([[[sender titleLabel]text]isEqualToString:@"Authenticate"])
+	if ([[[sender titleLabel]text]isEqualToString:@"Auth."])
 	{
 		if ([[Weemo instance]authenticateWithToken:[[self tf_yourID]text]
 										   andType:USERTYPE_INTERNAL])
@@ -113,7 +113,7 @@
 	{
 		case 1:{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
+				[[self b_authenticate]setTitle:@"Auth." forState:UIControlStateNormal];
 				[[self tf_yourID]setEnabled:YES];
 				[[self tf_contactID]setEnabled:NO];
 				[[self b_authenticate]setEnabled:YES];
@@ -122,7 +122,7 @@
 			break;
 		case 2:{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[self b_authenticate]setTitle:@"Disconnect" forState:UIControlStateNormal];
+				[[self b_authenticate]setTitle:@"Disc." forState:UIControlStateNormal];
 				[[self tf_yourID]setEnabled:NO];
 				[[self tf_contactID]setEnabled:YES];
 				[[self b_authenticate]setEnabled:YES];
@@ -131,7 +131,7 @@
 			break;
 		case 3:{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[self b_authenticate]setTitle:@"Disconnect" forState:UIControlStateNormal];
+				[[self b_authenticate]setTitle:@"Disc." forState:UIControlStateNormal];
 				[[self tf_yourID]setEnabled:NO];
 				[[self tf_contactID]setEnabled:YES];
 				[[self b_authenticate]setEnabled:YES];
@@ -139,7 +139,7 @@
 			});}
 		default:{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[self b_authenticate]setTitle:@"Authenticate" forState:UIControlStateNormal];
+				[[self b_authenticate]setTitle:@"Disc." forState:UIControlStateNormal];
 				[[self tf_yourID]setEnabled:NO];
 				[[self tf_contactID]setEnabled:NO];
 				[[self b_authenticate]setEnabled:NO];
