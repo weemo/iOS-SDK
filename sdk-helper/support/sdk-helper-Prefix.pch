@@ -37,7 +37,7 @@
 	#import <iOS-SDK/Weemo.h>
 #endif
 
-#define URLREFERER @"poc"  //For Proof of Concept, please replace "poc" by the Referer provided by Weemo
+#define URLREFERER @"poc"  //For Proof of Concept, please replace "poc" by the mobileAppIdentifier provided by Weemo
 
 #ifndef URLREFERER
 #error "You need an URLREFERER to compile the application."
