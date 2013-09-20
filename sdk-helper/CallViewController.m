@@ -157,16 +157,15 @@
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@">>>> CallViewController: switchVideoSource: %@", (source == 0)?@"Front":@"Back");
-		[[self b_switchVideo] setSelected:!(source == 0)]; // the button is selected == SWITCHED state
+		[[self b_switchVideo] setSelected:!(source == 0)];
 	});
 }
 
 - (void)weemoCall:(id)call audioSending:(BOOL)isSending
 {
-	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSLog(@">>>> CallViewController: audioSending:%@", isSending?@"YES":@"NO");
-		[[self b_toggleAudio]setSelected:!isSending]; //the button is selected == MUTE state
+		[[self b_toggleAudio]setSelected:!isSending];
 	});
 }
 

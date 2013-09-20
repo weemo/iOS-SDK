@@ -21,7 +21,7 @@
  
  two objects are used here:
  
- - the ViewController is the controller who deals with the main/root interface. It allows the user to authenticate on our network, using the provided APIKey and provdomain. It also allows to call a contact, disconnect, hangup a proceeding call and pick an incoming call.
+ - the ViewController is the controller who deals with the main/root interface. It allows the user to authenticate on our network, using the provided URLReferer. It also allows to call a contact, disconnect, hangup a proceeding call and pick an incoming call.
  
  - The CallViewController deals with the call itself. It allows to stop and start the camera, the microphone, to switch the camera (back and front) and to change the audio route.
  

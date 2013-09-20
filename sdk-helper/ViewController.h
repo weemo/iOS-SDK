@@ -10,7 +10,7 @@
  * \brief This is the main View Controller. Deals with the connection parameters and call start.
  * The MainViewController is a WeemoDelegate. As such, it is responsible for the WeemoDriver connecting to the WeemoCloud and for user authentication. Any error sent by the Weemo singleton is dealt with here.
  *
- * On Application start, the Weemo singleton is instanciated automatically with a preset APIKey found in the project pch. When the delegate is notified of the connection success, the Authenticate button and the YourID textfield are activated, allowing a user to authenticate oneself on the cloud.
+ * On Application start, the Weemo singleton is instanciated automatically with a preset URLReferer found in the project pch. When the delegate is notified of the connection success, the Authenticate button and the YourID textfield are activated, allowing a user to authenticate oneself on the cloud.
  *
  * After authentication, the Call button and ContactID textfield are activated, allowing the user to call another contact.
  *
@@ -20,6 +20,10 @@
  *		The third field displays the debugInformation of the last encountered error.
  */
 @interface ViewController : UIViewController <WeemoDelegate, UIAlertViewDelegate>
+{
+	UIAlertView *incomingcall;
+}
+
 @property (weak, nonatomic) IBOutlet UIButton *b_authenticate;
 @property (weak, nonatomic) IBOutlet UIButton *b_call;
 

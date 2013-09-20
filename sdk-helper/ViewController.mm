@@ -40,7 +40,6 @@
 	if (![sender isEqual:[self b_authenticate]]) return;
 	if ([[[sender titleLabel]text]isEqualToString:@"Authenticate"])
 	{
-		//Authenticating using the token provided and the default user type (attendee)
 		if ([[Weemo instance]authenticateWithToken:[[self tf_yourID]text]
 										   andType:USERTYPE_INTERNAL])
 		{
@@ -59,7 +58,6 @@
 
 - (IBAction)call:(id)sender
 {
-	//try to call a contact, no matter the availability of the contact
 	[[Weemo instance]createCall:[[self tf_contactID] text]];
 	[[self view] endEditing:YES];
 }
@@ -67,7 +65,7 @@
 - (void)createCallView
 {
 	NSLog(@">>>> createCallView");
-	if (_cvc_active) return; //call view already instanciated
+	if (_cvc_active) return;
 	
 	NSString *storyboardname = ([[UIDevice currentDevice]userInterfaceIdiom] == UIUserInterfaceIdiomPhone)?@"iphone":@"ipad";
 	_cvc_active = [[UIStoryboard storyboardWithName:storyboardname bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"CallViewController"];
@@ -83,7 +81,7 @@
 
 	if ([[[_cvc_active view] superview] isEqual:[self view]] )
 	{
-		return; //view was already added
+		return;
 	}
 
 	[[_cvc_active view]setFrame:CGRectMake(0., 0., [[self view]frame].size.width, [[self view]frame].size.height)];
@@ -232,13 +230,13 @@
 	if ([call callStatus] == CALLSTATUS_INCOMING)
 	{
 		[self setStatus:3];
-		UIAlertView *callIncoming = [[UIAlertView alloc]initWithTitle:@"Incoming Call"
+		incomingcall = [[UIAlertView alloc]initWithTitle:@"Incoming Call"
 															  message:[NSString stringWithFormat:@"%@ is calling", [call contactID]]
 															 delegate:self
 													cancelButtonTitle:@"Pick-up"
 													otherButtonTitles:@"Deny", nil];
 		dispatch_async(dispatch_get_main_queue(), ^{
-			[callIncoming show];
+			[incomingcall show];
 		});
 	}
 	[self setCallStatus:[call callStatus]];
@@ -249,6 +247,8 @@
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self removeCallView];
+		[incomingcall dismissWithClickedButtonIndex:1 animated:YES];
+		incomingcall = nil;
 	});
 }
 
