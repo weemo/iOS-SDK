@@ -37,17 +37,7 @@
 	#import <iOS-SDK/Weemo.h>
 #endif
 
-
-//TODO: define your API Key here
-
-//#define APIKEY @"rgcscczced0kqy5awcso" //PROD
-//#define APIKEY @"mdud37zr0c14091rova9" // DEV
-
-
-//#define URLREFERER @"e2b7m8y31quniwrzktz2" //eXo
-#define URLREFERER @"poc"
-
-#define TECHDOMAIN @"poc"
+#define URLREFERER @"poc"  //For Proof of Concept, please replace "poc" by the Referer provided by Weemo
 
 #ifndef URLREFERER
 #error "You need an URLREFERER to compile the application."
