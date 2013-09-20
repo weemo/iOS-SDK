@@ -40,7 +40,7 @@
 //#define URLREFERER @"poc"  //Please replace "poc" by the mobileAppIdentifier provided by Weemo
 
 #ifndef URLREFERER
-#error "You need to define an mobileAppIdentifier to compile the application."
+#error "You need to define a mobileAppIdentifier to compile the application."
 #endif
 
 
