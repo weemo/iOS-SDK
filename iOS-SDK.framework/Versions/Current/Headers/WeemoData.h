@@ -51,17 +51,25 @@ typedef struct
 
 
 #pragma mark - Error codes
-
+/**An error occured while initiating the Weemo Singleton.*/
 #define ERROR_INIT						0x0010
+/**This error indicates that something is wrong with the Mobile App Identifier.*/
 #define ERROR_INIT_URL					ERROR_INIT | 1
+/**An authentication was attempted althought the client is not connected.*/
 #define ERROR_INIT_CONNECT_BEFORE		ERROR_INIT | 2
+/**An authentication was attempted althought the application is already identified.*/
 #define ERROR_INIT_DISCONNECT_BEFORE	ERROR_INIT | 3
 
+/**Generic connection error code.*/
 #define ERROR_CLOSE			0x0020
+/**An error occured while disconnecting the media layer from our network.*/
 #define ERROR_CLOSE_MEDIA	ERROR_CLOSE | 1
+/**The media layer failed to disconnect.*/
 #define ERROR_CLOSE_NETWORK	ERROR_CLOSE | 2
+/**The connection couldn't be closed.*/
 #define ERROR_CLOSE_CONNECT	ERROR_CLOSE | 3
 
+/**Something went wrong during authentication.*/
 #define ERROR_SIPNOK	0x0030
 
 #pragma mark - User type

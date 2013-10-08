@@ -30,7 +30,7 @@
 	[[self b_authenticate]setTitle:@"Auth." forState:UIControlStateNormal];
 	NSError *err;
 	//initializing the SDK
-	[Weemo WeemoWithURLReferer:URLREFERER
+	[Weemo WeemoWithURLReferer:MOBILEAPPID
 			   andDelegate:self error:&err];
 }
 
@@ -296,7 +296,7 @@
 	if (autoreconnect)
 	{
 		NSError *err;
-		[Weemo WeemoWithURLReferer:URLREFERER andDelegate:self error:&err];
+		[Weemo WeemoWithURLReferer:MOBILEAPPID andDelegate:self error:&err];
 	}
 }
 

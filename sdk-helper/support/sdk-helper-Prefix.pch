@@ -37,10 +37,8 @@
 	#import <iOS-SDK/Weemo.h>
 #endif
 
-//#define URLREFERER @"poc"  //Please replace "poc" by the mobileAppIdentifier provided by Weemo
-
-#ifndef URLREFERER
-#error "You need to define a mobileAppIdentifier to compile the application."
+#ifndef MOBILEAPPID
+#error "You need to define a MOBILEAPPID to compile the application. Add #define MOBILEAPPID @"AppID" above this code block, replace AppID by the provided Mobile App Identifier."
 #endif
 
 
