@@ -21,26 +21,25 @@ The Weemo iOS-SDK initialization code is found in the `viewDidLoad:` method of t
 
 	…
 	NSError *err;
-	[Weemo WeemoWithAPIKey:APIKEY andDelegate:self error:&err];
+	[Weemo WeemoWithURLReferer:MOBILEAPPID andDelegate:self error:&err];
 	…
 
-Note that we don't keep a reference to the created Weemo singleton (which is available through the class method `+ (id)instance`), nor do we test the error this method can return (which is bad practice).
+Note that we don't keep a reference to the created Weemo singleton (which is available through the class method `+ [Weemo instance]`), nor do we test the error this method can return (which is bad practice).
 
-Authentication takes place in the action started by the `b_authenticate` UIButton, `authenticate:`.
+Authentication takes place in the action triggered by the `b_authenticate` UIButton, `authenticate:`.
 
 	…
-	if ([[Weemo instance]authenticateWithUserID:[[self tf_yourID]text]
-								   toDomain:TECHDOMAIN])
+	if ([[Weemo instance]authenticateWithToken:[[self tf_yourID]text] andType:USERTYPE_INTERNAL])
 	…
 
-Contrary to what seems implied in this code, the connection is not done synchronously. The boolean returned by the authentication method depends on <a href=https://github.com/weemo/poc/wiki/Naming-rules>the correctness</a> of the UserID used.
+Contrary to what seems implied in this code, the connection is not done synchronously. The boolean returned by the authentication method depends on <a href=https://github.com/weemo/poc/wiki/Naming-rules>the correctness</a> of the UserID used, while the actual connection status is returned through the `- [id<WeemoDelegate> weemoDidConnect:]` method.
 
 If the Weemo singleton is connected, the `Authenticate` button is changed in a `Disconnect` button. The action called upon press is
 	
 	…
 	[[Weemo instance] disconnect];
 	…
-This method disconnected the Weemo singleton from the network. The singleton is not destroyed. To reconnect, simply use the `WeemoWithAPIKey:andDelegate:error:`. The user have to re-authenticate afterwards.
+This method disconnected the Weemo singleton from the network. The singleton is not destroyed. To reconnect, simply use the `+ [Weemo WeemoWithURLReferer:andDelegate:error:]` class method. The user have to re-authenticate afterwards.
 
 
 

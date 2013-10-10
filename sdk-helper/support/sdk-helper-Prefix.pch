@@ -38,7 +38,7 @@
 #endif
 
 #ifndef MOBILEAPPID
-#error "You need to define a MOBILEAPPID to compile the application. Add #define MOBILEAPPID @"AppID" above this code block, replace AppID by the provided Mobile App Identifier."
+#error "You need to define a MOBILEAPPID to compile the application. Add #define MOBILEAPPID @"AppID" above this code block, replacing AppID with the provided Mobile App Identifier."
 #endif
 
 
