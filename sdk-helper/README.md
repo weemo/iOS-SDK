@@ -32,7 +32,7 @@ Authentication takes place in the action triggered by the `b_authenticate` UIBut
 	if ([[Weemo instance]authenticateWithToken:[[self tf_yourID]text] andType:USERTYPE_INTERNAL])
 	…
 
-Contrary to what seems implied in this code, the connection is not done synchronously. The boolean returned by the authentication method depends on <a href=https://github.com/weemo/poc/wiki/Naming-rules>the correctness</a> of the UserID used, while the actual connection status is returned through the `- [id<WeemoDelegate> weemoDidConnect:]` method.
+Contrary to what seems implied in this code, the connection is not done synchronously. The boolean returned by the authentication method depends on <a href=https://github.com/weemo/Release-4.0/wiki/WeemoDriver-Naming>the correctness</a> of the UserID used, while the actual connection status is returned through the `- [id<WeemoDelegate> weemoDidConnect:]` method.
 
 If the Weemo singleton is connected, the `Authenticate` button is changed in a `Disconnect` button. The action called upon press is
 	
