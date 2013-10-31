@@ -98,13 +98,13 @@
  * \brief Creates a Weemo singleton Object. The initialization is asynchronous, the WeemoDelegate::weemoDidConnect: 
  * will be called upon singleton connection.
  *
- * \param URLReferer The Application referer
+ * \param appID The Application Identifier
  * \param delegate The delegate object that implements the WeemoDelegate protocol
  * \param error When initialization has failed and this is not nil, this will be filled with a describing error. The debugDescription 
  * field of the NSError returns a NSString* describing the error in human terms.
  * \sa WeemoDelegate::weemoDidConnect:
  */
-+ (Weemo *)WeemoWithURLReferer:(NSString *)URLReferer
++ (Weemo *)WeemoWithAppID:(NSString *)appID
 				   andDelegate:(id<WeemoDelegate>)delegate
 						 error:(NSError *__autoreleasing *)error;
 
@@ -114,6 +114,12 @@
  * \return The Weemo singleton or nil if the SDK was not instantiated.
  */
 + (Weemo*)instance;
+
+/**
+ * Returns the version of the Weemo SDK
+ * \return The version of the Weemo SDK
+ */
++ (NSString *)getVersion;
 
 /*
 * \brief Destructor
@@ -137,12 +143,16 @@
 
 /**
  * \brief This function is to be called when the application goes to background. Not calling this function will result in undefined behavior.
+ * \sa Weemo::foreground
+ * \deprecated This method was deprecated in version 4.1.0.24. The background transition is now detected using the related UIApplication notification.
  */
 - (void)background;
 
 /**
  * \brief This function is to be called when the application comes to foreground. Not calling this function will result in undefined
  * behavior.
+ * \sa Weemo::background
+ * \deprecated This method was deprecated in version 4.1.0.24. The foreground  transition is now detected using the related UIApplication notification.
  */
 - (void)foreground;
 
@@ -162,6 +172,12 @@
  */
 - (void)createCall:(NSString*)contactUID;
 
+/**
+ * \brief creates a log file and returns the path to it. The logfile is encrypted. This function works only if the SDK is compiled with the Lumberjack framework.
+ * \return The path to the file or an empty string if the file can not be created.
+ *
+ */
+- (NSString *)createLogfile;
 
 /**
  * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection.

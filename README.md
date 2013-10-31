@@ -1,6 +1,6 @@
 # Weemo iOS SDK and Sample Application
 
-This repository contains the Weemo iOS SDK and a sample application `sdk-helper` which provides an implementation model to help developers integrate the SDK. More information about Weemo SDKs can be found at [http://www.weemo.com/](http://www.weemo.com/)
+This repository contains the Weemo iOS SDK. More information about Weemo SDKs can be found at [http://www.weemo.com/](http://www.weemo.com/)
 
 
 The use cases have been minimized in order to reduce the integration effort while creating a functional model for the POC that covers most of the use cases for audio and video during 1:1 calls.
@@ -14,6 +14,9 @@ Basic implemented functions into this example are:
 
 For implementation details, please refer to the [project wiki](https://github.com/weemo/iOS-SDK/wiki) and to the detailed [API Reference](http://docs.weemo.com/sdk/ios/) documentation.
 
+## SDK Helper
+
+SDK Helper is a sample application implementing the Weemo iOS SDK. To demonstrate Weemo Technologies you can follow this quick-tutorial to run a Weemo Application: [SDK Helper - Quick tutorial](https://github.com/weemo/iOS-SDK-Helper) 
 
 ## About Weemo
 

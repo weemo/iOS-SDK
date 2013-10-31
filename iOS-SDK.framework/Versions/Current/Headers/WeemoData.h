@@ -51,26 +51,29 @@ typedef struct
 
 
 #pragma mark - Error codes
-/**An error occured while initiating the Weemo Singleton.*/
-#define ERROR_INIT						0x0010
-/**This error indicates that something is wrong with the Mobile App Identifier.*/
-#define ERROR_INIT_URL					ERROR_INIT | 1
-/**An authentication was attempted althought the client is not connected.*/
-#define ERROR_INIT_CONNECT_BEFORE		ERROR_INIT | 2
-/**An authentication was attempted althought the application is already identified.*/
-#define ERROR_INIT_DISCONNECT_BEFORE	ERROR_INIT | 3
+/** Error code class: initialization exceptions.*/
+#define ERROR_INIT						0x0100
+/** Server are not available*/
+#define NETWORK_ERROR					ERROR_INIT | 1
+/** The MobileApp Identifier is not formated properly*/
+#define BAD_APIKEY						ERROR_INIT | 2
+/** Tried to authenticate while not connected*/
+#define NOT_CONNECTED					ERROR_INIT | 3
+/** */
+#define ALREADY_AUTHENTICATED			ERROR_INIT | 4
 
-/**Generic connection error code.*/
-#define ERROR_CLOSE			0x0020
-/**An error occured while disconnecting the media layer from our network.*/
-#define ERROR_CLOSE_MEDIA	ERROR_CLOSE | 1
-/**The media layer failed to disconnect.*/
-#define ERROR_CLOSE_NETWORK	ERROR_CLOSE | 2
-/**The connection couldn't be closed.*/
-#define ERROR_CLOSE_CONNECT	ERROR_CLOSE | 3
+/** Error code class: connection exception.*/
+#define ERROR_CONN						0x0200
+/** Disconnected: lost network connection.*/
+#define NETWORK_LOST					ERROR_CONN | 1
+/** Disconnected: Weemo engine destroyed.*/
+#define CLOSED							ERROR_CONN | 2
 
-/**Something went wrong during authentication.*/
-#define ERROR_SIPNOK	0x0030
+/** Error code class: authentication exception.*/
+#define ERROR_AUTH						0x0300
+/** Something went wrong on the server during authentication. Are you sure of the userID?*/
+#define	SIP_NOK							ERROR_AUTH | 1
+
 
 #pragma mark - User type
 #define USERTYPE_INTERNAL 0x00

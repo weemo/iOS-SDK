@@ -106,6 +106,19 @@
 - (void)videoStop;
 
 /**
+ * \brief Returns the incoming video size, used to resize the incoming video view (in case of ratio change).
+ * \return The size of the video, such as the video is correctly oriented.
+ */
+- (CGSize)getVideoProfile;
+
+/**
+ * \brief returns the orientation of the video.
+ *\return the orientation of the video.
+ */
+- (UIInterfaceOrientation)getVideoOrientation;
+
+
+/**
  * \brief Start sending audio from the microphone. 
  *
  * While the outgoing audio stream starts automatically upon call start, it is posisble to mute the microphone, thus sending only empty frames. This function starts the sending of captured audio packet.
@@ -200,6 +213,9 @@
  */
 @property(readonly) NSString *contactID;
 
+
+
+
 /**
  * \brief Whether or not the call is receiving video.
  *
@@ -235,6 +251,7 @@
  * \brief The view in wich the call should display the incoming video.
  */
 @property(nonatomic, weak) UIView *viewVideoIn;
+
 
 /**
  * \brief The view in wich the call should display the outgoing video.
