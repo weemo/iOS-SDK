@@ -275,4 +275,12 @@
  */
 @property(nonatomic, strong) id<WeemoCallDelegate>delegate;
 
+/** 
+ * Set to YES, the video views will rotate to follow the device Orientation.
+ */
+ 
+@property(nonatomic) BOOL followDeviceOrientation;
+
+@property(readonly) int callid;
+
 @end
