@@ -116,7 +116,7 @@
 + (Weemo*)instance;
 
 /**
- * Returns the version of the Weemo SDK
+ * Used for identification purpose.
  * \return The version of the Weemo SDK
  */
 + (NSString *)getVersion;
@@ -132,6 +132,7 @@
  * upon user token validation.
  * \param token The token to be used for authentication
  * \param type The type of the userID, USERTYPE_EXTERNAL or USERTYPE_INTERNAL
+ * \sa WeemoDelegate::weemoDidAuthenticate:
  */
 - (BOOL)authenticateWithToken:(NSString*)token andType:(int)type;
 
@@ -144,7 +145,7 @@
 /**
  * \brief This function is to be called when the application goes to background. Not calling this function will result in undefined behavior.
  * \sa Weemo::foreground
- * \deprecated This method was deprecated in version 4.1.0.24. The background transition is now detected using the related UIApplication notification.
+ * \deprecated This method was deprecated in version 4.1.24. The background transition is now detected using the related UIApplication notification (UIApplicationDidEnterBackgroundNotification).
  */
 - (void)background;
 
@@ -152,7 +153,7 @@
  * \brief This function is to be called when the application comes to foreground. Not calling this function will result in undefined
  * behavior.
  * \sa Weemo::background
- * \deprecated This method was deprecated in version 4.1.0.24. The foreground  transition is now detected using the related UIApplication notification.
+ * \deprecated This method was deprecated in version 4.1.24. The foreground  transition is now detected using the related UIApplication notification (UIApplicationDidBecomeActiveNotification).
  */
 - (void)foreground;
 
@@ -169,12 +170,25 @@
  *
  * \param contactUID The ID of the contact or the conference to call.
  * \sa WeemoDelegate::weemoCallCreated:
+ * \sa WeemoCall::contactID
  */
 - (void)createCall:(NSString*)contactUID;
 
 /**
- * \brief creates a log file and returns the path to it. The logfile is encrypted. This function works only if the SDK is compiled with the Lumberjack framework.
- * \return The path to the file or an empty string if the file can not be created.
+ * \brief Creates a call whose recipient is \p contactUID and set the contact's display name to \p displayName. The call is created when the user is deemed available and returned through the use of the WeemoDelegate::weemoCallCreated: method.
+ *
+ * \param contactUID The ID of the contact or the conference to call.
+ * \param displayName The contact display name to be used.
+ * \sa WeemoDelegate::weemoCallCreated:
+ * \sa WeemoCall::contactID
+ * \sa WeemoCall::contactDisplayName
+ */
+- (void)createCall:(NSString *)contactUID andSetDisplayName:(NSString *)displayName;
+
+/**
+ * \brief creates a log file and returns the path to it. The logfile is encrypted. 
+ * This function works only if the SDK is compiled with the Lumberjack framework.
+ * \return The path to the file. An empty string is returned if the SDK wasn't build against the CocoaLumberjack framework.
  *
  */
 - (NSString *)createLogfile;
@@ -186,13 +200,13 @@
 @property(nonatomic, getter=isConnected, readonly)BOOL connected;
 
 /**
- * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection. A value of YES implies isConnected.
+ * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection. A value of YES implies Weemo::isConnected.
  *
  */
 @property(nonatomic, getter = isAuthenticated, readonly)BOOL authenticated;
 
 /**
- * \brief The current active (not paused) call, if any. Currently, only one call is supported.
+ * \brief The current active (not paused) call, if any. Currently, only one call at a time is supported.
  */
 @property(nonatomic, readonly) WeemoCall *activeCall;
 

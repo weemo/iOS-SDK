@@ -106,17 +106,10 @@
 - (void)videoStop;
 
 /**
- * \brief Returns the incoming video size, used to resize the incoming video view (in case of ratio change).
- * \return The size of the video, such as the video is correctly oriented.
- */
-- (CGSize)getVideoProfile;
-
-/**
  * \brief returns the orientation of the video.
  *\return the orientation of the video.
  */
 - (UIInterfaceOrientation)getVideoOrientation;
-
 
 /**
  * \brief Start sending audio from the microphone. 
@@ -209,12 +202,16 @@
 @property (nonatomic, readonly) int videoSource;
 
 /**
- * \brief ID of the contact or the conference being called
+ * \brief ID of the contact or the conference being called.
+ * \sa WeemoCall::contactDisplayName
  */
 @property(readonly) NSString *contactID;
 
-
-
+/**
+ * \brief Display name of the contact or conference being called. If this name is not set, a call to this variable returns the same value as WeemoCall::contactID. The only way to set this variable is on call creation through Weemo::createCall:andSetDisplayName:
+ * \sa WeemoCall::contactID
+ */
+@property(nonatomic, readonly) NSString *contactDisplayName;
 
 /**
  * \brief Whether or not the call is receiving video.
@@ -252,6 +249,11 @@
  */
 @property(nonatomic, weak) UIView *viewVideoIn;
 
+/**
+ * \brief Returns the incoming video size, used to resize the incoming video view (in case of ratio change).
+ * \return The size of the video, such as the video is correctly oriented.
+ */
+- (CGSize)getVideoInProfile;
 
 /**
  * \brief The view in wich the call should display the outgoing video.
@@ -259,9 +261,16 @@
 @property(nonatomic, weak) UIView *viewVideoOut;
 
 /**
+ * \brief Returns the outgoing video size, to be used to resize the momitoring video.
+ * \return The size of the video, such as the video is correctly oriented.
+ */
+- (CGSize)getVideoOutProfile;
+
+
+/**
  * \brief Statistics of the current instant in the call. 
  *
- * As the structure is reused, it's content is only valid until next retrieval of this property. Not available for the moment.
+ * As the structure is reused, it's content is only valid until next retrieval of this property. Not Available for the moment.
  */
 @property(readonly) WeemoStat *stats;
 
@@ -281,6 +290,9 @@
  
 @property(nonatomic) BOOL followDeviceOrientation;
 
+/**
+ * The ID of the call. Not really used for now since only one call can be held at a time, will be useful when the multicall functionality is brought in the MobileSDK.
+ */
 @property(readonly) int callid;
 
 @end
