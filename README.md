@@ -1,4 +1,4 @@
-# Weemo iOS SDK and Sample Application
+# Weemo iOS SDK
 
 This repository contains the Weemo iOS SDK. More information about Weemo SDKs can be found at [http://www.weemo.com/](http://www.weemo.com/)
 
@@ -13,6 +13,11 @@ Basic implemented functions into this example are:
 - iOS 6 Multi-tasking support
 
 For implementation details, please refer to the [project wiki](https://github.com/weemo/iOS-SDK/wiki) and to the detailed [API Reference](http://docs.weemo.com/sdk/ios/) documentation.
+
+## Changelog
+
+[The changelog is available here](CHANGELOG.md).
+
 
 ## SDK Helper
 
