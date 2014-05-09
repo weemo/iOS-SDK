@@ -32,6 +32,15 @@
  * \sa WeemoCall::videoProfile
  */
 - (void)weemoCall:(id)sender videoProfile:(int)profile;
+
+/**
+ * \brief Called when the outgoing video size changes (taht is even if the device rotates).
+ * \param sender The id of the WeemoCall which property changed
+ * \param profile The new size of the monitoring video
+ * \sa WeemoCall::videoProfile
+ */
+- (void)weemoCall:(id)sender videoOutSizeChange:(CGSize)size;
+
 /**
  * \brief Called when the video source changes
  * \param sender The id of the WeemoCall which property changed
@@ -266,14 +275,6 @@
  */
 - (CGSize)getVideoOutProfile;
 
-
-/**
- * \brief Statistics of the current instant in the call. 
- *
- * As the structure is reused, it's content is only valid until next retrieval of this property. Not Available for the moment.
- */
-@property(readonly) WeemoStat *stats;
-
 /**
  * \brief YES if this call is a conference
  */
@@ -283,12 +284,6 @@
  * \brief The host app should set this value if it wants to be notified about call changes.
  */
 @property(nonatomic, strong) id<WeemoCallDelegate>delegate;
-
-/** 
- * Set to YES, the video views will rotate to follow the device Orientation.
- */
- 
-@property(nonatomic) BOOL followDeviceOrientation;
 
 /**
  * The ID of the call. Not really used for now since only one call can be held at a time, will be useful when the multicall functionality is brought in the MobileSDK.

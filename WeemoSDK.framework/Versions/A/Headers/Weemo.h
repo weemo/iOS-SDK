@@ -17,7 +17,8 @@
 /**
  * \brief This function will be called after a call is created, either by calling a contact or receiving a call.
  * To accept the call, use WeemoCall::resume. To deny it, use WeemoCall::hangup. The WeemoCall object can possess a
- * delegate of its own, WeemoCallDelegate.
+ * delegate of its own, WeemoCallDelegate. In case of an incoming call, the WeemoCall::contactID is nil, as only the display 
+ * name is sent through the network.
  *
  * \param call The call created, can't be nil. Host App depends on the WeemoCall::callStatus value (CALLSTATUS_* type value)
  *
@@ -43,6 +44,7 @@
  */
 - (void)weemoDidAuthenticate:(NSError*)error;
 
+
 /**
  * \brief Called when Weemo singleton ended its initialization. If no error occured the Weemo singleton is connected and users can proceed to the authentication step.
  *
@@ -56,7 +58,7 @@
 
 /**
  * \brief Called when Weemo disconnected from the server
- *
+ * 
  * \param error Nil if the Weemo singleton disconnected normally. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms.
  * \sa Weemo::disconnect
@@ -65,11 +67,10 @@
 
 /**
  * \brief Called after a contact is checked through the use of the Weemo::getStatus:.
- 
- * While the contact availability is checked upon Weemo::createCall: call, this delegate function
- * is only called when the user/host application specifically call the Weemo::getStatus: method.
  *
- * Use this function as a GUI updater, e.g. disabling a call button in case of !canBeCalled before displaying the view.
+ * This delegate function is only called when the user/host application specifically calls the Weemo::getStatus: method.
+ *
+ * Use this function as a GUI updater, e.g. disabling a call button in case of \c !canBeCalled before displaying the view.
  *
  * \param contactID the contact checked
  * \param canBeCalled YES if the contact can be called, NO otherwise.
@@ -105,8 +106,8 @@
  * \sa WeemoDelegate::weemoDidConnect:
  */
 + (Weemo *)WeemoWithAppID:(NSString *)appID
-				   andDelegate:(id<WeemoDelegate>)delegate
-						 error:(NSError *__autoreleasing *)error;
+			  andDelegate:(id<WeemoDelegate>)delegate
+					error:(NSError *__autoreleasing *)error;
 
 /**
  * \brief Returns the Weemo singleton instance, if instantiated.
@@ -166,38 +167,37 @@
 - (void)getStatus:(NSString*)contactUID;
 
 /**
- * \brief Creates a call whose recipient is contactUID. The call is created when the user is deemed available and returned through the use of the WeemoDelegate::weemoCallCreated: method.
+ * \brief Creates a call whose recipient is \c contactUID. The call is immediately created. If the addressee is not 
+ * available, the call is ended almost immediately. The call is returned to the application throught the use of the
+ * WeemoDelegate::weemoCallCreated: method.
  *
  * \param contactUID The ID of the contact or the conference to call.
  * \sa WeemoDelegate::weemoCallCreated:
  * \sa WeemoCall::contactID
+ * \sa Weemo::createCall:andSetDisplayName:
  */
 - (void)createCall:(NSString*)contactUID;
 
 /**
- * \brief Creates a call whose recipient is \p contactUID and set the contact's display name to \p displayName. The call is created when the user is deemed available and returned through the use of the WeemoDelegate::weemoCallCreated: method.
+ * \brief Creates a call whose recipient is \p contactUID and set the contact's display name to \p displayName. The call is
+ * immediately created. If the addressee is not available, the call is ended almost immediately. The call is returned to the 
+ * application throught the use of the WeemoDelegate::weemoCallCreated: method.
  *
  * \param contactUID The ID of the contact or the conference to call.
  * \param displayName The contact display name to be used.
  * \sa WeemoDelegate::weemoCallCreated:
  * \sa WeemoCall::contactID
  * \sa WeemoCall::contactDisplayName
+ * \sa Weemo::createCall:
  */
 - (void)createCall:(NSString *)contactUID andSetDisplayName:(NSString *)displayName;
 
-/**
- * \brief creates a log file and returns the path to it. The logfile is encrypted. 
- * This function works only if the SDK is compiled with the Lumberjack framework.
- * \return The path to the file. An empty string is returned if the SDK wasn't build against the CocoaLumberjack framework.
- *
- */
-- (NSString *)createLogfile;
 
 /**
  * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection.
  *
  */
-@property(nonatomic, getter=isConnected, readonly)BOOL connected;
+@property(nonatomic, getter = isConnected, readonly)BOOL connected;
 
 /**
  * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection. A value of YES implies Weemo::isConnected.
@@ -215,11 +215,22 @@
  */
 @property(nonatomic, readonly) id<WeemoDelegate> delegate;
 
-
 /**
  * The display name used by the application. Set this before calling to ensure the call can be created.
  */
 @property(nonatomic, strong) NSString *displayName;
+
+/**
+ * Set the log level currently used.
+ * \sa logLevel_t int WeemoData.h
+ */
++ (void)setLogLevel:(logLevel_t)logLevel;
+
+/**
+ * Returns the current log level.
+ * \sa logLevel_t int WeemoData.h
+ */
++ (logLevel_t)getLogLevel;
 
 @end
 

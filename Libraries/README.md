@@ -1,6 +1,6 @@
 ##Versions
 
-Speex version used: 1.2
+Opus version used: 1.1-rc3
 
 VP8 version used: 1.1.0
 
@@ -8,7 +8,10 @@ VP8 version used: 1.1.0
 
 These two binaries are available with the following license:
 
-Speex: Copyright (C) 2002-2006 Jean-Marc Valin
+Opus: Copyright (C) 2001-2011, Xiph.Org, Skype Limited, Octasic,
+                                Jean-Marc Valin, Timothy B. Terriberry,
+                                CSIRO, Gregory Maxwell, Mark Borgerding,
+                                Erik de Castro Lopo
 
 VP8: Copyright (C) 2010, Google Inc. All rights reserved.
 

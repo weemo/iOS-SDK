@@ -78,3 +78,18 @@ typedef struct
 #pragma mark - User type
 #define USERTYPE_INTERNAL 0x00
 #define USERTYPE_EXTERNAL 0x01
+
+#pragma mark - log levels
+/**
+ * Log levels used by the Weemo::setLogLevel: . Sending setLogLevel:logLevel_Warn will prevent every message whose priority is lower than Warn(ing) to be displayed. 
+ */
+typedef enum
+{
+	logLevel_Fatal = 0,
+	logLevel_Error,
+	logLevel_Warn,
+	logLevel_Notice,
+	logLevel_Info,
+} logLevel_t;
+
+

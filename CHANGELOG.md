@@ -1,5 +1,8 @@
 # Weemo iOS SDK Changelog
 
+## 5.1
+
+- libopus support
 
 ## 4.2.0
 
