@@ -154,6 +154,7 @@ Don't forget to add the Key/Value related to the background activity as explaine
 <img src="http://docs.weemo.com/img/ios_receive_call_cf.png">
 
 #### Code
+
 #### Outgoing call
 
 To establish an outgoing call, the HostApp calls
@@ -181,7 +182,8 @@ The WeemoDelegate is alerted of the incoming call through the use of
 One the call is created, you can display the contact UID of the remote user, by using `[call contactDisplayName];` which contains the remote/caller contact UID.
 
 
-#### Note: Before to create a call, it’s also possible to check  the remote user availability by using
+#### Note: 
+Before to create a call, it’s also possible to check  the remote user availability by using
 
 	[[Weemo instance] getStatus:@“remoteContactID"]; 
 	
@@ -193,7 +195,8 @@ To allow the receiving user to get the display name of the remote user, use  `[c
 
 As soon the receiver hangup the call, both the Video and Audio streams are started upon call pickup.
 
-#### Note : The call created <b>should</b> be assigned a delegate as soon as possible, as this delegate will notify the HostApp of all relevant information regarding the call and potentially needed GUI updates.  However, this delegation is entirely optional.
+#### Note : 
+The call created <b>should</b> be assigned a delegate as soon as possible, as this delegate will notify the HostApp of all relevant information regarding the call and potentially needed GUI updates.  However, this delegation is entirely optional.
 
 
 ## GUI Integration
