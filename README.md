@@ -40,9 +40,9 @@ The Weemo iOS SDK relies on open source software libraries for encoding/decoding
 ## Note
 
 - The SDK uses Objective-C Automatic Reference Counting and can't be used in the iPhone Simulator.
-- The SDK was compiled using Xcode 4.6.
+- The SDK was compiled using Xcode 4.6 or later.
 - To use this SDK on an iPhone or iPad, you need a valid Apple iOS Developer account.
-- The `sdk-helper` project compiles under Xcode 4.6. It was not tested on any previous version of the IDE.
+- The `sdk-helper` project compiles under Xcode 4.6 or later. It was not tested on any previous version of the IDE.
 
 ## Setup
 
@@ -56,7 +56,7 @@ The SDK public interface is available in Objective-C++ and requires the STL to c
 	AVFoundation.framework
 	CoreGraphics.framework
 	
-The simplest way to add them to your project is to open the sample project `sdk-helper` with Xcode and copy the `Framework` folder to your application Xcode project explorer.
+The simplest way to add them to your project is to open the sample project `sdk-helper` with Xcode and copy the `WeemoSDK.Framework` folder to your application Xcode project explorer.
 
 If adding Weemo software components to an existing app, it may be necessary to include the C++ runtime.  If C++ linkage errors are encountered, add the following library as a linked framework.
 
@@ -124,7 +124,7 @@ User authentication takes place using the
 	[[Weemo instance]authenticateWithToken:@"myToken" andType:<ContactType>];
 
 
-method of the singleton. The token <b>must</b> comply to the <a href=https://github.com/weemo/Weemo.js/wiki/WeemoDriver-Naming>Naming Rules</a>.
+method of the singleton. The token <b>must</b> comply to the <a href=https://github.com/weemo/Weemo.js/wiki/Weemo-Naming-Rules>Naming Rules</a>.
 
 The WeemoDelegate is notified of the result of this operation by the use of the delegate's method
 
@@ -154,20 +154,22 @@ Don't forget to add the Key/Value related to the background activity as explaine
 <img src="http://docs.weemo.com/img/ios_receive_call_cf.png">
 
 #### Code
+#### Outgoing call
 
-Before creating an outgoing call, the remote user availability can be checked by using
+To establish an outgoing call, the HostApp calls
 
 
 	[[Weemo instance] getStatus:@"remoteContactID"];
 
+Or 
 
-which result is returned as parameters for the 
+	[[Weemo instance]createCall:@"remoteContactID" andSetDisplayName:@"remoteContactDisplayName"];
+
+
+The result of the Host App call, is returned as parameters of WeemoDelegate object method :
 
 
 	- (void)weemoContact:(NSString*)contactID CanBeCalled:(BOOL)canBeCalled
-
-
-method of the WeemoDelegate object.
 
 
 The WeemoDelegate is alerted of the incoming call through the use of
@@ -175,36 +177,28 @@ The WeemoDelegate is alerted of the incoming call through the use of
 
 	- (void)weemoCallCreated:(WeemoCall*)call
 
-The `[call contactDisplayName];` allows the receiving user to get the display name of the remote user.  Note: It is not currently possible for a receiving user to get the contactID of the remote user (i.e., using `[call contactID];` returns the display name of the remote user).
 
-For an outgoing call, the HostApp calls
-
-
-	[[Weemo instance] createCall:@"remoteContactID"];
+One the call is created, you can display the contact UID of the remote user, by using `[call contactDisplayName];` which contains the remote/caller contact UID.
 
 
-or 
+#### Note: Before to create a call, it’s also possible to check  the remote user availability by using
+
+	[[Weemo instance] getStatus:@“remoteContactID"]; 
+	
 
 
-	[[Weemo instance]createCall:@"remoteContactID" andSetDisplayName:@"remoteContactDisplayName"];
+#### Incoming call
 
+To allow the receiving user to get the display name of the remote user, use  `[call contactDisplayName];` which contains the remote/caller contact display name. 
 
+As soon the receiver hangup the call, both the Video and Audio streams are started upon call pickup.
 
-The created call is returned to the WeemoDelegate through the same method as the incoming  call (`- (void)weemoCallCreated:(WeemoCall*)call`).  The WeemoCall `callStatus` property indicates whether it is an outgoing or an incoming call.
+#### Note : The call created <b>should</b> be assigned a delegate as soon as possible, as this delegate will notify the HostApp of all relevant information regarding the call and potentially needed GUI updates.  However, this delegation is entirely optional.
 
-The call created <b>should</b> be assigned a delegate as soon as possible, as this delegate will notify the HostApp of all relevant information regarding the call and potentially needed GUI updates.  However, this delegation is entirely optional.
-
-The controls of the WeemoCall are self explanatory, except maybe the call pick-up function which is provided by the `- (void)resume` signal. Each change of the properties of a WeemoCall is answered by a call to the WeemoCallDelegate.
-
-Both the Video and Audio streams are started upon call pickup.
 
 ## GUI Integration
 
-The ViewController whose view displays the call controls is here called the `callVC`.
-
-This `callVC` is entirely customizable as it is your responsibility to create it. You choose which controls and which views are available to the user.
-
-The typical `callVC` implementation should provide at least  a button for hanging up the call by calling the `- (void)hangup` method and two UIViews:
+You should implement a UIViewController to show the call while it is active. A typical implementation will provide at least one button for hanging up the call and will implement two child UIViews:
 
 - one as argument of the WeemoCall `- (void)setViewVideoIn:(UIView*) view;`. The incoming video will be displayed in this space; 
 - another to display the video out feedback as argument of the WeemoCall `- (void)setViewVideoOut:(UIView*) view;`. The view is integrated directly as a Quartz `CALayer` in the UIView provided. Displaying this monitoring view is optional.
@@ -216,7 +210,7 @@ The WeemoCall object presents a few more controls:
 - `- (void)toggleVideoSource`: two cameras are available on every supported device type and you can switch between them.
 - `- (void)toggleAudioSource`: if a headset is connected, this affects both iPad and iPhone as the sound can be played through the headset or the loudspeaker. Without headset, only the iPhone is affected by this function -- the incoming audio can be streamed through the regular phone audio output or on speakers.
 
-Each of this changes calls a function in the WeemoCallDelegate, if such functions are implemented in the delegate.
+A change to any of these controls will be observed in the WeemoCallDelegate where modifications to the GUI should be performed.
 
 ## Known Limitations
 
