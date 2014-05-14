@@ -5,6 +5,7 @@
 //  Created by Charles Thierry on 7/16/13.
 //  Copyright (c) 2013 Weemo. All rights reserved.
 //
+#include "WeemoData.h"
 
 /**
  * \brief Delegate for the Weemo Singleton. Allows the Host Application to be notified upon events. All functions are optionals.
@@ -170,11 +171,11 @@
 
 
 /**
- * \brief Status of the call (the value is one of the CALLSTATUS_* defines)
+ * \brief Status of the call
  *
  * Upon change, WeemoCallDelegate::weemoCall:callStatus: is called.
  * \sa WeemoCallDelegate::weemoCall:callStatus:
- * \sa CALLSTATUS_* in WeemoData.h
+ * \sa WeemoData.h
  */
 @property(nonatomic, readonly) int callStatus;
 

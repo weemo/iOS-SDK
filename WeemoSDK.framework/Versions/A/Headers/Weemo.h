@@ -78,7 +78,12 @@
  */
 - (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled;
 
-
+/**
+ * \brief This function is called between the app's call to Weemo::authenticateWithToken:andType: and the WeemoDelegate::weemoDidAuthenticate: call.
+ *
+ * \param error If an error occured during authentication, this function may be called with an error param non nil.
+ */
+- (void)weemoWillAuthenticate:(NSError *)error;
 
 @end
 
@@ -96,7 +101,7 @@
 @interface Weemo : NSObject
 
 /**
- * \brief Creates a Weemo singleton Object. The initialization is asynchronous, the WeemoDelegate::weemoDidConnect: 
+ * \brief Creates a Weemo singleton Object. The initialization is asynchronous, the WeemoDelegate::weemoDidConnect:
  * will be called upon singleton connection.
  *
  * \param appID The Application Identifier
