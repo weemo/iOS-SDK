@@ -6,13 +6,17 @@
 //  Copyright (c) 2013 Weemo. All rights reserved.
 //
 
+
 #import "WeemoData.h"
 #import "WeemoCall.h"
+
 
 /**
  * \brief Delegate for the Weemo Singleton. Allows the Host Application to be notified upon events.
  */
 @protocol WeemoDelegate <NSObject>
+
+
 
 /**
  * \brief This function will be called after a call is created, either by calling a contact or receiving a call.
@@ -24,6 +28,7 @@
  *
  * \sa Weemo::createCall:
  * \sa The definition of the CALLSTATUS_* variables (found in WeemoData.h).
+ * \since 5.1.0
  */
 - (void)weemoCallCreated:(WeemoCall*)call;
 
@@ -32,6 +37,7 @@
  * \brief This function will be called after a call is stopped. The \param call will be released soon after this method returns.
  *
  * \param call The call that is stopped.
+ * \since 5.1.0
  */
 - (void)weemoCallEnded:(WeemoCall*)call;
 
@@ -41,6 +47,7 @@
  * \param error If authentication failed, error will be different from nil. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms. Otherwise, it is nil.
  * \sa Weemo::authenticateWithUserID:toDomain:
+ * \since 5.1.6
  */
 - (void)weemoDidAuthenticate:(NSError*)error;
 
@@ -51,6 +58,7 @@
  * \param error Nil if no error occured. If different from nil then the connection did NOT succeed. The debugDescription field of
  * the NSError returns a NSString* describing the error in human terms.
  * \sa Weemo::WeemoWithURLReferer:andDelegate:error:
+ * \since 5.1.0
  */
 - (void)weemoDidConnect:(NSError*)error;
 
@@ -62,6 +70,7 @@
  * \param error Nil if the Weemo singleton disconnected normally. The debugDescription field of the NSError returns a
  * NSString* describing the error in human terms.
  * \sa Weemo::disconnect
+ * \since 5.1.0
  */
 - (void)weemoDidDisconnect:(NSError*)error;
 
@@ -75,6 +84,7 @@
  * \param contactID the contact checked
  * \param canBeCalled YES if the contact can be called, NO otherwise.
  * \sa Weemo::getStatus:
+ * \since 5.1.0
  */
 - (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled;
 
@@ -82,6 +92,7 @@
  * \brief This function is called between the app's call to Weemo::authenticateWithToken:andType: and the WeemoDelegate::weemoDidAuthenticate: call.
  *
  * \param error If an error occured during authentication, this function may be called with an error param non nil.
+ * \since 5.1.62
  */
 - (void)weemoWillAuthenticate:(NSError *)error;
 
@@ -109,6 +120,7 @@
  * \param error When initialization has failed and this is not nil, this will be filled with a describing error. The debugDescription 
  * field of the NSError returns a NSString* describing the error in human terms.
  * \sa WeemoDelegate::weemoDidConnect:
+ * \since 5.1.6
  */
 + (Weemo *)WeemoWithAppID:(NSString *)appID
 			  andDelegate:(id<WeemoDelegate>)delegate
@@ -118,12 +130,14 @@
  * \brief Returns the Weemo singleton instance, if instantiated.
  *
  * \return The Weemo singleton or nil if the SDK was not instantiated.
+ * \since 5.1.0
  */
 + (Weemo*)instance;
 
 /**
  * Used for identification purpose.
  * \return The version of the Weemo SDK
+ * \since 5.1.0
  */
 + (NSString *)getVersion;
 
@@ -139,37 +153,39 @@
  * \param token The token to be used for authentication
  * \param type The type of the userID, USERTYPE_EXTERNAL or USERTYPE_INTERNAL
  * \sa WeemoDelegate::weemoDidAuthenticate:
+ * \since 5.1.0
  */
 - (BOOL)authenticateWithToken:(NSString*)token andType:(int)type;
 
 /**
  * \brief Disconnects from weemo servers. A call to WeemoDelegate::weemoDidDisconnect: is to be expected upon disconnection.
  * \sa WeemoDelegate::weemoDidDisconnect:
+ * \since 5.1.0
  */
 - (BOOL)disconnect;
-
-/**
- * \brief This function is to be called when the application goes to background. Not calling this function will result in undefined behavior.
- * \sa Weemo::foreground
- * \deprecated This method was deprecated in version 4.1.24. The background transition is now detected using the related UIApplication notification (UIApplicationDidEnterBackgroundNotification).
- */
-- (void)background;
-
-/**
- * \brief This function is to be called when the application comes to foreground. Not calling this function will result in undefined
- * behavior.
- * \sa Weemo::background
- * \deprecated This method was deprecated in version 4.1.24. The foreground  transition is now detected using the related UIApplication notification (UIApplicationDidBecomeActiveNotification).
- */
-- (void)foreground;
 
 /**
  * \brief Check if a user can be called. WeemoDelegate::weemoContact:canBeCalled: is called upon callback from the network.
  *
  * \param contactUID The ID of the contact to check
  * \sa WeemoDelegate::weemoContact:canBeCalled:
+ * \since 5.1.0
  */
 - (void)getStatus:(NSString*)contactUID;
+
+/**
+ * Overrides the default bandwidth parameters by changing the max video FPS and bandwith, and adding a resolution divider.
+ * Settings any of this value to 0 will reset the setting to default values. Using this leads to undefined behaviour where
+ * WeemoCall::videoProfile values are concerned.
+ * \since 5.1.66
+ */
+- (void)setCallMaxFPS:(int)maxfps andVideoMaxBitrate:(int)maxBitrate andResolutionDivider:(int)resolutionDiv;
+
+/**
+ * Restore defaults bandwidth parameters. Equivalent to call [[Weemo instance] setCallMaxFPS:0 andVideoMaxBitrate:0 andResolutionDivider:0];
+ * \since 5.1.66
+ */
+- (void)resetBandwidthDefaults;
 
 /**
  * \brief Creates a call whose recipient is \c contactUID. The call is immediately created. If the addressee is not 
@@ -180,6 +196,7 @@
  * \sa WeemoDelegate::weemoCallCreated:
  * \sa WeemoCall::contactID
  * \sa Weemo::createCall:andSetDisplayName:
+ * \since 5.1.0
  */
 - (void)createCall:(NSString*)contactUID;
 
@@ -194,48 +211,57 @@
  * \sa WeemoCall::contactID
  * \sa WeemoCall::contactDisplayName
  * \sa Weemo::createCall:
+ * \since 5.1.0
  */
 - (void)createCall:(NSString *)contactUID andSetDisplayName:(NSString *)displayName;
 
-
 /**
  * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection.
- *
+ * \since 5.1.0
  */
 @property(nonatomic, getter = isConnected, readonly)BOOL connected;
 
 /**
  * \brief This property is accessed through the isConnected method and reflects the state of the Weemo singleton connection. A value of YES implies Weemo::isConnected.
- *
+ * \since 5.1.0
  */
 @property(nonatomic, getter = isAuthenticated, readonly)BOOL authenticated;
 
 /**
  * \brief The current active (not paused) call, if any. Currently, only one call at a time is supported.
+ * \since 5.1.0
  */
 @property(nonatomic, readonly) WeemoCall *activeCall;
 
 /**
- * \brief The delegate for the current connection. Mandatory to do anything, really.
+ * \brief The delegate for the current connection.
+ * \since 5.1.0
  */
 @property(nonatomic, readonly) id<WeemoDelegate> delegate;
 
 /**
- * The display name used by the application. Set this before calling to ensure the call can be created.
+ * The display name used by the application. Set this before placing to call to ensure the call can be created.
+ * \since 5.1.0
  */
 @property(nonatomic, strong) NSString *displayName;
 
 /**
  * Set the log level currently used.
  * \sa logLevel_t int WeemoData.h
+ * \sa Weemo::getLogLevel
+ * \since 5.1.49
  */
 + (void)setLogLevel:(logLevel_t)logLevel;
 
 /**
  * Returns the current log level.
  * \sa logLevel_t int WeemoData.h
+ * \sa Weemo::setLogLevel:
+ * \since 5.1.49
  */
 + (logLevel_t)getLogLevel;
+
+
 
 @end
 

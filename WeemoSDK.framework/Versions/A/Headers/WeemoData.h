@@ -61,6 +61,8 @@ typedef struct
 #define NOT_CONNECTED					ERROR_INIT | 3
 /** */
 #define ALREADY_AUTHENTICATED			ERROR_INIT | 4
+/** Returned if authentication failure after connection success */
+#define INVALID_TOKEN					ERROR_INIT | 5
 
 /** Error code class: connection exception.*/
 #define ERROR_CONN						0x0200
@@ -81,7 +83,8 @@ typedef struct
 
 #pragma mark - log levels
 /**
- * Log levels used by the Weemo::setLogLevel: . Sending setLogLevel:logLevel_Warn will prevent every message whose priority is lower than Warn(ing) to be displayed. 
+ * Log levels used by the Weemo::setLogLevel: . Sending setLogLevel:logLevel_Warn will prevent every message whose priority is lower than Warn(ing) to be displayed.
+ * \since 5.1.49
  */
 typedef enum
 {
@@ -92,4 +95,14 @@ typedef enum
 	logLevel_Info,
 } logLevel_t;
 
-
+/**
+ * This is used to describe the video Profile returned by the SDK throught the WeemoCallDelegate::weemoCall:videoProfile: callback.
+ * \since 5.1.66
+ */
+typedef enum
+{
+	profile_unknown = -1, //< The video in profile is unknown
+	profile_lowest, //< landscape dimensions lower than 352*288
+	profile_low, //< landscape dimensions between 352*280 included and 640*360 excluded
+	profile_high //< High video profile lanscape dimensions greater or equal to 640*360
+} video_profile_t;
