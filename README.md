@@ -3,7 +3,7 @@
 This repository contains the Weemo iOS SDK. More information about Weemo SDKs can be found at [http://www.weemo.com/](http://www.weemo.com/)
 
 
-The use cases have been minimized in order to reduce the integration effort while creating a functional model for the POC that covers most of the use cases for audio and video during 1:1 calls.
+The use cases have been minimized in order to reduce the integration effort while creating a functional model that covers most of the use cases for audio and video during 1:1 calls.
 Basic implemented functions into this example are: 
 
 - Initialization and Cloud authentification
@@ -15,7 +15,6 @@ Basic implemented functions into this example are:
 There are other pages to help your implementation:
 
 - API Reference on [http://docs.weemo.com/release/5.1/sdk/ios/](http://docs.weemo.com/release/5.1/sdk/ios/)
-- How to [Upgrade from 4.2 to 5.1](/docs/Upgrade-4.2-to-5.1.md)
 
 ## SDK Architecture
 
@@ -30,7 +29,7 @@ There are other pages to help your implementation:
 * iPad Mini, 2, 3 and more recent
 
 ### Software
-* iOS 5.1 or later
+* iOS 6 or later
 
 ## Licences
 
@@ -51,12 +50,17 @@ The SDK public interface is available in Objective-C++ and requires the STL to c
 	AudioToolbox.framework
 	CoreVideo.framework
 	CoreMedia.framework
+	CoreTelephony.framework
+	CoreGraphics.framework
 	QuartzCore.framework
 	CFNetwork.framework
 	AVFoundation.framework
-	CoreGraphics.framework
+	OpenGLES.framework
+	GLKit.framework
+	UIKit.framework
+	Foundation.framework
 	
-The simplest way to add them to your project is to open the sample project `sdk-helper` with Xcode and copy the `WeemoSDK.Framework` folder to your application Xcode project explorer.
+The simplest way to add them to your project is to open the sample project `sdk-helper` with Xcode and copy all the Frameworks in the framework folder to your application Xcode project explorer. The `sdk-helper` can be download on [Github](https://github.com/weemo/iOS-SDK-Helper)
 
 If adding Weemo software components to an existing app, it may be necessary to include the C++ runtime.  If C++ linkage errors are encountered, add the following library as a linked framework.
 
@@ -73,22 +77,28 @@ This will allow the application to receive calls and play the call sound while i
 
 The first thing is to add the iOS-SDK framework to your application, the library dependencies along with the frameworks mentioned in the [Setup section](https://github.com/weemo/iOS-SDK_beta/wiki#wiki-setup) and modify the application plist.
 
-* [Initialize Weemo](https://github.com/weemo/iOS-SDK_beta/wiki#wiki-initialization)
-* [Create and Receive a call](https://github.com/weemo/iOS-SDK_beta/wiki#wiki-create-and-receive-a-call)
-* [GUI Integration](https://github.com/weemo/iOS-SDK_beta/wiki#wiki-gui-integration)
+* [Initialize Weemo](#initialization)
+* [Create and Receive a call](#create-and-receive-a-call)
+* [GUI Integration](#ui-integration)
 
 ##General application flow
 
-1. The host application authenticates with its application server.
+1. The host application authenticates with its application server. In addition to your business use cases, the server backends gets a Token from the Weemo back office (5) and sends it to the client application.
 2. The host application creates the Weemo singleton. Every action related to the Weemo Cloud goes through Weemo objects, and every callback is sent through those objects.
 3. The SDK singleton connects to our cloud. 
 4. Once connected, the application tries to authenticate the user.
-5. The verification of the authentication is not mandatory during the POC/trial phase.
 6. Once connected, the application communicates with our cloud.
 
 <img src="http://docs.weemo.com/img/ios_03_appflow.png">
 
 ## Initialization
+
+#### Prerequisites
+
+Make sure that your application has received a token from your backend server when starting the authentication process.
+If you use one of our Authentication Client, the code returns you a json string containing the Token.
+If you use our SDK helper that is on Github, it contains the code to retrieve a token calling directly an authentication Client stored on your backend.
+
 #### Call Flow
 
 This application uses a singleton to connect with Weemo cloud. This object is set on instantiation and <b>must</b> be called via the `[Weemo instance]` class method.
@@ -98,21 +108,22 @@ This application uses a singleton to connect with Weemo cloud. This object is se
 #### Code
 
 
-This singleton is instantiated using the Weemo-provided AppID and a delegate object. In the helper code supplied, the Weemo Delegate is the rootViewController.
+This singleton is instantiated using the Weemo-provided AppID and a delegate object. In the helper code supplied on Github, the Weemo Delegate is the weemoDelegate Class.
 
 ##### Weemo singleton creation
 
-
-	[Weemo WeemoWithAppID:@"appID"
-			  andDelegate:self 
-			        error:err];
+```obj-c
+[Weemo WeemoWithAppID:@"appID"
+		andDelegate:self 
+		error:err];
+```
 
 
 After this instantiation, the WeemoDelegate is notified through the 
 
-
-	- (void)weemoDidConnect:(NSError *)error
-
+```obj-c
+- (void)weemoDidConnect:(NSError *)error
+```
 
 method of the result of the connection.
 
@@ -120,22 +131,23 @@ method of the result of the connection.
 ##### User authentication
 User authentication takes place using the 
 
+```obj-c
+[[Weemo instance] authenticateWithToken:@"myToken" andType:<ContactType>];
+```
 
-	[[Weemo instance]authenticateWithToken:@"myToken" andType:<ContactType>];
-
-
-method of the singleton. The token <b>must</b> comply to the <a href=https://github.com/weemo/Weemo.js/wiki/Weemo-Naming-Rules>Naming Rules</a>.
+method of the singleton. The token is the Token returned by the Weemo Client to your backend server and that the backend server forwarded to your application.
 
 The WeemoDelegate is notified of the result of this operation by the use of the delegate's method
 
-
-	- (void)weemoDidAuthenticate:(NSError *)e
+```obj-c
+- (void)weemoDidAuthenticate:(NSError *)e
+```
 
 After being authenticated, the HostApp <b>should</b> set a display name. This is a user friendly name, that will be presented to remote users when the user is calling said remote user.
 
-
-	[[Weemo instance] setDisplayName:@"myUserName"];
-
+```obj-c
+[[Weemo instance] setDisplayName:@"myUserName"];
+```
 
 ##### Background management
 
@@ -159,34 +171,31 @@ Don't forget to add the Key/Value related to the background activity as explaine
 
 To establish an outgoing call, the HostApp calls
 
-
-	[[Weemo instance] getStatus:@"remoteContactID"];
-
-Or 
-
-	[[Weemo instance]createCall:@"remoteContactID" andSetDisplayName:@"remoteContactDisplayName"];
-
+```obj-c
+[[Weemo instance] createCall:@"remoteContactID" andSetDisplayName:@"remoteContactDisplayName"];
+```
 
 The result of the Host App call, is returned as parameters of WeemoDelegate object method :
 
-
-	- (void)weemoContact:(NSString*)contactID CanBeCalled:(BOOL)canBeCalled
-
+```obj-c
+- (void)weemoContact:(NSString*)contactID CanBeCalled:(BOOL)canBeCalled
+```
 
 The WeemoDelegate is alerted of the incoming call through the use of
 
-
-	- (void)weemoCallCreated:(WeemoCall*)call
-
+```obj-c
+- (void)weemoCallCreated:(WeemoCall*)call
+```
 
 One the call is created, you can display the contact UID of the remote user, by using `[call contactDisplayName];` which contains the remote/caller contact UID.
 
 
 #### Note: 
-Before to create a call, it’s also possible to check  the remote user availability by using
+Prior to create a call, it’s also possible to check the remote user availability by using
 
-	[[Weemo instance] getStatus:@“remoteContactID"]; 
-	
+```obj-c
+[[Weemo instance] getStatus:@“remoteContactID"]; 
+```
 
 
 #### Incoming call
@@ -196,21 +205,23 @@ To allow the receiving user to get the display name of the remote user, use  `[c
 As soon the receiver hangup the call, both the Video and Audio streams are started upon call pickup.
 
 #### Note : 
-The call created <b>should</b> be assigned a delegate as soon as possible, as this delegate will notify the HostApp of all relevant information regarding the call and potentially needed GUI updates.  However, this delegation is entirely optional.
+
+The call created <b>should</b> be assigned a delegate as soon as possible, as this delegate will notify the HostApp of all relevant information regarding the call and potentially needed GUI updates. However, this delegation is entirely optional.
 
 
-## GUI Integration
+## UI Integration
+
 
 You should implement a UIViewController to show the call while it is active. A typical implementation will provide at least one button for hanging up the call and will implement two child UIViews:
 
-- one as argument of the WeemoCall `- (void)setViewVideoIn:(UIView*) view;`. The incoming video will be displayed in this space; 
-- another to display the video out feedback as argument of the WeemoCall `- (void)setViewVideoOut:(UIView*) view;`. The view is integrated directly as a Quartz `CALayer` in the UIView provided. Displaying this monitoring view is optional.
+- one as argument of the WeemoCall `- (void)setViewVideoIn:(UIView*) view;`. The incoming video will be displayed in this space. Setting and displaying this view is optional; 
+- another to display the video out feedback as argument of the WeemoCall `- (void)setViewVideoOut:(UIView*) view;` Setting and displaying this monitoring view is optional. 
 
 The WeemoCall object presents a few more controls:
 
-- `- (void)videoStart/Stop`: the outgoing video stream can be stopped and started at will.
-- `- (void)audioStart/Stop`: the outgoing audio stream is filled with empty audio frame (the stream as to be kept active).
-- `- (void)toggleVideoSource`: two cameras are available on every supported device type and you can switch between them.
+- `- (void)videoStart/Stop`: the outgoing video stream can be stopped and started at will;
+- `- (void)audioStart/Stop`: the outgoing audio stream is filled with empty audio frame (the stream as to be kept active);
+- `- (void)toggleVideoSource`: two cameras are available on every supported devices and you can switch between them;
 - `- (void)toggleAudioSource`: if a headset is connected, this affects both iPad and iPhone as the sound can be played through the headset or the loudspeaker. Without headset, only the iPhone is affected by this function -- the incoming audio can be streamed through the regular phone audio output or on speakers.
 
 A change to any of these controls will be observed in the WeemoCallDelegate where modifications to the GUI should be performed.
