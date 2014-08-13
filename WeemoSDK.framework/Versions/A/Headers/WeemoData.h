@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Weemo. All rights reserved.
 //
 #include <stdint.h>
-
+#import <AvailabilityMacros.h>
 
 typedef struct
 {
@@ -106,3 +106,4 @@ typedef enum
 	profile_low, //< landscape dimensions between 352*280 included and 640*360 excluded
 	profile_high //< High video profile lanscape dimensions greater or equal to 640*360
 } video_profile_t;
+
