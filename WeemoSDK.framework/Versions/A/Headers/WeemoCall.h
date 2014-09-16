@@ -25,12 +25,21 @@
 - (void)weemoCall:(id)sender videoReceiving:(BOOL)isReceiving;
 
 /**
- * \brief Called when the SDK receives cursor location. This location is in percent, between 0 and 99 (width%, height%). If the cursor is out of the video, location is -1x-1.
+ * \brief Called when the SDK receives cursor coordinates in the share view. This location is in percent, between 0 and 99 (width%, height%). 
+ * If the cursor is out of the view, location is -1x-1.
  * \param sender The WeemoCall which property changed
- * \param location The inbound video cursor location. If -1x-1, the remote's cursor is not over the video.
+ * \param location The inbound video cursor location. If -1x-1, the remote's cursor is not over the share view.
  * \since 5.3
  */
-- (void)WeemoCall:(id)sender cursorLocationPosition:(CGPoint)location;
+- (void)weemoCall:(id)sender cursorLocationInShare:(CGPoint)location;
+
+/**
+ * \brief Called when the SDK receives a cursor click event. This location is in percent, between 0 and 99 (width%, height%). If the cursor is out of the view, location is -1x-1.
+ * \param sender The WeemoCall which property changed
+ * \param location The inbound video cursor location. If -1x-1, the remote's cursor is not over the share view.
+ * \since 5.3
+ */
+- (void)weemoCall:(id)sender cursorClickOnShareInAt:(CGPoint)location;
 
 /**
  * \brief Fired when the SDK starts or stops receiving share data.
@@ -67,7 +76,7 @@
  * \since 5.0
  * \deprecated Replaced by the WeemoCallDelegate::weemoCall:videoInSizeChange:. Names sanitization effort.
  */
-- (void)weemoCall:(id)sender videoProfile:(video_profile_t)profile __deprecated;
+- (void)weemoCall:(id)sender videoProfile:(video_profile_t)profile __attribute__ ((unavailable("Removed since 5.3. Please use weemoCall:videoInSizeChange:")));
 
 
 /**
@@ -79,6 +88,18 @@
  * \since 5.1
  */
 - (void)weemoCall:(id)sender videoInSizeChange:(CGSize)size;
+
+
+/**
+ * \brief Called when the incoming video profile changes. Use this method to know when the video incoming size/profile changes.
+ * \param sender The WeemoCall which property changed
+ * \param profile The new profile used by the incoming video. Can be CGSizeZero.
+ * \param contact The contact whose video in changed
+ * \sa WeemoCall::videoInProfile
+ * \sa WeemoCall::getVideoInSize
+ * \since 5.1
+ */
+- (void)weemoCall:(id)sender videoInSizeChange:(CGSize)profile forContact:(WeemoContact *)contact;
 
 /**
  * \brief Called when the outgoing video size changes (that is, even if the device rotates).
@@ -125,7 +146,7 @@
  * \sa WeemoCall:callStatus
  * \since 5.0
  */
-- (void)weemoCall:(id)sender callStatus:(int)status;
+- (void)weemoCall:(id)sender callStatus:(callStatus_t)status;
 
 /**
  * \brief The call unique SIP identifier as been received. This occurs *after* the call goes active. After this delegate
@@ -136,6 +157,56 @@
  * \since 5.2
  */
 - (void)weemoCall:(id)sender sipID:(NSString *)sipID;
+
+/**
+ * \brief You received raw data from the contact you are talking to.
+ * \param sender The call related to the data
+ * \param data The data received
+ * \since 5.3
+ */
+- (void)weemoCall:(id)sender receivedData:(NSData *)data;
+
+#pragma mark - Conference delegation
+/**
+ * \brief Fired when a participant's status changes
+ * \param sender the Call which participant changed.
+ * \param contact A reference to the contact that changed. The changes is one of the following:
+ - WeemoContact::isMuted
+ - WeemoContact::isDeafen
+ - WeemoContact::isEmittingVideo
+ - WeemoContact::isHandUp
+ - WeemoContact::isAdmin
+ - WeemoContact::isOnHold
+ - WeemoContact::isTalking
+ * \since 5.3
+ */
+- (void)weemoConference:(id)sender participantChange:(WeemoContact *)contact;
+
+/**
+ * Fired when the list of contacts changes. The whole list (of WeemoContact) is dropped and rebuilt.
+ * \since 5.3
+ */
+- (void)weemoParticipantListChangeForConference:(id)sender;
+
+
+/**
+ * Indicates that recording for this call started.
+ * \param sender The related WeemoCall.
+ * \sa WeemoCall::recordingStop
+ * \sa WeemoCall::recordingPause
+ * \since 5.3
+ */
+- (void)weemoCallRecordStopped:(id)sender;
+
+
+/**
+ * Indicates that recording for this call ended.
+ * \param sender The related WeemoCall.
+ * \since 5.3
+ * \sa WeemoCall::recordingStart:
+ */
+- (void)weemoCallRecordStarted:(id)sender;
+
 @end
 
 /**
@@ -179,7 +250,7 @@
  * \sa WeemoCall::contactDisplayName
  * \since 5.0
  */
-@property(readonly) NSString *contactID;
+@property(readonly) NSString *contactUID;
 
 /**
  * \brief Display name of the contact or conference being called. If this name is not set, a call to this variable returns
@@ -229,6 +300,7 @@
  */
 - (void)screenShareStop;
 
+
 /**
  * \brief Start sending video from the camera. The video starts automatically upon call start.
  * \since 5.0
@@ -244,7 +316,7 @@
 /**
  * \brief Start sending audio from the microphone.
  *
- * While the outgoing audio stream starts automatically upon call start, it is posisble to mute the microphone, thus sending only empty frames. This function starts the sending of captured audio packet.
+ * While the outgoing audio stream starts automatically upon call start, it is possible to mute the microphone, thus sending only empty frames. This function starts the sending of captured audio packet.
  *
  * Upon change, WeemoCallDelegate::weemoCall:audioSending: is called.
  * \sa WeemoCallDelegate::weemoCall:audioSending:
@@ -293,7 +365,7 @@
  * \sa WeemoData.h
  * \since 5.0
  */
-@property(nonatomic, readonly) int callStatus;
+@property(nonatomic, readonly) callStatus_t callStatus;
 
 /**
  * \brief Value changes after a WeemoCall::toggleAudioRoute.
@@ -338,6 +410,9 @@
  * \since 5.0
  */
 @property(nonatomic, readonly, getter = isSendingVideo) BOOL sendingVideo;
+
+
+@property(nonatomic, readonly) BOOL isVideoPaused;
 
 /**
  * \brief Whether or not the call has an outbound view share ongoing
@@ -384,6 +459,30 @@
  */
 @property(nonatomic, readonly, getter = getSipID) NSString *sipID;
 
+/**
+ * \brief Start recording the video to the specified URL. Multiparty conference only.
+ * \param serverURL The server to which the MVS will send the video streams.
+ * \since 5.3
+ */
+- (void)recordingStart:(NSString *)serverURL;
+
+/**
+ * \brief Pause the recording.
+ * \since 5.3
+ */
+- (void)recordingPause;
+
+/**
+ * \brief Stop the recording.
+ * \since 5.3
+ */
+- (void)recordingStop;
+
+/**
+ * \brief Create a bookmark in a recording.
+ * \since 5.3
+ */
+- (void)recordingBookmark;
 
 #pragma mark - Views and Video
 /**
@@ -415,10 +514,10 @@
  * \deprecated Replaced by WeemoCall::videoInProfile. Names sanitization effort.
  * WeemoCall::videoInProfile
  */
-@property (nonatomic) video_profile_t videoProfile __attribute__ ((deprecated("Deprecated since 5.2")));
+@property (nonatomic) video_profile_t videoProfile __attribute__ ((unavailable("Removed in 5.3. Please use WeemoCall::videoInProfile.")));
 
 /**
- * \brief Set this value to ask for a change in the incoming video resolution. Valid values are profile_small and profile_high
+ * \brief Set this value to ask for a change in the incoming video resolution. Valid values are profile_low and profile_high
  *
  * Upon change, WeemoCallDelegate::weemoCall:videoInProfileChange: is called.
  * \sa WeemoCallDelegate::weemoCall:videoOutProfile
@@ -428,7 +527,7 @@
 @property (nonatomic) video_profile_t videoInProfile;
 
 /**
- * \brief Set this value to ask for a change in the outgoing video resolution. Valid values are profile_small and profile_high
+ * \brief Set this value to ask for a change in the outgoing video resolution. Valid values are profile_low and profile_high
  *
  * Upon change, WeemoCallDelegate::weemoCall:videoProfile: is called.
  * \sa WeemoCallDelegate::weemoCall:videoInProfile
@@ -464,7 +563,7 @@
  * \deprecated Replaced by WeemoCall::getVideoInSize. Names sanitization effort.
  * \since 5.1
  */
-- (CGSize)getVideoInProfile __attribute__ ((deprecated("Deprecated since 5.2")));
+- (CGSize)getVideoInProfile __attribute__ ((unavailable("Removed in 5.3. Please use WeemoCall::getVideoInSize.")));
 
 
 /**
@@ -473,6 +572,61 @@
  * \deprecated 5.2 Replaced by WeemoCall::getVideoOutSize. Names sanitization effort.
  * \since 5.1
  */
-- (CGSize)getVideoOutProfile __attribute__ ((deprecated("Deprecated since 5.2")));
+- (CGSize)getVideoOutProfile __attribute__ ((unavailable("Removed in 5.3. Please use WeemoCall::getVideoOutSize.")));
+
+#pragma mark - Pointers
+
+/**
+ * Send raw data to the call recipient. Could be anything. 
+ * \since 5.3
+ * \warning One-to-one call only.
+ */
+- (void)sendData:(NSData *)data;
+
+#pragma mark - Conference
+/**
+ * \brief Answers the question "Is this call a conference?".
+ * \since 5.3
+ */
+@property(nonatomic, readonly) BOOL isConference;
+
+/**
+ * \brief The list of participants in the call, own user excluded. This dictionary is composed of couples
+ * {index, WeemoContact}, where index is a NSNumber indicating the contact's location in the floorlist. The user is not represented in this array.
+ * \sa WeemoCall::myself
+ * \since 5.3
+ */
+@property (nonatomic, readonly) NSDictionary *participantsDictionary;
+
+/**
+ * \brief Only used in case of conference. Not present in the participantsList.
+ * \since 5.3
+ */
+@property (nonatomic, readonly) WeemoContact *myself;
+
+@property (nonatomic, readonly) BOOL isHost;
+/**
+ * \brief Setting this mute/unmute all the conference participants. YES if all contacts are muted. Same as iterating throught the contacts list and checking
+ * if everyone is muted.
+ * Setting this to YES sends a global command to the conference bridge.
+ * \since 5.3
+ */
+@property (nonatomic, getter = areAllMuted) BOOL muteAll;
+
+/**
+ * \brief Setting this deafen/undeafen all the conference participants. YES if all contacts are deaf. Same as iterating throught the contacts list and checking
+ * if everyone is deaf.
+ * Setting this to YES sends a global command to the conference bridge.
+ * \since 5.3
+ */
+@property (nonatomic, getter = areAllDeafen) BOOL deafenAll;
+
+/**
+ * \brief Kicks a participant out of the call. Only an admin can call this method and be obeyed.
+ * \since 5.3
+ */
+- (void)kickParticipant:(NSNumber *)participantID __attribute__((nonnull (1)));
+
+
 
 @end

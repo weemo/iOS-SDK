@@ -10,6 +10,198 @@
 #import "WeemoData.h"
 #import "WeemoCall.h"
 
+/**
+ * A meeting point is a virtual space. It is created by a Host and can be joined by Attendees. Hosts can update meeting
+ * point's details, fetch the list of user wishing to join, send invitations (once the call is started) and accept/or 
+ * deny attendees join requests. Attendees can request to join a meeting point, and once accepted can call the conference.
+ *
+ * The callflow should be thus:
+ *
+ * Host creates Meeting point
+ * Host share the meetingPoint ID
+ * Host can update the Meeting point details
+ * Attendees send join requests based on the meeting point ID
+ * Host is notified of the join requests
+ * Host starts the conference
+ * Host can accept/deny Attendees request
+ * Host can send invites to Attendees
+ * Potential Attendees receives join requests, accept or deny them.
+ *
+ * Host starts the call
+ *
+ * Host can accept/deny Attendees request
+ * Host can send invites to Attendees
+ * Potential Attendees receives join requests, accept or deny them.
+ * \since 5.3
+ */
+@protocol WeemoMeetingPointDelegate <NSObject>
+
+/**
+ * The meeting point was created. Once this has been fired, the MP's ID can be shared to future Attendees and the 
+ * call related to the Meeting Point can be created. Attendees can only be invited once this call has been created.
+ *
+ * \param mp The meeting point's details. Keys for the dictionary are:
+ * <dl>
+ * <dt>k_MPID:</dt>		<dd>NSString - the meeting point id </dd>
+ * <dt>k_MPURLAttendee:</dt>	<dd>NSString - The attendee wall URL </dd>
+ * <dt>k_MPURLHost:</dt>		<dd>NSString - The host wall URL </dd>
+ * </dl>
+ * If nil, an error occured.
+ * \sa Weemo::createMeetingPointWithData:
+ * \since 5.3
+ */
+- (void)weemoMeetingPointCreated:(NSDictionary *)mp;
+
+/**
+ * A meeting point was deleted.
+ * \param mp The deleted meeting point id. If nil, an error occured.
+ * \warning Can not delete Meeting point if it was created using type_permanent.
+ * \sa Weemo::deleteMeetingPoint:
+ * \since 5.3
+ */
+- (void)weemoMeetingPointDeleted:(NSString *)mp;
+
+/**
+ * A meeting point information were requested through Weemo::getMeetingPointData:
+ * \param mp The meeting point's details.  Keys for the dictionary are:
+ * <dl>
+ * <dt>k_MPEnd:</dt>		<dd>NSNumber from int - end as unsigned int based on 1970 </dd>
+ * <dt>k_MPID:</dt>	<dd>NSString - the meeting point id </dd>
+ * <dt>k_MPLocation:</dt>	<dd>NSString describing the location - 128 char max </dd>
+ * <dt>k_MPStart:</dt>		<dd>NSNumber from int - start as unsigned int based on 1970 </dd>
+ * <dt>k_MPTitle:</dt>		<dd>NSString - a user defined name, describing the meeting - 128 char max </dd>
+ * </dl>
+ * If nil, an error occured.
+ * \sa Weemo::getMeetingPointData:
+ * \since 5.3
+ */
+- (void)weemoMeetingPointDetails:(NSDictionary *)mp;
+
+/**
+ *
+ * \param mp The meeting point's details.  Keys for the dictionary are:
+ * <dl>
+ * <dt>k_MPURLAttendee:</dt>	<dd>NSString describing the attendee's Wall URL</dd>
+ * <dt>k_MPID:</dt>		<dd>NSString - the meeting point id </dd>
+ * <dt>k_MPURLHost:</dt>		<dd>NSString describing the host's Wall URL</dd>
+ * </dl>
+ * If nil, an error occured.
+ * \sa Weemo::getMeetingPointData:
+ * \since 5.3
+ */
+- (void)weemoMeetingPointURLs:(NSDictionary *)mp;
+
+/**
+ * The meeting point was updated, here comes the new infos.
+ * \param mp The new meeting point's details.  Keys for the dictionary are:
+ * <dl>
+ * <dt>k_MPEnd:</dt>		<dd>NSNumber from int - end as unsigned int based on 1970 </dd>
+ * <dt>k_MPID:</dt>	<dd>NSString - the meeting point id </dd>
+ * <dt>k_MPLocation:</dt>	<dd>NSString describing the location - 128 char max </dd>
+ * <dt>k_MPStart:</dt>		<dd>NSNumber from int - start as unsigned int based on 1970 </dd>
+ * <dt>k_MPTitle:</dt>		<dd>NSString - a user defined name, describing the meeting - 128 char max </dd>
+ * </dl>
+ * If nil, an error occured.
+ * \sa Weemo::updateMeetingPoint:withData:
+ * \since 5.3
+ */
+- (void)weemoMeetingPointUpdated:(NSDictionary *)mp;
+
+
+/**
+ * \brief The meeting was cancelled by the host after the user reached it.
+ * \param mpID The id of the cancelled meeting point. If nil, an error occured.
+ * \since 5.3
+ */
+- (void)weemoMeetingPointCancelled:(NSString *)mpID;
+
+
+/**
+ * \brief The meeting point was stopped after the user reached it.
+ * \param mpID The id of the stopped meeting point. If nil, an error occured.
+ * \since 5.3
+ */
+- (void)weemoMeetingPointStopped:(NSString *)mpID;
+
+@end
+
+/**
+ * \brief This protocol represent the callback an attendee expects.
+ * \since 5.3
+ */
+@protocol WeemoHostDelegate <NSObject>
+
+/**
+ * \brief
+ * \param infos Data about the soon-to-become attendee
+ * <dl>
+ * <dt>k_MPContactName</dt>	<dd>NSString - the contact ID</dd>
+ * <dt>k_MPDisplayName</dt>	<dd>NSString - the display name of the pretender</dd>
+ * <dt>k_MPID</dt>		<dd>NSString - the meeting point id </dd>
+ * </dl>
+ *
+ * \since 5.3
+ *
+ */
+- (void)weemoHostNewAttendee:(NSDictionary *)infos;
+
+/**
+ * An invite operation was cancelled. This is a common operation between the Host and the Delegate, 
+ * so it is the responsability of the app to remember which operation has been cancelled (invite or join request).
+ * \since 5.3
+ */
+- (void)weemoOperationCancelled;
+
+/**
+ * The Meeting Point authorization status was updated. Answers a host call to the the meeting point to Weemo::MeetingPoint:SetAuthorizationStatus:
+ * \param mpID The ID of the related MeetinPoint
+ * \param status One of the mpStatus_t value
+ * \sa Weemo::MeetingPoint:SetAuthorizationStatus:
+ * \since 5.3
+ */
+- (void)weemoMeetingPoint:(NSString *)mpID statusUpdate:(mpAuthorizationMode_t)status;
+
+
+/**
+ * A meeting point was hosted. Answers a Weemo::MeetingPointHostCall: by the host.
+ * \param mpID The handle of the MeetingPoint.
+ * \sa Weemo::MeetingPointHostCall:
+ * \since 5.3
+ */
+- (void)weemoMeetingPointStarted:(NSString *)mpID;
+
+@end
+
+/**
+ * This protocol represent the callback an attendee expects.
+ * \since 5.3
+ */
+@protocol WeemoAttendeeDelegate <NSObject>
+
+/**
+ * An join request operation was cancelled. This is a common operation between the Host and the Delegate,
+ * so it is the responsability of the app to remember which operation has been cancelled (invite or join request).
+ * \since 5.3
+ */
+- (void)weemoOperationCancelled;
+
+/**
+ * The attendee asked to join a MP, this is the status.
+ * \param status If mpAtt_pending: the Host did not accept nor refuse yet, mpAtt_granted: the Host granted access, mpAtt_denied: the Host denied access.
+ * \param mpID The meeting point id.
+ * \since 5.3
+ */
+- (void)weemoAttendeeAuthorization:(mpAttendeeStatus_t)status forMeeting:(NSString *)mpID;
+
+/**
+ * The attendee was invited to a meeting point.
+ * \param mpID The meeting point id.
+ * \since 5.3
+ */
+- (void)weemoAttendeeWasInvitedToMeeting:(NSString *)mpID;
+
+@end
+
 
 /**
  * \brief Delegate for the Weemo Singleton. Allows the Host Application to be notified upon connection events & call creation.
@@ -79,12 +271,12 @@
  *
  * Use this function as a GUI updater, e.g. disabling a call button in case of \c !canBeCalled before displaying the view.
  *
- * \param contactID the contact checked
+ * \param contactUID the contact checked
  * \param canBeCalled YES if the contact can be called, NO otherwise.
  * \sa Weemo::getStatus:
  * \since 5.0
  */
-- (void)weemoContact:(NSString*)contactID canBeCalled:(BOOL)canBeCalled;
+- (void)weemoContact:(NSString*)contactUID canBeCalled:(BOOL)canBeCalled;
 
 /**
  * \brief This function is called between the app's call to Weemo::authenticateWithToken:andType: and the WeemoDelegate::weemoDidAuthenticate: call.
@@ -97,12 +289,12 @@
 /**
  * This callback is called upon data reception. This data packet size is less than 1536B.
  * \param data The data received
- * \param contact The name of the contact who sent the message
+ * \param contactUID The name of the contact who sent the message
  * \param contactID Used to reply to the message, as second argument to the Weemo::replyData:toContactID:
  * \sa Weemo::sendData:toContact:
  * \since 5.2
  */
-- (void)weemoReceivedData:(NSData *)data from:(NSString *)contact withID:(uint8_t)contactID;
+- (void)weemoReceivedData:(NSData *)data from:(NSString *)contactUID withID:(uint8_t)contactID;
 
 @end
 
@@ -153,8 +345,8 @@
 /**
  * \brief Connects to servers with the given token. The connection is asynchronous, WeemoDelegate::weemoDidAuthenticate: will be called
  * upon user token validation.
- * \param token The token to be used for authentication. Must not be nil.
- * \param type The type of the userID, USERTYPE_EXTERNAL or USERTYPE_INTERNAL
+ * \param token The token to be used for authentication. Must not be nil. In case of type being USERTYPE_EXTERNAL, set it to the parent's UID.
+ * \param type The type of the userID, USERTYPE_EXTERNAL or USERTYPE_INTERNAL.
  * \sa WeemoDelegate::weemoDidAuthenticate:
  * \since 5.0
  */
@@ -184,8 +376,7 @@
 
 /**
  * Overrides the default bandwidth parameters by changing the max video FPS and bandwith, and adding a resolution divider.
- * Settings any of this value to 0 will reset the setting to default values. Using this leads to undefined behaviour where
- * WeemoCall::videoProfile values are concerned.
+ * Settings any of this value to 0 will reset the setting to default values.
  * \param maxfps The max FPS wanted from the encoder. valid values are 1-30. Set to 0 to get back to defaults
  * \param maxBitrate Max bitrate for the video encding. 1-1000000, unit is bps
  * \param resolutionDiv Values are 1 or 2. Setting 2 will divide the video frame dimension by 2 (i.e. 352*288 becomes 176*144)
@@ -195,12 +386,12 @@
 
 /**
  * Overrides two audio encoding parameters and the CPU usage of the video encoder.
- * \param complex The complexity used for the audio encoding. 0-10, 10 is better quality, more cpu consuming. Default is 4.
+ * \param complexity The complexity used for the audio encoding. 0-10, 10 is better quality, more cpu consuming. Default is 4.
  * \param bitrate The audio bitrate in bps. 16000 - 64000. default is 24000.
- * \param vp8cpuusage The cpu usage of the video encoder. 0-16, 0 being the most intensive. default is 8.
+ * \param cpuusage The cpu usage of the video encoder. 0-16, 0 being the most intensive. default is 8.
  * \since 5.2
  */
-- (void)overrideAudioComplexity:(int)complexity andAudioBitrate:(int)bitrate andVideoCPUUsage:(int)vp8cpuusage;
+- (void)overrideAudioComplexity:(int)complexity andAudioBitrate:(int)bitrate andVideoCPUUsage:(int)cpuusage;
 
 /**
  * Restore defaults bandwidth parameters. Equivalent to call [[Weemo instance] setCallMaxFPS:0 andVideoMaxBitrate:0 andResolutionDivider:0];
@@ -208,7 +399,8 @@
  */
 - (void)resetBandwidthDefaults;
 
-#pragma mark - One-on-One Call
+#pragma mark - One-to-One Call
+
 /**
  * \brief Creates a call whose recipient is \c contactUID.
  * 
@@ -243,8 +435,7 @@
  * \brief Creates a call whose recipient is \p contactUID and set the contact's display name to \p displayName. 
  *
  * The call is immediately created. If the addressee is not available, the call is ended almost immediately. The call is returned to the
- * application throught the use of the WeemoDelegate::weemoCallCreated: method. The only option available is novideo. More options
- * to ba added.
+ * application throught the use of the WeemoDelegate::weemoCallCreated: method.
  *
  * \param contactUID The ID of the contact or the conference to call. Must not be nil.
  * \param displayName The contact display name to be used. Must not be nil.
@@ -258,40 +449,23 @@
 - (void)createCall:(NSString *)contactUID andSetDisplayName:(NSString *)displayName withVideo:(BOOL)videoEnabled
 		__attribute__((nonnull (1, 2)));
 
-/**
- * \brief Creates a call whose recipient is \p contactUID and set the contact's display name to \p displayName.
- *
- * The call is immediately created. If the addressee is not available, the call is ended almost immediately. The call is returned to the
- * application throught the use of the WeemoDelegate::weemoCallCreated: method. The only option available is novideo. More options
- * to ba added.
- *
- * \param contactUID The ID of the contact or the conference to call. Must not be nil.
- * \param displayName The contact display name to be used. Must not be nil.
- * \param videoEnabled true if the call should have videoOut enable by the time the remote picks up
- * \sa WeemoDelegate::weemoCallCreated:
- * \sa WeemoCall::contactID
- * \sa WeemoCall::contactDisplayName
- * \sa Weemo::createCall:
- * \since 5.3 HP Special
- */
-- (void)createCall:(NSString *)contactUID andSetDisplayName:(NSString *)displayName withVideo:(BOOL)videoEnabled andAudio:(BOOL)audioEnabled __attribute__((nonnull (1, 2)));
-
-
 #pragma mark - Data Channel
 
 /**
  * Sends data using the WebRTC data channel. Data should not be bigger than 1536B. The data is transfered as is
  * to the remote client authenticated as contactID. The contact is notified of the message's sender's name.
  * \param data The data to send to the user. Must not be nil.
- * \param contactName The recipient. Must not be nil.
+ * \param contactUID The recipient. Must not be nil.
  * \sa WeemoDelegate::weemoReceivedData:from:withID:
  * \since 5.2
  */
-- (void)sendData:(NSData *)data toContact:(NSString *)contactName __attribute__((nonnull (1, 2)));
+- (void)sendData:(NSData *)data toContact:(NSString *)contactUID __attribute__((nonnull (1, 2)));
 
 
 /**
  * Repy to a specified contact. To be used with the ID in the callback WeemoDelegate::weemoReceivedData:from:withID:
+ * \param data The data to send.
+ * \param contactID The ID of the contact to reply to. Value received in WeemoDelegate::weemoReceivedData:from:withID:
  * \sa WeemoDelegate::weemoReceivedData:from:withID:
  * \sa Weemo::sendData:toContact:
  * \since 5.2
@@ -332,6 +506,202 @@
  */
 @property(nonatomic, strong) NSString *displayName;
 
+
+#pragma mark - MeetingPoints
+/**
+ * \brief Delegate that implements the meeting point callbacks.
+ * \since 5.3
+ */
+@property(nonatomic) id<WeemoMeetingPointDelegate> meetingDelegate;
+
+/**
+ * \brief Delegate that implements the attendee delegate.
+ * \since 5.3
+ */
+@property(nonatomic) id<WeemoAttendeeDelegate> attendeeDelegate;
+
+/**
+ * \brief Delegate that implements the host delegate.
+ * \since 5.3
+ */
+@property(nonatomic) id<WeemoHostDelegate> hostDelegate;
+
+//Host only methods
+
+/**
+ * Creates a MeetingPoint based on values. Asynchronous call. Host only.
+ * \param title			The title of the meeting point. 128 char. max
+ * \param location		The location of the meeting. 128 char. max.
+ * \param startDate	The date at which the call will start.
+ * \param endDate			The date at which the call will end.
+ * \param mpType			The meeting type.
+ * \warning 5.3: For the key k_MPtype, the value type_adhoc is not yet supported
+ * \since 5.3
+ */
+- (void)meetingPointCreateWithTitle:(NSString *)title
+						 atLocation:(NSString *)location
+						  startDate:(NSDate *)startDate
+							endDate:(NSDate *)endDate
+						   withType:(mpType_t)mpType;
+
+/**
+ * Changes the writable informations of the meeting point. Asychronous call. Host only.
+ * \param mpID		The internal name of the meeting point that was returned after a creation callback. Must not be nil.
+ * \param title			The title of the meeting point. 128 char. max
+ * \param location		The location of the meeting. 128 char. max.
+ * \param startDate	The date at which the call will start.
+ * \param endDate			The date at which the call will end.
+ * \since 5.3
+ * \sa Weemo::meetingPointCreateWithTitle:atLocation:startDate:endDate:withType:
+ */
+- (void)meetingPointUpdate:(NSString *)mpID
+				  newTitle:(NSString *)title
+			   newLocation:(NSString *)location
+			  newStartDate:(NSDate *)startDate
+				newEndDate:(NSDate *)endDate
+				__attribute__((nonnull (1)));
+
+/**
+ * Locks the meeting point. Equivalent to Weemo::MeetingPoint:SetAuthorizationStatus: with mpSta_autodeny as \c status
+ * \param mpID The ID of the meeting point we want to lock. Must not be nil.
+ * \since 5.3
+ */
+- (void)meetingPointLock:(NSString *)mpID __attribute__((nonnull (1)));
+
+/**
+ * Locks the meeting point. Equivalent to Weemo::MeetingPoint:SetAuthorizationStatus: with mpSta_autodeny
+ * \param mpID The ID of the meeting point we want to lock. Must not be nil.
+ * \param status One of mpAuthorizationMode_t;
+ * \since 5.3
+ */
+- (void)meetingPoint:(NSString *)mpID setAuthorizationStatus:(mpAuthorizationMode_t)status __attribute__((nonnull (1)));
+
+
+/**
+ * Returns details about the meeting point. Asynchronous call.
+ * \param mpID The meeting point id. Must not be nil.
+ * \since 5.3
+ */
+- (void)meetingPointGetDetails:(NSString *)mpID __attribute__((nonnull (1)));
+
+/**
+ * Returns the list of contacts in the meeting point. Asynchronous call.
+ * \param mpID The meeting point id. Must not be null.
+ * \since 5.3
+ */
+- (void)meetingPointContactList:(NSString *)mpID  __attribute__((nonnull (1)));
+
+/**
+ * Deletes the meeting point from the system. Host only.
+ * \param mpID The ID of the meeting point we want to delete. Must not be nil.
+ * \sa Weemo::meetingPointCreateWithTitle:atLocation:startDate:endDate:withType:
+ * \since 5.3
+ */
+- (void)meetingPointDelete:(NSString *)mpID __attribute__((nonnull (1)));
+
+
+/**
+ * Starts the meeting point. To be called only the host after this MP was created.
+ * \param mpID The ID of the meeting point.
+ * \sa Weemo::meetingPointCreateWithTitle:atLocation:startDate:endDate:withType:
+ * \sa Weemo::meetingPointStop:
+ * \since 5.3
+ */
+- (void)meetingPointStart:(NSString *)mpID __attribute__((nonnull (1)));
+
+
+/**
+ * Stops the meeting point.
+ * \param mpID The ID of the meeting point.
+ * \sa Weemo::meetingPointStart:
+ * \since 5.3
+ */
+- (void)meetingPointStop:(NSString *)mpID __attribute__((nonnull (1)));
+
+/**
+ * Create the conference call related to the meeting point. It is only after this call is created and started that the Host can accept or deny attendees.
+ * Can only be called after the meeting point is started through Weemo::meetingPointStart: .
+ * \param mpID The ID of the meeting point.
+ * \sa Weemo::meetingPointStart:
+ * \sa Weemo::meetingPointJoinConferenceAttendee:
+ * \since 5.3
+ */
+- (void)meetingPointJoinConferenceHost:(NSString *)mpID __attribute__((nonnull (1)));
+
+
+/**
+ * Accept an attendee in the conference. The related call must have been created. Host only.
+ * \param mpID The ID of the meeting point. Must not be nil.
+ * \param contactUID The ID of the user to be accepted. Must not be nil.
+ * \sa WeemoHostDelegate::weemoHostNewAttendee:
+ * \since 5.3
+ */
+- (void)meetingPoint:(NSString *)mpID acceptUser:(NSString *)contactUID __attribute__((nonnull (1, 2)));
+
+/**
+ * Denies an attendee access to the conference. The related call must have been created. Host only.
+ * \param mpID The ID of the meeting point. Must not be nil.
+ * \param contactUID The ID of the user. Must not be nil.
+ * \sa WeemoHostDelegate::weemoHostNewAttendee:
+ * \since 5.3
+ */
+- (void)meetingPoint:(NSString *)mpID denyUser:(NSString *)contactUID __attribute__((nonnull (1, 2)));
+
+/**
+ * Invites a user to a meeting point. The related call must have been created. Host only.
+ * \param mpID The ID of the meeting point. Must not be nil.
+ * \param contactUID The ID of the contact we want to invite. Must not be nil.
+ * \sa WeemoHostDelegate::weemoHostNewAttendee:
+ * \since 5.3
+ */
+- (void)meetingPoint:(NSString *)mpID inviteUser:(NSString *)contactUID __attribute__((nonnull (1,2)));
+
+/**
+ * Cancels the invitation sent by Weemo::MeetingPoint:inviteUser: . Host Only.
+ * \param mpID The ID of the meeting point. Must not be nil.
+ * \param contactUID The ID of the contact whose invitation will be revoked. Must not be nil.
+ * \since 5.3
+ */
+- (void)meetingPoint:(NSString *)mpID cancelInviteTo:(NSString *)contactUID __attribute__((nonnull (1,2)));
+
+//Attendee only methods
+/**
+ * Asks to join a meeting point as an attendee.
+ * \param mpID The ID of the meeting point we want to join. Must not be nil.
+ * \since 5.3
+ */
+- (void)meetingPointRequestJoin:(NSString *)mpID __attribute__((nonnull (1)));
+
+/**
+ * Cancels the join request.
+ * \param mpID The ID of the meeting point we wanted to join. Must not be nil.
+ * \since 5.3
+ */
+- (void)meetingPointCancelJoinRequest:(NSString *)mpID __attribute__((nonnull (1)));
+
+/**
+ * Call the meeting point. Attendee Call. This should be called only if already accepted (i.e. in response to a 
+ * WeemoAttendeeDelegate::weemoAttendeeAuthorization:forMeeting:).
+ *
+ * \param mpID The meeting point ID. must not be nil.
+ * \sa WeemoAttendeeDelegate::weemoAttendeeAuthorization:toMeeting:
+ * \sa Weemo::meetingPointJoinConferenceHost for the matching Host function.
+ * \warning To be called only after the host accepts the join request or the attendee receives an invite.
+ * Calling otherwise will lead to a call error.
+ * \since 5.3
+ */
+- (void)meetingPointJoinConferenceAttendee:(NSString *)mpID __attribute__((nonnull (1)));
+
+/**
+ * Used by an attendee to respond to an invitation to join a meeting point. Attendee Only. Should be send in response
+ * to a WeemoAttendeeDelegate::weemoAttendeeWasInvitedToMeeting: .
+ * \param mpID The meeting point ID. must not be nil.
+ * \param accept YES if the attendee accepts to join the meeting point. NO if not.
+ * \sa Weemo::meetingPoint:inviteUser:
+ * \sa WeemoAttendeeDelegate::weemoAttendeeWasInvitedToMeeting:
+ * \since 5.3
+ */
+- (void)meetingPoint:(NSString *)mpID attendeeAnswersToInvite:(BOOL)accept __attribute__((nonnull (1)));
 
 #pragma mark - Logs
 /**

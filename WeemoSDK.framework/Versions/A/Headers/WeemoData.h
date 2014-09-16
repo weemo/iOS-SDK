@@ -8,78 +8,38 @@
 #include <stdint.h>
 #import <AvailabilityMacros.h>
 
-typedef struct
+#pragma mark - Call status
+typedef enum
 {
-	uint8_t  LocalCPU; /**< the local CPU time usage */
-	uint32_t NetworkLatency; /**< the round-trip time to the platform we are connected to. */
-	
-	uint32_t Audio_SentIPThroughput; /**< throughput related to the outgoing audio */
-	uint32_t Audio_ReceivedIPThroughput; /**< throughput related to the incoming audio */
-	uint32_t Audio_SentPcktLoss; /**< Outgoing Audio packet loss */
-	uint32_t Audio_ReceivedPcktLoss; /**< Incoming Audio packet loss */
-	
-	uint32_t Video_SentIPThroughput; /**< network throughput related to the outgoing video */
-	uint32_t Video_ReceivedIPThroughput; /**< throughput related to the incoming video */
-	float	 Video_RealSentRate; /**< Capture framerate */
-	float	 Video_ReceivedRate; /**< Incoming video receive rate */
-	uint32_t Video_SentPcktLoss; /**< Outgoing Video packet loss */
-	uint32_t Video_ReceivedPcktLoss; /**< Incoming Video packet loss */
-	uint16_t Video_ReceivedJitter; /**< Incoming Video Jitter */
-	uint16_t Video_SendWidth; /**< Width of the outgoing video (in px) */
-	uint16_t Video_SendHeight; /**< Height of the outgoing video (in px) */
-	uint16_t Video_ReceivedWidth; /**< Height of the incoming video (in px) */
-	uint16_t Video_ReceivedHeight; /**< Height of the outgoing video (in px) */
-	char	 pfm[8]; /**< The platform name */
-} WeemoStat; /**< Statistics available for each call*/
-
-#pragma mark - CallStatus
-
-/** Call is incoming.*/
-#define CALLSTATUS_INCOMING 				0x7110
-/** Your call is outgoing, ringing not yet picked up.*/
-#define CALLSTATUS_RINGING 					0x7120
-/** The call is ongoing.*/
-#define CALLSTATUS_ACTIVE 					0x7130
-/** The call was ended.*/
-#define CALLSTATUS_ENDED 					0x7140
-/** The call is not yet ringing on the remote device.*/
-#define CALLSTATUS_PROCEEDING 				0x7150
-/** The call was paused.*/
-#define CALLSTATUS_PAUSED 					0x7160
-/** The recipient is not available.*/
-#define CALLSTATUS_USERNOTAVAILABLE			0x7170
-
+	callStatus_proceeding = 0,
+	callStatus_ringing,
+	callStatus_active,
+	callStatus_ended,
+	callStatus_paused
+} callStatus_t;
 
 #pragma mark - Error codes
-/** Error code class: initialization exceptions.*/
-#define ERROR_INIT						0x0100
-/** Server are not available*/
-#define NETWORK_ERROR					ERROR_INIT | 1
-/** The MobileApp Identifier is not formated properly*/
-#define BAD_APIKEY						ERROR_INIT | 2
-/** Tried to authenticate while not connected*/
-#define NOT_CONNECTED					ERROR_INIT | 3
-/** */
-#define ALREADY_AUTHENTICATED			ERROR_INIT | 4
-/** Returned if authentication failure after connection success */
-#define INVALID_TOKEN					ERROR_INIT | 5
-
-/** Error code class: connection exception.*/
-#define ERROR_CONN						0x0200
-/** Disconnected: lost network connection.*/
-#define NETWORK_LOST					ERROR_CONN | 1
-/** Disconnected: Weemo engine destroyed.*/
-#define CLOSED							ERROR_CONN | 2
-
-/** Error code class: authentication exception.*/
-#define ERROR_AUTH						0x0300
-/** Something went wrong on the server during authentication. Are you sure of the userID?*/
-#define	SIP_NOK							ERROR_AUTH | 1
-
+typedef enum
+{
+	errInit_general = 0x100,
+	errInit_network,
+	errInit_badApiKey,
+	
+	errConn_closed = 0x200,
+	
+	errAuth_notConnected = 0x300,
+	errAuth_alreadyAuthenticated,
+	errAuth_sip
+} errorCode_t;
 
 #pragma mark - User type
-#define USERTYPE_INTERNAL 0x00
-#define USERTYPE_EXTERNAL 0x01
+
+typedef enum
+{
+	userInternal = 0,
+	userExternal
+} userProfile_t;
+
 
 #pragma mark - log levels
 /**
@@ -107,3 +67,47 @@ typedef enum
 	profile_high //< High video profile lanscape dimensions greater or equal to 640*360
 } video_profile_t;
 
+
+#define k_MPType		@"MeetingPointType"			//< The type of Meeting point we are creating. One of mpType_t. value is a NSNumber.
+#define k_MPLocation	@"MeetingPointLocation"		//< Where the meeting will take place. Value is a NSString, max 128 long.
+#define k_MPTitle		@"MeetingPointTitle"		//< The meeting's "human" name. Value is a NSString, max 128 long.
+#define	k_MPID			@"MeetingPointID"			//< The meeting's "system" name. Value is a NSString, max 128 long.
+#define k_MPStart		@"MeetingPointStartTime"	//< Time at which the meeting will start. Value is a NSDate.
+#define	k_MPEnd			@"MeetingPointEndTime"		//< Time at which the meeting will end. Value is a NSDate.
+
+#define k_MPURLAttendee	@"MeetingPointURLAttendee"	//< The Attendee wall URL. Value is a NSString.
+#define k_MPURLHost		@"MeetingPointURLHost"		//< The Host wall URL. Value is a NSString.
+
+#define k_MPDisplayName	@"MeetingPointDisplayName"	//< The display name of the contact related to the action.
+#define k_MPContactName	@"MeetingPointContactName"	//< The "system" name of the contact related to the action.
+
+
+#define k_ContactID		@"contactID"
+#define k_ContactDN		@"contactDisplayName"
+#define k_WithVideo		@"withVideo"
+#define k_WithAudio		@"withAudio"
+#define k_isConference	@"isConference"
+#define k_bkCamera		@"backCamera"
+
+
+typedef enum
+{
+	mpType_permanent = 0,
+	mpType_scheduled
+}mpType_t;
+
+
+typedef enum
+{
+	mpSta_default = 0,
+	mpSta_autoaccept,
+	mpSta_autodeny
+} mpAuthorizationMode_t;
+
+
+typedef enum
+{
+	mpAtt_pending,
+	mpAtt_accepted,
+	mpAtt_denied
+} mpAttendeeStatus_t;

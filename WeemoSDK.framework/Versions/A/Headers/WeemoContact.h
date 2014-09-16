@@ -60,5 +60,39 @@
  */
 - (CGSize)getVideoInSize;
 
+/**
+ * Conference status, can only be set if the user is the conference admin.
+ */
+@property (nonatomic, getter = isMuted) BOOL muted;
+
+/**
+ * Conference status, can only be set if the user is the conference admin.
+ */
+@property (nonatomic, getter = isDeaf) BOOL deaf;
+
+/**
+ * Conference status.
+ */
+@property (nonatomic, readonly) BOOL isEmittingVideo;
+
+/**
+ * Conference status. any user can set it.
+ */
+@property (nonatomic, getter = isHandUp) BOOL handUp;
+
+/**
+ * Conference status. Set by the conference bridge.
+ */
+@property (nonatomic, readonly) BOOL isAdmin;
+
+/**
+ *
+ */
+@property (nonatomic, getter = isOnHold) BOOL onHold;
+
+/**
+ * Conference status.
+ */
+@property (nonatomic, readonly) BOOL isTalking;
 
 @end
